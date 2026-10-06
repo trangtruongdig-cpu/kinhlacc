@@ -56,7 +56,7 @@ export function tachTacDung(s: unknown): { phap: string; chung: string } {
 
 /** Kết quả của `sucKhoeNen` — vòng NỀN của Rada SEO. */
 export type SucKhoeNen = {
-  nguon: { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean }[];
+  nguon: { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean; nghiNgo: boolean }[];
   semantic: { soCum: number; chuTriNhieuCum: number };
   /** Trụ CHỮ. `null` = chưa cấu hình CMS_DB_* hoặc hỏi không được — KHÁC HẲN "kho đã sạch". */
   chu: { tong: number; tot: number; tamDuoc: number; yeu: number; hong: number; canSua: number; ptCanSua: number | null } | null;
@@ -74,10 +74,15 @@ export type DemNguon = { co: number; tong: number };
  * mục nào dẫn được nguồn" là hai chuyện khác hẳn, và 0% trên màn thì người đọc không phân biệt
  * được. Cùng lý lẽ với mọi chỗ khác trong repo: một con số cho hai trạng thái là con số vô dụng.
  */
-export function tyLeNguon(d: DemNguon): { co: number; tong: number; pt: number | null; chuaCoMuc: boolean } {
+export function tyLeNguon(d: DemNguon): { co: number; tong: number; pt: number | null; chuaCoMuc: boolean; nghiNgo: boolean } {
   const co = Number(d?.co ?? 0);
   const tong = Number(d?.tong ?? 0);
-  return { co, tong, pt: tong > 0 ? Math.round((co / tong) * 1000) / 10 : null, chuaCoMuc: tong === 0 };
+  // ⚠️ `co > tong` là KHÔNG THỂ nếu hai con số cùng đếm một thứ — nên nó là dấu hiệu phép đếm
+  // hỏng, và lúc đó in một tỉ lệ là tệ hơn im lặng. Đã xảy ra hai chiều trong cùng một ngày
+  // (06/10/2026): mẫu số lấy bằng count(*) trên LEFT JOIN nở ra, và tử số lấy từ bảng nối không
+  // lọc mồ côi (nguon_huyet có 1.037 id mà huyet_vi chỉ 445 dòng — hai không gian khoá khác nhau).
+  const nghiNgo = tong > 0 && co > tong;
+  return { co, tong, pt: tong > 0 && !nghiNgo ? Math.round((co / tong) * 1000) / 10 : null, chuaCoMuc: tong === 0, nghiNgo };
 }
 
 /** Tên người đọc của từng bộ trong trụ Nguồn. */
@@ -97,11 +102,16 @@ const TEN_BO_NGUON: Record<string, string> = {
  * "mỏng nhất", nó là "chưa nạp dữ liệu" — xếp nó lên đầu là cử người đi vá một bảng rỗng trong
  * khi 4.085 vị thuốc thật đang thiếu nguồn (số đo 06/10/2026: vị thuốc 205/4.085 = 5%).
  */
-export function xepLoNguon(bo: Record<string, DemNguon>): { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean }[] {
+export function xepLoNguon(
+  bo: Record<string, DemNguon>,
+): { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean; nghiNgo: boolean }[] {
   return Object.entries(bo ?? {})
     .map(([ma, d]) => ({ ma, ten: TEN_BO_NGUON[ma] ?? ma, ...tyLeNguon(d) }))
     .sort((a, b) => {
-      if (a.chuaCoMuc !== b.chuaCoMuc) return a.chuaCoMuc ? 1 : -1;
+      // Bộ CHƯA CÓ MỤC và bộ ĐẾM HỎNG đều xuống cuối: cả hai không quyết được việc gì, và xếp
+      // chúng lên đầu là cử người đi vá một con số thay vì vá kho.
+      const xau = (x: { chuaCoMuc: boolean; nghiNgo: boolean }) => (x.chuaCoMuc || x.nghiNgo ? 1 : 0);
+      if (xau(a) !== xau(b)) return xau(a) - xau(b);
       return (a.pt ?? 0) - (b.pt ?? 0);
     });
 }
@@ -757,8 +767,10 @@ export class RadaHoSoService {
    * Chữ. Ba trụ đầu sống ở `defaultdb` nên tính ngay đây; trụ Chữ sống ở `kinhlac_cms` (bảng
    * `td_ho_so` của bot thẩm định) và KHÔNG join chéo được, nên nó đi đường riêng — xem `chuaDo`.
    *
-   * ⚠️ Số đo thật 06/10/2026, để lần sau ai thấy số lạ thì biết mốc: bài thuốc 13.939/32.197
-   * (43,3%), vị thuốc 205/4.085 (5,0%), huyệt 433/1.053 (41,1%). Vị thuốc là lỗ lớn nhất.
+   * ⚠️ Số đo thật 06/10/2026 (ĐÃ SỬA mẫu số — bản trước đóng đinh số SAI vào chú thích này):
+   * bài thuốc 13.939/13.942 (99,98% — chỉ 3 bài thiếu nguồn), vị thuốc 205/1.045 (19,6%),
+   * huyệt 433/445 (97,3%). Vị thuốc là lỗ duy nhất đáng kể. Con số cũ (43,3% / 5,0% / 41,1%)
+   * là của mẫu số hỏng, đừng dùng làm mốc.
    */
   async sucKhoeNen(): Promise<SucKhoeNen> {
     if (this.demNen && Date.now() - this.demNen.luc < RadaHoSoService.HAN_NEN_MS)
@@ -771,13 +783,24 @@ export class RadaHoSoService {
 
     // TRỤ NGUỒN — mỗi mục có dẫn được về một cuốn sách không. Đây là trụ E-E-A-T thật của site,
     // và là thứ đối thủ bệnh viện không có.
+    // ⚠️ MẪU SỐ phải là truy vấn con VÔ HƯỚNG, không phải count(*) trên LEFT JOIN. Bản đầu dùng
+    // count(*) sau JOIN nên mẫu số là SỐ DÒNG JOIN (một bài nhiều nguồn → nhiều dòng): bài thuốc
+    // báo 13.939/32.197 = 43,3% trong khi thật là 13.939/13.942 = 99,98%. Sai theo hướng làm kho
+    // trông tệ hơn thật, nên khoang vá nền cử người đi vá đúng hai bộ đã gần xong.
+    //
+    // TỬ SỐ vẫn đếm qua JOIN (`count(distinct n.<khoá>)` sau khi đã join): nó phải là "số mục CÓ
+    // THẬT trong bảng chính mà dẫn được nguồn", không phải "số id trong bảng nối" — `nguon_huyet`
+    // có 1.037 id phân biệt trong khi `huyet_vi` chỉ có 445 dòng (hai không gian khoá khác nhau,
+    // 604 id là của bộ từ điển 1.059 huyệt).
     const nguon = xepLoNguon({
       bai: await mot(
-        'select count(*)::int tong, count(distinct n.phuong_thang_id)::int co from phuong_thang p left join nguon_phuong_thang n on n.phuong_thang_id = p.id',
+        'select (select count(*)::int from phuong_thang) tong, count(distinct n.phuong_thang_id)::int co from phuong_thang p left join nguon_phuong_thang n on n.phuong_thang_id = p.id',
       ),
-      vi: await mot('select count(*)::int tong, count(distinct n.vi_thuoc_id)::int co from vi_thuoc v left join nguon_vi_thuoc n on n.vi_thuoc_id = v.id'),
+      vi: await mot(
+        'select (select count(*)::int from vi_thuoc) tong, count(distinct n.vi_thuoc_id)::int co from vi_thuoc v left join nguon_vi_thuoc n on n.vi_thuoc_id = v.id',
+      ),
       huyet: await mot(
-        'select count(*)::int tong, count(distinct n.huyet_id)::int co from huyet_vi h left join nguon_huyet n on n.huyet_id = h.id_huyet',
+        'select (select count(*)::int from huyet_vi) tong, count(distinct n.huyet_id)::int co from huyet_vi h left join nguon_huyet n on n.huyet_id = h.id_huyet',
       ),
     });
 

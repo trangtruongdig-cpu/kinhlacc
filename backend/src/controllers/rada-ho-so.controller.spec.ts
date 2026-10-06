@@ -155,3 +155,32 @@ describe('rada-ho-so: trụ CHỮ — hạng của bot thẩm định', () => {
     expect(tomTatChu(undefined).tong).toBe(0);
   });
 });
+
+describe('rada-ho-so: trụ Nguồn — bất biến chống lỗi MẪU SỐ', () => {
+  it('co > tong là KHÔNG THỂ — phải gắn cờ nghiNgo thay vì in một tỉ lệ vô nghĩa', () => {
+    // ⚠️ Lỗi thật 06/10/2026: `tong` lấy bằng count(*) trên LEFT JOIN nở ra (một bài nhiều
+    // nguồn → nhiều dòng), nên mẫu số là SỐ DÒNG JOIN chứ không phải số mục. Bài thuốc hiện
+    // 43,3% trong khi thật là 99,98% — sai theo hướng làm kho trông tệ hơn thật, và khoang vá
+    // nền vì thế cử người đi vá hai bộ đã gần xong.
+    //
+    // Bất biến này bắt được CẢ chiều ngược lại (tử số lấy từ bảng nối không lọc mồ côi):
+    // huyệt có 1.037 id trong nguon_huyet mà huyet_vi chỉ có 445 dòng.
+    const r = tyLeNguon({ co: 1037, tong: 445 });
+    expect(r.nghiNgo).toBe(true);
+    expect(r.pt).toBe(null);
+
+    const binhThuong = tyLeNguon({ co: 205, tong: 1045 });
+    expect(binhThuong.nghiNgo).toBe(false);
+    expect(binhThuong.pt).toBe(19.6);
+  });
+
+  it('bộ nghiNgo KHÔNG được xếp lên đầu danh sách vá — số sai thì không quyết được việc', () => {
+    const ds = xepLoNguon({
+      hong: { co: 1037, tong: 445 },
+      vi: { co: 205, tong: 1045 },
+      bai: { co: 13939, tong: 13942 },
+    });
+    expect(ds[0].ma).toBe('vi');
+    expect(ds[ds.length - 1].ma).toBe('hong');
+  });
+});

@@ -1049,3 +1049,19 @@ test("nhận hướng BẮT BUỘC có trongSo 1..5 — màn Việc là chỗ du
 	assert.equal(r.trangThai, "da_nhan");
 	assert.equal(r.trongSo, 3);
 });
+
+test("HAI route phải cho CÙNG cờ cảnh báo với cùng đầu vào — luật chỉ có MỘT bản", async () => {
+	// ⚠️ Luật này từng được gõ hai lần (tong-quan và viec), ngay dưới chú thích hứa "không viết
+	// bản thứ hai". Bản ở `viec` mới là bản người dùng NHÌN THẤY vì nó nuôi tab mặc định — nên
+	// khi hai bản lệch, tab Radar và tab Việc báo hai trạng thái sức khoẻ khác nhau cho cùng một
+	// hệ thống. Chốt này gãy ngay khi ai gõ lại một trong hai.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.kv = taoKvGia();
+	const tq = await p.routes["tong-quan"].handler(ctx);
+	const v = await p.routes["viec"].handler(ctx);
+	const vCaDem = (v.viec ?? []).some((x) => x.id === "ca-dem");
+	const vDoc = (v.viec ?? []).some((x) => x.id === "model-khong-doc");
+	assert.equal(vCaDem, !!tq.canhBaoCaDem, `tong-quan nói caDem=${tq.canhBaoCaDem} còn viec nói ${vCaDem}`);
+	assert.equal(vDoc, !!tq.canhBaoClaude, `tong-quan nói docTrang=${tq.canhBaoClaude} còn viec nói ${vDoc}`);
+});

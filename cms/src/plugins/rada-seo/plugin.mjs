@@ -39,6 +39,7 @@ import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 import { xepHangDoi, tomTatTuan } from "./lib/xep-viec.mjs";
 import { viecHeThong } from "./lib/suc-khoe-bot.mjs";
+import { canhBaoCaDem as tinhCanhBaoCaDem, canhBaoDocTrang } from "./lib/canh-bao.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
 import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
@@ -677,11 +678,14 @@ export function createPlugin() {
 						// Nhịp đọc hiện hành, để màn hình tự tính được "hàng đợi này cần mấy đêm" —
 						// không có con số đó thì "1.178 trang chờ" là một con số không dùng được.
 						nhipDoc: { tranDem: tranTrangDem(), nguongHangCho: nguongHangCho() },
-						canhBaoCaDem: caDemBat() && tuoiRadar > CANH_BAO_SAU_MS,
+						// Luật ở `lib/canh-bao.mjs` — MỘT bản duy nhất, dùng chung với route `viec`.
+						canhBaoCaDem: tinhCanhBaoCaDem(canhChe, caDemBat()),
 						// Có trang chờ mà 26 giờ Claude không đọc: routine không chạy (xem lịch sử chạy ở
 						// claude.ai/code/routines), khoá RADA_SEO_MCP_TOKEN sai/thu hồi/hết hạn, hoặc
 						// môi trường routine chặn mạng tới kinhlac.online — xem đặc tả mục "Nguồn AI".
-						canhBaoClaude: choAi > 0 && tuoiClaude > CANH_BAO_SAU_MS,
+						// ⚠️ Nhận CẢ ca radar có `soDocAi > 0`: đường TỰ HÀNH không bao giờ sinh ca
+						// `loai: "claude"` (ca đó chỉ có từ route MCP), nên bản cũ báo đỏ vĩnh viễn.
+						canhBaoClaude: canhBaoDocTrang(canhChe, choAi),
 					};
 				},
 			},
@@ -1471,8 +1475,11 @@ export function createPlugin() {
 						const canhChe = await kho.dsCa(ctx.storage, 100);
 						const choAi = await kho.demChoAi(ctx.storage);
 						vao.heThong = viecHeThong({
-							canhBaoCaDem: caDemBat() && tuoiCa(canhChe, laCaRadarThat) > CANH_BAO_SAU_MS,
-							canhBaoClaude: choAi > 0 && tuoiCa(canhChe, (c) => c.loai === "claude" && c.ketThuc && (c.soDoc ?? 0) > 0) > CANH_BAO_SAU_MS,
+							// ⚠️ Gọi ĐÚNG hàm mà `tong-quan` gọi. Bản trước gõ lại vị ngữ ở đây — ngay
+							// dưới một chú thích hứa "không viết bản thứ hai" — và bản gõ lại này mới là
+							// bản người dùng NHÌN THẤY, vì nó nuôi tab mặc định.
+							canhBaoCaDem: tinhCanhBaoCaDem(canhChe, caDemBat()),
+							canhBaoClaude: canhBaoDocTrang(canhChe, choAi),
 							choAi,
 							coModel: !!process.env.GRAVITY_API_KEY,
 						});
