@@ -1324,10 +1324,19 @@ export function createPlugin() {
 			"leo-top-sua-nho-theo-doi": {
 				handler: async (ctx) => {
 					const ds = await kho.dsSuaNho(ctx.storage);
-					if (!ds.length) return { ds: [] };
-					const { banDo } = await gscTheoTrang(ctx);
+					if (!ds.length) return { ds: [], coGsc: true, ghiChu: "" };
+					// ⚠️ PHẢI lấy cả `ghiChu`. Bản trước destructure chỉ `{ banDo }` nên lý do bị BỎ,
+					// mà `banDo = null` mang BA nghĩa: chưa cấu hình GSC · gọi GSC hỏng · trang không
+					// có lượt hiển thị nào. Màn hình in chung một câu "thiếu số liệu" cho cả ba — nên
+					// một hỏng cấu hình đọc ra thành "sửa vô ích", đúng trên bảng người quản trị dùng
+					// để trả lời "sửa xong có đỡ hơn không". Luật đã viết ở `ganSoTrang` ngay trong
+					// file này: "`so = null` khác hẳn 'chưa hỏi được Google', nên hai thứ phải đi bằng
+					// HAI trường."
+					const { banDo, ghiChu } = await gscTheoTrang(ctx);
 					const goc = gocSite();
 					return {
+						coGsc: !!banDo,
+						ghiChu,
 						ds: ds.map((x) => {
 							const bayGio = banDo?.get(chuanHoaUrlTrang(`${goc}${x.duong}`)) ?? null;
 							const tuoi = Math.floor((Date.now() - (Date.parse(x.ghiLuc) || Date.now())) / 86_400_000);

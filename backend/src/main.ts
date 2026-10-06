@@ -23,6 +23,13 @@ async function bootstrap() {
   // Cùng lý do, cho cửa tra cứu liên kết chéo — nó nhận một LÔ tên nên thân request phình nhanh.
   // Trần số phần tử của lô nằm ở tra-cuu.controller.ts; đây là lớp chặn theo byte đứng trước nó.
   app.use('/tra-cuu/ten', json({ limit: '64kb' }));
+  // Cùng lý do, cho cửa dựng hồ sơ cụm của Rada SEO (plugin CMS gọi sang, nên nó @Public).
+  // Thân thật chỉ là `{ cum, bienThe[≤8] }` — vài trăm byte. Trần 16KB rộng gấp nhiều lần mức
+  // cần mà vẫn nhỏ hơn trần chung 1.250 lần.
+  // ⚠️ Đây là điều kiện mà chính danh sách route-công-khai đặt ra ("kèm trần thân request
+  // riêng, xem main.ts" — quyen-route-ghi.spec.ts), và route này vào danh sách mà thiếu nó.
+  // Mỗi lượt gọi quét tuần tự `phuong_thang` rồi dump cả `vi_thuoc`, trên pool chỉ còn ~11 slot.
+  app.use('/rada/ho-so-cum', json({ limit: '16kb' }));
   app.use(json({ limit: '20mb' }));
 
   // Trần urlencoded PHẢI nhỏ, nếu không nó vô hiệu hoá mọi trần theo-đường-dẫn ở trên.

@@ -734,6 +734,16 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 			.catch((e) => setGiaoLoi(loiCua(e)))
 			.finally(() => setDangViet(false));
 	};
+	/** Nâng hạn ngạch bài đêm nay rồi viết lại ngay — hạn ngạch 2 bài/đêm sinh ra để chặn ca TỰ
+	 *  ĐỘNG, áp cho người đang chủ động xem kết quả là chặn nhầm đối tượng. */
+	const nangHanNgach = (n) => {
+		setDangViet(true); setVietKq(null);
+		goi("lo-viet-han-ngach", { so: n })
+			.then(() => goi("lo-viet-chay", { keHoachId: giaoKq?.id }))
+			.then(setVietKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangViet(false));
+	};
 
 	return (
 		<div>
@@ -815,6 +825,11 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 													onViet={vietNgay}
 													dangViet={dangViet}
 													vietKq={vietKq}
+													// ⚠️ Thiếu prop này thì ba nút "Nâng hạn ngạch" vẫn VẼ RA nhưng bấm
+													// không gì xảy ra — và vì chỗ dùng gọi `onNangHanNgach?.(n)` nên
+													// không có cả TypeError ở console. Cùng việc đó ở tab Khoảng trống
+													// thì chạy đúng, nên rất khó lần ra.
+													onNangHanNgach={nangHanNgach}
 												/>
 											)}
 										</td>
@@ -1749,7 +1764,16 @@ function SuaNho({ nhanViec }) {
 												// vô dụng khi nó chưa kịp có tác dụng.
 												<span style={{ color: "#6b7280" }}>chưa đủ 14 ngày</span>
 											) : doi == null ? (
-												<span style={{ color: "#6b7280" }}>thiếu số liệu</span>
+												// ⚠️ BA trạng thái, BA câu. "Chưa hỏi được Google" (hỏng cấu hình, cần
+												// người sửa) khác hẳn "trang không có lượt hiển thị nào" (dữ liệu thật).
+												// Gộp chúng làm một là biến một hỏng cấu hình thành kết luận "sửa vô ích".
+												// ⚠️ `theoDoi`, KHÔNG phải `dl`: bảng này đọc route `leo-top-sua-nho-theo-doi`,
+												// còn `dl` là dữ liệu của route `leo-top-sua-nho`. Dùng nhầm thì KHÔNG sập
+												// (biến có thật) mà `coGsc` luôn undefined → luôn in câu thứ hai. Lỗi im
+												// lặng, khó thấy hơn một ReferenceError.
+												<span style={{ color: theoDoi?.coGsc === false ? "#b91c1c" : "#6b7280" }}>
+													{theoDoi?.coGsc === false ? "chưa hỏi được Google" : "trang chưa có lượt hiển thị"}
+												</span>
 											) : doi > 0.3 ? (
 												<span style={{ color: "#15803d", fontWeight: 600 }}>lên {so(doi)} bậc</span>
 											) : doi < -0.3 ? (

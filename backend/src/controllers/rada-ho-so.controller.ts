@@ -328,6 +328,10 @@ export class RadaHoSoService {
       0,
       RadaHoSoService.TRAN_BIEN_THE,
     );
+    // Khoá đệm theo TẬP biến thể đã sắp — cùng cụm hỏi lại với thứ tự khác vẫn trúng đệm.
+    const khoaDem = [...bt].sort().join('\u0001');
+    const cu = this.demHoSo.get(khoaDem);
+    if (cu && Date.now() - cu.luc < RadaHoSoService.HAN_DEM_MS) return cu.kq as HoSoCum;
     const canhBao: string[] = [];
     const dk = bt.map((_, i) => `tac_dung ILIKE $${i + 1}`).join(' OR ');
     const tham = bt.map((x) => `%${x}%`);
@@ -472,7 +476,7 @@ export class RadaHoSoService {
     if (!theBenh.length && bai.length) canhBao.push('Có bài thuốc nhưng không rút được thể bệnh nào từ pháp trị.');
     if (!nguon.length && bai.length) canhBao.push('Không có nguồn y văn nào nối với các bài thuốc này.');
 
-    return {
+    const kq: HoSoCum = {
       cum,
       bienThe: bt,
       soBaiThuoc: bai.length,
@@ -484,6 +488,12 @@ export class RadaHoSoService {
       ...nhanhHuyet,
       canhBao,
     };
+    // ⚠️ Chỉ lưu đệm ở ĐƯỜNG THÀNH CÔNG. Lưu cả lượt hỏng là đóng băng một hồ sơ rỗng
+    // suốt 10 phút, và người dùng đọc nó ra như "cụm này không có gì".
+    this.demHoSo.set(khoaDem, { luc: Date.now(), kq });
+    // Giữ đệm nhỏ: 200 khoá là quá đủ cho một phiên làm việc, và Map không tự dọn.
+    if (this.demHoSo.size > 200) for (const [kh] of [...this.demHoSo].slice(0, 100)) this.demHoSo.delete(kh);
+    return kq;
   }
 
   /**
@@ -809,6 +819,13 @@ export class RadaHoSoService {
     return ds;
   }
   /** Đệm sức khoẻ nền: ba trụ dưới đây quét vài bảng lớn, không nên tính lại cho mỗi lần mở tab. */
+  /**
+   * Đệm hồ sơ cụm. ⚠️ `dungHoSo` là phương thức NẶNG NHẤT của service mà trước đây KHÔNG có đệm:
+   * mỗi lượt gọi chạy tới 8 mệnh đề `tac_dung ILIKE '%…%'` trên `phuong_thang` rồi dump trọn
+   * `vi_thuoc`. Tab Khoảng trống và lò viết hỏi lại ĐÚNG cụm đó nhiều lần trong một phiên làm
+   * việc, nên đệm 10 phút cắt gần hết. Khoá theo tập biến thể đã chuẩn hoá, không theo thứ tự.
+   */
+  private demHoSo = new Map<string, { luc: number; kq: unknown }>();
   private demNen: { luc: number; kq: SucKhoeNen } | null = null;
   private static readonly HAN_NEN_MS = 10 * 60 * 1000;
 
