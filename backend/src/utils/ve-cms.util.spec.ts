@@ -5,6 +5,7 @@ import {
   emailCms,
   vaiTroCmsCho,
 } from './ve-cms.util';
+import { sanitizeTrangCho } from '../constants/pages';
 
 /**
  * Phép kiểm cho LUẬT ĐỔI QUYỀN APP → VAI TRÒ CMS.
@@ -105,5 +106,38 @@ describe('emailCms', () => {
     expect(emailCms({ username: '@@@', email: null })).toBe(
       'nguoi-dung@noi-bo.kinhlac.online',
     );
+  });
+});
+
+/**
+ * MẮT XÍCH NỐI: quyền đi qua `sanitizeTrangCho` TRƯỚC khi vào CSDL, rồi mới tới hàm đổi
+ * quyền này. Hai tầng đều có phép kiểm riêng và đều xanh, nhưng chỗ nối thì không —
+ * và đó đúng là chỗ đứt ngày 07/10/2026: danh mục trang của backend thiếu hai khoá CMS,
+ * nên cái lọc bỏ sạch ô tick của người quản trị rồi trả 200 OK. Vai trò Lễ Tân được cấp
+ * cả hai quyền mà trong CSDL chỉ còn `["home","patients","appointments"]`, và không lời
+ * nào nói ra. Phép kiểm này đi trọn đường đi của dữ liệu, nên nó bắt được.
+ */
+describe('cấp quyền ở tab Quản Lý Người Dùng → vào được CMS', () => {
+  it('tick "Biên Tập Nội Dung" rồi lưu → Editor CMS', () => {
+    const daLuu = sanitizeTrangCho([
+      'home',
+      'patients',
+      QUYEN_BIEN_TAP_NOI_DUNG,
+    ]);
+    expect(vaiTroCmsCho({ laQuanTri: false, trangCho: daLuu })).toBe(
+      CMS_VAI_TRO.BIEN_TAP,
+    );
+  });
+
+  it('tick "Quản Trị Nội Dung" rồi lưu → Admin CMS', () => {
+    const daLuu = sanitizeTrangCho(['home', QUYEN_QUAN_TRI_NOI_DUNG]);
+    expect(vaiTroCmsCho({ laQuanTri: false, trangCho: daLuu })).toBe(
+      CMS_VAI_TRO.QUAN_TRI,
+    );
+  });
+
+  it('không tick ô nào thì lưu xong vẫn không vào được', () => {
+    const daLuu = sanitizeTrangCho(['home', 'patients', 'appointments']);
+    expect(vaiTroCmsCho({ laQuanTri: false, trangCho: daLuu })).toBeNull();
   });
 });
