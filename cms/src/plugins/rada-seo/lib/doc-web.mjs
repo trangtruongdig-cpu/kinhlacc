@@ -5,6 +5,8 @@
 // dấu chấm, không phải địa chỉ IP, không phải localhost. Radar còn chặn thêm một lớp: chỉ
 // đọc URL cùng tên miền với đối thủ đã khai (xem sitemap.mjs).
 
+import { canThuTrungGian, duongTrungGian, HAN_GIO_TRUNG_GIAN_MS } from "./doc-qua-trung-gian.mjs";
+
 const UA = "Mozilla/5.0 (compatible; KinhlacSEOBot/1.0; +https://kinhlac.online)";
 
 /**
@@ -130,7 +132,7 @@ async function taiVaDoc(fetchFn, url, accept, hanGioMs) {
  * @param {{hanGioMs?: number, ghiLoi?: (x: {url: string, lyDo: string}) => void}} [o]
  * @returns {(url: string) => Promise<string>}
  */
-export function taoDocWeb(fetchFn, { hanGioMs = 30_000, ghiLoi } = {}) {
+export function taoDocWeb(fetchFn, { hanGioMs = 30_000, ghiLoi, gocTrungGian = "" } = {}) {
 	const bao = (url, lyDo) => {
 		// Bản thân việc báo lỗi không bao giờ được làm hỏng lượt đọc.
 		try {
@@ -143,8 +145,15 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000, ghiLoi } = {}) {
 			return "";
 		}
 		try {
-			const r = await taiVaDoc(fetchFn, url, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", hanGioMs);
+			const r = await taiVaDoc(fetchFn, url, ACCEPT_WEB, hanGioMs);
 			if (r.res.ok) return r.html;
+			// Mã TỪ CHỐI BOT → thử lại qua dịch vụ trung gian (mặc định TẮT).
+			if (canThuTrungGian(r.res.status)) {
+				const qua = await thuTrungGian(fetchFn, url, gocTrungGian);
+				if (qua.html !== null) return qua.html;
+				bao(url, `HTTP ${r.res.status}${qua.lyDo ? `, đã thử qua trung gian: ${qua.lyDo}` : ""}`);
+				return "";
+			}
 			bao(url, `HTTP ${r.res.status}`);
 			return "";
 		} catch (e) {
@@ -152,6 +161,29 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000, ghiLoi } = {}) {
 			return "";
 		}
 	};
+}
+
+const ACCEPT_WEB = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+
+/**
+ * Thử đọc lại qua dịch vụ trung gian. KHÔNG bao giờ ném.
+ *
+ * ⚠️ Hạn giờ dùng `HAN_GIO_TRUNG_GIAN_MS` chứ KHÔNG dùng `hanGioMs` của người gọi: đo
+ * 07/10/2026, một sitemap 1,09 MB qua trung gian mất 40,2 s — dùng chung hạn 30 s thì mọi
+ * sitemap lớn đều "quá hạn", tức vẫn 0 URL, chỉ khác lý do ghi trong nhật ký.
+ *
+ * @returns {Promise<{html: string|null, lyDo?: string}>} html = null khi không đi được hoặc hỏng.
+ */
+async function thuTrungGian(fetchFn, url, gocTrungGian) {
+	const duong = duongTrungGian(url, gocTrungGian);
+	if (!duong) return { html: null };
+	try {
+		const r = await taiVaDoc(fetchFn, duong, ACCEPT_WEB, HAN_GIO_TRUNG_GIAN_MS);
+		if (r.res.ok) return { html: r.html };
+		return { html: null, lyDo: `HTTP ${r.res.status}` };
+	} catch (e) {
+		return { html: null, lyDo: lyDoLoiTai(e, duong, HAN_GIO_TRUNG_GIAN_MS) };
+	}
 }
 
 /** Mã lỗi của cả chuỗi `cause` (undici gói lỗi thật trong TypeError "fetch failed"). */

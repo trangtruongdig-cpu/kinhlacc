@@ -174,3 +174,84 @@ test("taoDocWeb: ghiLoi tự ném cũng KHÔNG làm hỏng lượt đọc", asyn
 	});
 	assert.equal(await doc("https://a.com/x"), "", "báo lỗi hỏng thì vẫn phải trả như cũ");
 });
+
+// ——— Đường lùi qua dịch vụ trung gian (mặc định TẮT) ———
+
+test("trung gian: TẮT khi không khai gốc — 403 vẫn là 403, không gọi đi đâu khác", async () => {
+	const goi = [];
+	const doc = taoDocWeb(async (u) => (goi.push(u), new Response("chặn", { status: 403 })));
+	assert.equal(await doc("https://lc.com/sitemap.xml"), "");
+	assert.deepEqual(goi, ["https://lc.com/sitemap.xml"], "chỉ MỘT lượt, không đi đường vòng");
+});
+
+test("trung gian: 403 thì thử lại và trả được thân", async () => {
+	const goi = [];
+	const doc = taoDocWeb(
+		async (u) => {
+			goi.push(u);
+			return u.startsWith("https://tg.test/")
+				? new Response("<urlset><loc>https://lc.com/a</loc></urlset>", { status: 200 })
+				: new Response("Just a moment...", { status: 403 });
+		},
+		{ gocTrungGian: "https://tg.test/" },
+	);
+	assert.match(await doc("https://lc.com/sitemap.xml"), /<loc>https:\/\/lc\.com\/a<\/loc>/);
+	assert.deepEqual(goi, ["https://lc.com/sitemap.xml", "https://tg.test/https://lc.com/sitemap.xml"]);
+});
+
+test("trung gian: 404 KHÔNG thử lại — đốt lượt gọi cho URL chết", async () => {
+	const goi = [];
+	const doc = taoDocWeb(async (u) => (goi.push(u), new Response("mất", { status: 404 })), { gocTrungGian: "https://tg.test/" });
+	assert.equal(await doc("https://lc.com/x"), "");
+	assert.deepEqual(goi, ["https://lc.com/x"]);
+});
+
+test("trung gian: lỗi MẠNG không kích hoạt — chỉ mã từ chối bot mới có", async () => {
+	const goi = [];
+	const doc = taoDocWeb(
+		async (u) => {
+			goi.push(u);
+			throw new Error("mạng");
+		},
+		{ gocTrungGian: "https://tg.test/" },
+	);
+	assert.equal(await doc("https://lc.com/x"), "");
+	assert.deepEqual(goi, ["https://lc.com/x"]);
+});
+
+test("trung gian: hỏng nốt thì lý do nói rõ ĐÃ THỬ, không giấu mã gốc", async () => {
+	const loi = [];
+	const doc = taoDocWeb(
+		async (u) => new Response("x", { status: u.startsWith("https://tg.test/") ? 451 : 403 }),
+		{ gocTrungGian: "https://tg.test/", ghiLoi: (x) => loi.push(x) },
+	);
+	assert.equal(await doc("https://lc.com/x"), "");
+	assert.equal(loi.length, 1, "một URL hỏng = MỘT dòng lý do");
+	assert.match(loi[0].lyDo, /403/, "phải giữ mã gốc 403");
+	assert.match(loi[0].lyDo, /trung gian/i, "phải nói đã đi đường trung gian");
+	assert.equal(loi[0].url, "https://lc.com/x", "lý do gắn với URL THẬT, không phải URL trung gian");
+});
+
+test("trung gian: URL nội bộ không bao giờ được gửi sang dịch vụ ngoài", async () => {
+	const goi = [];
+	const doc = taoDocWeb(async (u) => (goi.push(u), new Response("x", { status: 403 })), { gocTrungGian: "https://tg.test/" });
+	assert.equal(await doc("http://backend:3001/rada"), "");
+	assert.deepEqual(goi, [], "chặn ngay ở urlDocDuoc, chưa gọi lượt nào");
+});
+
+test("trung gian: hạn giờ dùng hạn RIÊNG, dài hơn đường thẳng", async () => {
+	const han = [];
+	// fetch giả không bao giờ trả lời → lộ ra hạn giờ nào đang được dùng.
+	const doc = taoDocWeb(
+		async (u, init) => {
+			if (u.startsWith("https://tg.test/")) {
+				han.push("tg");
+				return new Response("ok", { status: 200 });
+			}
+			return new Response("x", { status: 403 });
+		},
+		{ gocTrungGian: "https://tg.test/", hanGioMs: 50 },
+	);
+	assert.equal(await doc("https://lc.com/x"), "ok");
+	assert.deepEqual(han, ["tg"]);
+});

@@ -987,6 +987,63 @@ vinmec chỉ có **4** URL về châm cứu/bấm huyệt, 42 về Đông y; 270
 / sốt xuất huyết / huyết học** — slug bỏ dấu nên "huyệt" và "huyết" trộn làm một. Đếm bằng chuỗi
 `huyet` là vu oan hàng loạt.
 
+### Đối thủ CHẶN BOT: đường lùi qua dịch vụ trung gian (07/10/2026)
+
+`nhathuoclongchau.com.vn` trả **HTTP 403** kèm trang "Attention Required! | Cloudflare" cho MỌI
+lượt tải — `/sitemap.xml`, `/sitemap_index.xml`, cả trang chủ, kể cả khi khai User-Agent của
+Chrome. Kho vì thế giữ **0 URL** của họ, và nhật ký chỉ ghi "0 URL mới": đọc ra **hệt như "đối
+thủ không đăng bài"**.
+
+⚠️ Site đó phát HAI tín hiệu ngược nhau: `robots.txt` trả 200, khai `User-agent: *` và trỏ thẳng
+`Sitemap: /sitemap.xml`, còn Cloudflare đứng trước lại chặn. Người dùng chốt đi đường trung gian
+(`RADA_SEO_TRUNG_GIAN`, mặc định **TẮT** — bỏ biến đi là tắt), vì đây là đối thủ top 1–3 ngành:
+*"phân tích đối thủ để tìm ra đất mới nhưng cũng là để biết ta đang thiếu gì để giữ đất"*.
+
+**Số đo 07/10/2026:** 0 → **3.000 URL**, 0 lượt tải hỏng; **549 URL có điểm ngách dương**, đầu
+hàng đợi là *bài thuốc nam trị vảy nến* (17đ), *bấm huyệt rối loạn tiền đình* (13đ), *Đông y chữa
+viêm họng* (11đ) — đúng thứ cạnh tranh trực tiếp. Lifestyle (phô mai ăn kiêng, rửa mặt bằng giấm)
+rơi xuống cuối với −8, tức tầng `diem-nganh.mjs` lo đúng phần của nó.
+
+**Bốn điều đã trả giá, đừng lặp:**
+
+- **Hạn giờ phải RIÊNG, 90 s.** Trung gian chạy trình duyệt thật (phải thế mới qua được thử thách
+  của Cloudflare) nên chậm hơn cả bậc: đo `sitemap_benh.xml` 287 kB → 20,4 s, `sitemap_baiviet1.xml`
+  1,09 MB → **40,2 s**. Dùng chung `hanGioMs` 30 s thì mọi sitemap lớn đều "quá hạn" — vẫn 0 URL,
+  chỉ khác lý do ghi trong nhật ký.
+- **ĐỪNG xin bản HTML nguyên gốc.** Đã đo: `x-respond-with: html` trả thẳng trang
+  `<title>Just a moment...</title>` của Cloudflare. Bản Markdown mặc định thì **giữ nguyên thẻ
+  `<loc>`** (dịch vụ render sitemap trong trình duyệt rồi chuyển sang chữ), nên `layLoc`/`layMuc`
+  chạy được **không phải sửa gì** — 1.682 và 5.001 `<loc>` đầy đủ, không rút gọn.
+- **Chỉ ba mã TỪ CHỐI BOT** (403/429/503) được thử lại. 404 là "trang không có" — đi đường vòng
+  cho nó là đốt một lượt gọi dịch vụ ngoài cho **từng URL chết** trong kho; 500/502 là máy chủ họ
+  hỏng nên trung gian nhận đúng cái lỗi đó. Lỗi MẠNG cũng không kích hoạt.
+- **Thân bị cắt ở trần byte mà vẫn ghi sổ là bỏ rơi phần đuôi VĨNH VIỄN.** 1,09 MB sát
+  `TRAN_BYTE_THAN` 1,5 MB (~218 byte/URL qua trung gian) nên sitemap từ ~7.000 URL **sẽ** bị cắt,
+  mà `layMuc` vẫn trả về đàng hoàng phần đã đọc — không lỗi, không cảnh báo. Nay `sitemapDayDu()`
+  đòi có thẻ đóng `</urlset>`/`</sitemapindex>`; thiếu thì sitemap vào `conSot`, ca sau đọc lại.
+  Phép kiểm này vá cả đường THẲNG, không riêng đường trung gian.
+
+⚠️ **Đối thủ là NHÀ THUỐC nên sitemap phần lớn là HÀNG BÁN, và chúng đứng TRƯỚC.** 26 bộ con:
+6 bộ danh mục hàng (thuốc, dược mỹ phẩm, thực phẩm chức năng, chăm sóc cá nhân, trang thiết bị y
+tế) + **17 bộ bài viết**. Mọi bộ khai CÙNG `lastmod` nên `moiTruoc` giữ thứ tự gốc — mà trong tệp
+của họ hàng bán đứng đầu. Lượt đo đầu: 200/200 URL là `/thuc-pham-chuc-nang/vien-uong-…`, tức
+đọc được rồi mà kho chỉ có trang bán hàng — site này không bán hàng nên đó là **0 thông tin cạnh
+tranh**.
+
+Hai chỗ phải vá cùng lúc, và chỗ thứ hai là bẫy:
+
+- `DAU_BAI_VIET` thiếu **`"baiviet"` viết liền** (chỉ có `"bai-viet"`), nên cả 17 bộ bài viết rơi
+  vào `khong_ro`, **cùng hạng với hàng bán**.
+- ⚠️ `BO_TRON_TEN` khớp **TRÒN TÊN BỘ**, KHÔNG khớp chuỗi con như `DAU_BO`. Thêm `"thuoc"` vào
+  `DAU_BO` là bỏ luôn `sitemap-bai-thuoc.xml` / `sitemap-vi-thuoc.xml` của một đối thủ Đông y —
+  đúng loại nội dung quý nhất trong cả ngách — và bỏ **im lặng**, vì `DAU_BO` xét TRƯỚC
+  `DAU_BAI_VIET`. `tenBoSitemap()` bóc tiền tố `sitemap[-_]`, đuôi tệp và số thứ tự:
+  `sitemap_thuoc.xml` → `thuoc` (bỏ) · `sitemap-bai-thuoc.xml` → `bai-thuoc` (giữ).
+
+Sau khi vá: 7 bộ bị bỏ, 3.000/3.000 URL thuộc `/bai-viet/`.
+
+Phép kiểm: `node --test cms/src/plugins/rada-seo/lib/doc-qua-trung-gian.test.mjs lib/doc-web.test.mjs radar/sitemap.test.mjs`.
+
 ### Nhánh HUYỆT + KINH của tháp (03/10/2026)
 
 Trước đó `ungVien()` chỉ đếm `vi_thuoc_chu_tri` và `phuong_thang.tac_dung` — tháp **chỉ gồm vị

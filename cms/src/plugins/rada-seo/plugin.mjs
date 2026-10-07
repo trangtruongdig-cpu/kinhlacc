@@ -13,6 +13,7 @@ import { chayCaRadar, TRAN_LOI_TAI, nguongHangCho } from "./ca-radar.mjs";
 import { tinhTrangTuDong } from "./tinh-trang.mjs";
 import { taoGsc } from "./leo-top/gsc.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
+import { gocTrungGianCuaMoiTruong } from "./lib/doc-qua-trung-gian.mjs";
 import { layChiMuc, traBaiThuoc } from "./noi-bo/nap.mjs";
 import { taoKiemDuong, DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
 import { timLienKet } from "./noi-bo/tim-lien-ket.mjs";
@@ -253,6 +254,10 @@ async function chayCa(ctx, ghi, chiTenMien = "") {
 				ghiLoi: (x) => {
 					if (loiTai.length < TRAN_LOI_TAI) loiTai.push(x);
 				},
+				// Đường lùi khi đối thủ trả 403/429/503 (Cloudflare chặn bot). MẶC ĐỊNH TẮT —
+				// chưa khai biến thì không một lượt gọi nào đi ra dịch vụ ngoài. Xem
+				// lib/doc-qua-trung-gian.mjs để biết vì sao có nó và giới hạn của nó.
+				gocTrungGian: gocTrungGianCuaMoiTruong(),
 			}),
 			loiTai,
 			ghi,

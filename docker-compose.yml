@@ -127,6 +127,14 @@ services:
       # ở trên) và nginx cũng proxy tới backend:3001. Ghi 3000 thì container cms nhận
       # ECONNREFUSED — đã xảy ra thật 03/10/2026.
       RADA_SEO_API: "http://backend:3001"
+      # Đường lùi khi đối thủ trả 403/429/503. MẶC ĐỊNH TẮT trong mã — bỏ dòng này đi là tắt.
+      # Có vì đo 07/10/2026: nhathuoclongchau.com.vn (top 1-3 ngành) trả 403 cho MỌI lượt tải
+      # kể cả với User-Agent của Chrome, nên kho giữ 0 URL của họ và nhật ký chỉ ghi "0 URL
+      # mới" — đọc ra hệt như "đối thủ không đăng bài". Qua trung gian: 3.000 URL, 549 URL có
+      # điểm ngách dương. Chỉ dùng cho ba mã TỪ CHỐI BOT; 404/500 vẫn đi đường thẳng.
+      # ⚠️ Mỗi lượt là gửi URL sang một bên thứ ba, và nó CHẬM (đo 40,2 s cho sitemap 1,09 MB)
+      # nên có hạn giờ riêng 90 s. Xem cms/src/plugins/rada-seo/lib/doc-qua-trung-gian.mjs.
+      RADA_SEO_TRUNG_GIAN: "https://r.jina.ai/"
       # Không còn CHỊU LỰC cho Rada SEO: lịch là "30 * * * *" (cùng mốc ở mọi múi giờ tròn giờ)
       # và hook tự so getUTCHours() === 19. Giữ cho tường minh — giờ trong log container là UTC.
       TZ: UTC

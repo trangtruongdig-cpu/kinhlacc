@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { layLoc, chuanTenMien, laUrlNoiDung, thuThapUrl, phanLoaiSitemap } from "./sitemap.mjs";
+import { layLoc, chuanTenMien, laUrlNoiDung, thuThapUrl, phanLoaiSitemap, sitemapDayDu } from "./sitemap.mjs";
 import { webGia } from "../__test__/kho-gia.mjs";
 
 test("chuanTenMien", () => {
@@ -133,4 +133,77 @@ test("index KHÔNG khai lastmod: đọc lại theo chu kỳ, không phải mỗi
 	assert.equal((await thuThapUrl("a.com", web, { daDocSitemap: moi, now })).soSitemapBoQua, 1, "đọc 2 ngày trước thì chưa cần đọc lại");
 	const cu = { "https://a.com/s1.xml": { lastmod: null, luc: now - 9 * 86_400_000 } };
 	assert.deepEqual((await thuThapUrl("a.com", web, { daDocSitemap: cu, now })).urls, ["https://a.com/x1"], "quá HAN_DOC_LAI_MS thì đọc lại");
+});
+
+// ——— Sitemap bị CẮT GIỮA: đọc được một phần, nhưng không được ghi sổ "đã đọc xong" ———
+
+test("sitemapDayDu: thiếu thẻ đóng = bị cắt giữa", () => {
+	assert.equal(sitemapDayDu("<urlset><url><loc>https://a.com/1</loc></url></urlset>"), true);
+	assert.equal(sitemapDayDu("<sitemapindex><sitemap><loc>https://a.com/s.xml</loc></sitemap></sitemapindex>"), true);
+	// Cắt giữa: trần byte 1,5 MB ăn mất đuôi.
+	assert.equal(sitemapDayDu("<urlset><url><loc>https://a.com/1</loc></url><url><loc>https://a.co"), false);
+	// Bản qua trung gian: thẻ nằm trên dòng riêng, có cả phần đầu markdown.
+	assert.equal(sitemapDayDu("Title:\n\nMarkdown Content:\n<urlset>\n\n<url>\n\n<loc>https://a.com/1</loc>\n\n</url>\n\n</urlset>"), true);
+	// Rỗng = không đọc được, KHÁC bị cắt — người gọi đã chặn trước bằng `if (!xml) continue`.
+	assert.equal(sitemapDayDu(""), false);
+});
+
+test("thuThapUrl: sitemap bị cắt giữa thì vào conSot, KHÔNG vào sổ đã đọc", async () => {
+	const DAY = "<urlset>" + Array.from({ length: 3 }, (_, i) => `<url><loc>https://a.com/du-${i}</loc></url>`).join("") + "</urlset>";
+	const CAT = "<urlset>" + Array.from({ length: 3 }, (_, i) => `<url><loc>https://a.com/cat-${i}</loc></url>`).join("") + "<url><loc>https://a.c";
+	const docWeb = async (u) => {
+		if (u.endsWith("/robots.txt")) return "Sitemap: https://a.com/sm.xml";
+		if (u.endsWith("/sm.xml"))
+			return "<sitemapindex><sitemap><loc>https://a.com/sm-du.xml</loc></sitemap><sitemap><loc>https://a.com/sm-cat.xml</loc></sitemap></sitemapindex>";
+		if (u.endsWith("/sm-du.xml")) return DAY;
+		if (u.endsWith("/sm-cat.xml")) return CAT;
+		return "";
+	};
+	const kq = await thuThapUrl("a.com", docWeb);
+	// URL đọc được của sitemap bị cắt VẪN dùng (phần đã về là phần thật)…
+	assert.ok(kq.urls.includes("https://a.com/cat-0"), "phần đọc được vẫn phải dùng");
+	// …nhưng sitemap đó KHÔNG được ghi là đã đọc xong, nên ca sau đọc lại phần đuôi.
+	assert.deepEqual(
+		kq.daDoc.map((x) => x.loc),
+		["https://a.com/sm-du.xml"],
+	);
+	assert.ok(kq.conSot.includes("https://a.com/sm-cat.xml"), "sitemap bị cắt phải nằm trong conSot");
+});
+
+// ——— Đối thủ là NHÀ THUỐC: sitemap phần lớn là hàng bán, không phải nội dung ———
+
+test("phanLoaiSitemap: bộ hàng bán của nhà thuốc bị bỏ, bài viết thì không", () => {
+	const lc = (x) => phanLoaiSitemap(`https://nhathuoclongchau.com.vn/${x}`);
+	// Đo 07/10/2026: 5 bộ này là trang bán hàng và chúng đứng TRƯỚC 17 bộ bài viết trong
+	// sitemap index (cùng lastmod → giữ thứ tự gốc), nên không bỏ là chúng ăn hết trần URL.
+	for (const x of [
+		"sitemap_thuoc.xml",
+		"sitemap_thuocgoc.xml",
+		"sitemap_duoc-my-pham.xml",
+		"sitemap_thuc-pham-chuc-nang.xml",
+		"sitemap_cham-soc-ca-nhan.xml",
+		"sitemap_trang-thiet-bi-y-te.xml",
+	])
+		assert.equal(lc(x), "bo", `phải bỏ: ${x}`);
+
+	// 17 bộ bài viết viết LIỀN "baiviet" (không gạch) — bản đầu chỉ có "bai-viet" nên cả 17
+	// bộ rơi vào "khong_ro", cùng hạng với hàng bán.
+	for (const x of ["sitemap_baiviet1.xml", "sitemap_baiviet17.xml"]) assert.equal(lc(x), "bai_viet", x);
+	// Bộ bệnh học là nội dung nhu cầu — phải đọc.
+	assert.notEqual(lc("sitemap_benh.xml"), "bo");
+});
+
+test("phanLoaiSitemap: KHÔNG vu oan bộ y văn của đối thủ Đông y", () => {
+	// Luật khớp TRÒN TÊN BỘ, không khớp chuỗi con. "thuoc" là tên bộ hàng bán của nhà thuốc;
+	// "bai-thuoc"/"vi-thuoc" là y văn — thứ đáng đọc nhất trong cả ngách này.
+	for (const x of [
+		"sitemap-bai-thuoc.xml",
+		"sitemap-vi-thuoc.xml",
+		"sitemap_bai-thuoc-dong-y.xml",
+		"sitemap-cay-thuoc.xml",
+		"sitemap-thuoc-nam.xml",
+		"sitemap-huyet-vi.xml",
+		"sitemap-kinh-mach.xml",
+	])
+		assert.notEqual(phanLoaiSitemap(`https://doithu.vn/${x}`), "bo", `KHÔNG được bỏ: ${x}`);
 });
