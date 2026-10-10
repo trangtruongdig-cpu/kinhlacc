@@ -532,7 +532,14 @@ async function runSlotAction(
       success: boolean
       data: AppointmentSlot
       booking?: SlotBooking
-    }>(`/appointment-slots/${slot.id}/${endpoint}`, {})
+    }>(
+      // Khoá sinh tại CÚ BẤM: mỗi lần người dùng chủ động bấm Huỷ là một ý định mới.
+      // close/open/complete KHÔNG cần khoá — chúng chỉ đặt `status` về một giá trị cố định,
+      // nên gọi lại đã vô hại sẵn.
+      `/appointment-slots/${slot.id}/${endpoint}`,
+      {},
+      type === 'cancel' ? khoaMoi() : undefined,
+    )
     huyLuotTaiDangBay()
     if (res?.booking) dayBookings.value = [...dayBookings.value, res.booking]
     if (res?.data) patchSlotLocal(res.data)
@@ -595,8 +602,23 @@ async function loadMoveSlots(date: string) {
   }
 }
 
+/**
+ * Khoá chống lặp: sinh MỘT lần cho mỗi Ý ĐỊNH, không phải mỗi lần gửi.
+ *
+ * Mở hộp thoại Chuyển vé → sinh khoá; bấm lại vì mạng chập → `api.put` dùng LẠI khoá đó, máy
+ * chủ nhận ra và trả lại kết quả cũ thay vì chuyển vé đi chặng thứ hai. Đổi ca đích hoặc đóng
+ * hộp thoại là Ý ĐỊNH KHÁC → khoá khác.
+ */
+function khoaMoi(): string {
+  return crypto.randomUUID()
+}
+
+let khoaChuyen: string | null = null
+let khoaDat: string | null = null
+
 function openMoveModal(slot: AppointmentSlot) {
   moveModal.value = { slot }
+  khoaChuyen = khoaMoi()
   // Ca cũ đã qua ngày thì gợi ý hôm nay, không thì bắt đầu từ chính ngày đang xem.
   moveDate.value = selectedDate.value < todayYMD() ? todayYMD() : selectedDate.value
   loadMoveSlots(moveDate.value)
@@ -604,12 +626,19 @@ function openMoveModal(slot: AppointmentSlot) {
 
 function closeMoveModal() {
   moveModal.value = null
+  khoaChuyen = null
   moveSlots.value = []
   moveTargetId.value = null
 }
 
 watch(moveDate, (d) => {
   if (moveModal.value && d) loadMoveSlots(d)
+})
+
+// Chọn ca đích khác là một Ý ĐỊNH khác — phải khoá khác, không thì máy chủ tưởng là bấm lại
+// của lần trước và trả về kết quả chuyển sang ca CŨ.
+watch(moveTargetId, () => {
+  if (moveModal.value) khoaChuyen = khoaMoi()
 })
 
 async function confirmMove() {
@@ -622,6 +651,7 @@ async function confirmMove() {
     const res = await api.put<{ success: boolean; from: AppointmentSlot; to: AppointmentSlot }>(
       `/appointment-slots/${slot.id}/move`,
       { targetSlotId: moveTargetId.value },
+      khoaChuyen ?? undefined,
     )
     closeMoveModal()
     // Vé đã rời ca cũ trên máy chủ — mọi lượt tải ngày đang bay nay mang ảnh chụp CŨ.
@@ -685,7 +715,9 @@ async function confirmBook() {
         reason: bookReason.value || undefined,
         notes: bookNotes.value || undefined,
       },
+      (khoaDat ??= khoaMoi()),
     )
+    khoaDat = null
     closeBookModal()
     huyLuotTaiDangBay()
     // Vá thẳng từ phản hồi (đã có patientId) thay vì tải lại cả ngày.

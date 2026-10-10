@@ -318,6 +318,14 @@ function openBookModal(slot: PublicSlot) {
   showBookModal.value = true
 }
 
+/**
+ * Khoá chống lặp cho thao tác ghi của khách. Màn này gọi `fetch` trần (không qua `api.ts`) nên
+ * header phải gắn tay. Sinh tại CÚ BẤM: mỗi lần khách chủ động bấm là một ý định mới.
+ */
+function khoaMoi(): string {
+  return crypto.randomUUID()
+}
+
 async function confirmBook() {
   if (!bookingSlot.value || !authStore.token) return
   isBooking.value = true
@@ -327,6 +335,7 @@ async function confirmBook() {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authStore.token}`,
+        'Idempotency-Key': khoaMoi(),
       },
       body: JSON.stringify({ reason: bookingReason.value || undefined }),
     })
@@ -361,7 +370,7 @@ async function confirmCancel() {
   try {
     const res = await fetch(`${API_BASE}/appointment-slots/${cancellingSlot.value.slotId}/my-cancel`, {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${authStore.token}` },
+      headers: { Authorization: `Bearer ${authStore.token}`, 'Idempotency-Key': khoaMoi() },
     })
     if (res.ok) {
       showToast('Đã huỷ lịch hẹn.')
@@ -432,7 +441,11 @@ async function confirmMove() {
   try {
     const res = await fetch(`${API_BASE}/appointment-slots/${movingSlot.value.slotId}/my-move`, {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${authStore.token}`, 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${authStore.token}`,
+        'Content-Type': 'application/json',
+        'Idempotency-Key': khoaMoi(),
+      },
       body: JSON.stringify({ targetSlotId: moveTargetId.value }),
     })
     const payload = await res.json().catch(() => null)
