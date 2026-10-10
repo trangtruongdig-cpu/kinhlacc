@@ -24,6 +24,7 @@ import type {
 import { Admin } from '../models/admin.model';
 import { SseService } from './sse.service';
 import { FirebaseService } from './firebase.controller';
+import { docMocKhach } from '../utils/moc-khach.util';
 import {
   cheDuLieu,
   chuanHoaRoute,
@@ -200,6 +201,7 @@ export class SuCoService {
         this.suCoRepo.create({
           cumId: daLuu.id,
           xayRaLuc: bayGio,
+          xayRaLucKhach: docMocKhach(item?.xayRaLuc, bayGio),
           loai,
           routeTho: (item?.route || '').slice(0, 500) || null,
           routeChuan,

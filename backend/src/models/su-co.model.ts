@@ -20,6 +20,16 @@ export class SuCo {
   @Column({ name: 'xay_ra_luc', type: 'timestamptz' })
   xayRaLuc: Date;
 
+  /**
+   * Mốc do MÁY KHÁCH khai (đã lọc qua `docMocKhach`). Null khi không có hoặc không đáng tin.
+   *
+   * KHÁC `xayRaLuc` — cột kia là giờ máy chủ NHẬN ĐƯỢC báo cáo, mà máy khách thì gom tín hiệu
+   * vào hàng đợi nên khi mất mạng mọi lỗi dồn về mốc HỒI MẠNG. Thiếu cột này thì không bao giờ
+   * biết được lỗi thật sự xảy ra lúc nào.
+   */
+  @Column({ name: 'xay_ra_luc_khach', type: 'timestamptz', nullable: true })
+  xayRaLucKhach: Date | null;
+
   @Column({ type: 'varchar', length: 10 })
   loai: LoaiSuCo;
 
