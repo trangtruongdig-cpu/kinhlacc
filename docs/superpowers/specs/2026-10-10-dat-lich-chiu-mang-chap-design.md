@@ -86,12 +86,12 @@ tay/phiên, `NGUONG_CHAM_MS = 3000` — mọi thứ dưới 3 giây và mọi th
 
 | Route | Số byte | TTFB lúc rảnh | Lần chậm | **Số IP khác nhau** |
 |---|---|---|---|---|
-| `/duoc-lieu?page=1&limit=40` | **777.920** (19 KB/mục) | 1,02 s | 86 · tb 6,5 s · max 37,2 s | **34** |
+| `/duoc-lieu?page=1&limit=40` | **777.920** (gzip **300.342**) | 1,02 s | 86 · tb 6,5 s · max 37,2 s | **34** |
 | `/bai-thuoc/lite` | cần auth | — | 119 · tb 6,0 s · max 23,9 s | 24 |
 | `/nguon?page=1&limit=40` | **5.678** | 0,25 s | 66 · tb 5,7 s | 26 |
 | `/phuong-thang?page=1&limit=40` | **7.287** | 0,40 s | 65 · tb 5,7 s | 25 |
-| `/huyet-vi` | **343.243** | 0,63 s | 33 · tb 5,1 s | 10 |
-| `/nhht/cong-thuc` | **319.602** | 0,37 s | 36 · tb 5,2 s | 10 |
+| `/huyet-vi` | **343.243** (gzip **57.865**) | 0,63 s | 33 · tb 5,1 s | 10 |
+| `/nhht/cong-thuc` | **319.602** (gzip **27.972**) | 0,37 s | 36 · tb 5,2 s | 10 |
 | `/demo/ket-qua-do-list?count=6` | **962.695** | 0,25 s | — | — |
 | `/demo/chan-doan-ref` | **696.403** | 2,55 s | 16 · tb 6,2 s | 12 |
 
@@ -102,6 +102,12 @@ cùng con số. `baoApiCham` đo đồng hồ treo tường ở trình duyệt n
 
 ⚠️ Hệ quả cho việc chẩn đoán về sau: **đừng đi tối ưu route bị báo chậm nhiều nhất.** Hỏi trước:
 nó có đi cùng nhịp với một response béo nào không.
+
+⚠️ **Số trong bảng này là byte CHƯA NÉN; cột gzip mới là thứ đi trên dây.** Sau khi đo lại có
+nén, lời giải thích "byte" **yếu đi đáng kể** cho nhóm route nhẹ: 8 route của lượt 17:53 cộng
+lại chỉ khoảng 95 KB nén — không đủ để thành 4,1 giây trên một đường bình thường. Nên **nguyên
+nhân của cụm 4,1 giây vẫn CHƯA chốt được**; chỉ riêng `/duoc-lieu` (300 KB nén) là chắc chắn
+nặng thật. Đừng viết lại mục này thành "đã hiểu rồi" khi chưa có `$request_time`.
 
 **34 IP khác nhau cùng chậm một route thì không phải wifi chỗ demo.** Nhưng lỗi cũng không ở
 đường truyền của họ — ở chỗ ta gửi 778 KB cho một danh sách 40 dòng.
@@ -224,17 +230,36 @@ chỉ đốt thêm một vòng mạng để nhận đúng câu trả lời cũ.
 
 ## Phần C — Cắt byte
 
-| Việc | Hiện | Đích | Cách |
-|---|---|---|---|
-| `/duoc-lieu` danh sách | 778 KB / 40 mục | **< 60 KB** | chỉ trả trường cho DANH SÁCH (id, tên, ảnh, tính, vị, quy kinh); bỏ mô tả, bào chế, dược lý, thành phần hoá học |
-| `/huyet-vi` + `/nhht/cong-thuc` | 663 KB mỗi lần mở trang ca khám | 304 từ lần thứ hai | `ETag` + `Cache-Control: private, must-revalidate` — từ điển gần như tĩnh |
-| `/demo/ket-qua-do-list`, `/demo/chan-doan-ref` | 962 KB + 696 KB | giảm | cùng hướng với `08b8875` đã cắt 1,66 MB khỏi đường mở trang chủ |
+⚠️ **Viết lại 10/10/2026 sau khi đo lại CÓ NÉN.** Bản trước của mục này dùng số byte **chưa
+nén** và vì thế phóng đại gấp 2–12 lần, lại còn đề xuất một việc **đã làm rồi**. Giữ lại lời
+đính chính này vì nó là bài học về phép đo, không phải về mã.
 
-⚠️ **Cắt trường là ĐỔI HỢP ĐỒNG.** Phải grep mọi view đọc các trường bị bỏ trước khi cắt — một
-view đọc `mo_ta` từ danh sách sẽ hiện trống mà **không lỗi gì**, đúng kiểu hỏng im lặng mà repo
-này đã cắn nhiều lần.
-⚠️ Nghiệm thu bằng **số byte đo được**, không bằng cảm giác: script `curl -w %{size_download}`
-với ngưỡng, chạy được lặp lại.
+| Route | Chưa nén | **Thật trên đường truyền (gzip)** | Tiết kiệm |
+|---|---|---|---|
+| `/duoc-lieu?page=1&limit=40` | 777.920 | **300.342** | 61% |
+| `/huyet-vi` | 343.243 | **57.865** | 83% |
+| `/nhht/cong-thuc` | 319.602 | **27.972** | 91% |
+| `/demo/chan-doan-ref` | 213.098 | **37.525** | 82% |
+
+- **gzip ĐÃ bật** cho mọi route API (`content-encoding: gzip`).
+- **ETag ĐÃ chạy** — Express tự sinh; gửi lại kèm `If-None-Match` trả **304 / 0 byte**. Đã đo
+  trên `/huyet-vi`. **Bỏ hẳn việc "thêm ETag"** khỏi kế hoạch.
+
+Vậy phần C còn **đúng một việc**, và nó là việc một dòng:
+
+**`ViThuocService.findLite()` không có `.select()`.** Nó gọi `createQueryBuilder('vt')` rồi trả
+**mọi cột** của `ViThuoc` — gồm `mo_ta`, `thanh_phan`, `duoc_ly`, `bao_che`, `don_thuoc`,
+`chu_tri`, `tham_khao`, `nuoi_duong`, `tinh_vi_quy_kinh`. Tên hàm là "lite" nhưng dữ liệu thì
+không. Danh sách ở `/thu-vien` không hiển thị trường nào trong số đó.
+
+Đích: 300 KB → **dưới 40 KB** (gzip) cho 40 mục.
+
+⚠️ **Cắt trường là ĐỔI HỢP ĐỒNG.** `findLite` còn được dùng ở chỗ khác ngoài `/duoc-lieu` —
+phải grep mọi nơi gọi nó và mọi view đọc các trường bị bỏ trước khi cắt. Một view đọc `mo_ta`
+từ danh sách sẽ hiện **trống mà không lỗi gì**.
+
+⚠️ **Nghiệm thu bằng số byte CÓ NÉN** (`curl --compressed`), không phải số thô — chính chỗ này
+đã lừa tôi một lần.
 
 ## Phần D — Giữ nguyên những gì đã đúng
 
