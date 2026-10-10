@@ -80,6 +80,55 @@ phiên → `/_emdash/admin/`. Luật đổi quyền ở `backend/src/utils/ve-cm
 
 DTO là *type* TS thuần nên biến mất khi biên dịch — không có gì kiểm thân request. Các endpoint đụng tới người bệnh (phiếu đo, hồ sơ, đăng nhập/đăng ký) đã gắn `@Body(new ZodPipe(<lược đồ>))`; lược đồ ở `src/models/validation.schema.ts`, pipe ở `src/middlewares/validation/zod.pipe.ts`. Lược đồ dùng `.strict()` để chặn cả trường thừa. **Endpoint ghi mới nên gắn lược đồ ngay từ đầu** thay vì kiểm tay trong controller.
 
+### Đặt lịch: chống TRÙNG và chống LẶP là hai chuyện khác nhau
+
+**Chống trùng** (hai người giành một ca) đã đủ, đừng đụng vào: `UNIQUE(slotDate, slotTime)` +
+index bộ phận `ux_appt_booking_active` + `pessimistic_write` trong transaction + `move()` khoá
+CẢ HAI ca **theo id tăng dần** (A→B và B→A đồng thời thì không kẹt chết) + bắt `23505` →
+`ConflictException`.
+
+**Chống lặp** (một người bấm lại vì mạng chập) là tầng KHÁC, thêm 10/10/2026. `fetch` ném
+"Failed to fetch" cho mọi kiểu đứt đường và **không nói được máy chủ đã nhận lệnh hay chưa** —
+đo thật 09/10: vé chuyển xong trên máy chủ (`movedAt 18:21:33`) rồi lời gọi kế tiếp chết sau
+387 ms.
+
+Cách chạy: máy khách sinh `Idempotency-Key` (`crypto.randomUUID()`) **một lần cho mỗi Ý ĐỊNH**
+→ backend `INSERT` vào `thao_tac_ghi` **trong chính transaction đã có, trước mọi thao tác khác**
+→ trúng `23505` thì rollback, đọc `ket_qua` cũ, trả HTTP 200 y hệt lần đầu.
+Phép kiểm: `npm test --prefix backend -- appointment-idempotency`.
+
+**Năm điều đã trả giá, đừng lặp:**
+
+- ⚠️ **Lệnh chèn khoá phải có `catch` RIÊNG.** Bắt ở `catch` chung là nhầm với `23505` của
+  `ux_appt_booking_active`, vốn nghĩa ngược hẳn ("ca đã có người khác đặt").
+- ⚠️ **Nhánh phát lại phải đứng TRƯỚC nhánh `23505` cũ** trong `move()`, không thì câu "Ca mới
+  vừa có người khác đặt mất" nuốt mất lần phát lại.
+- ⚠️ **Phát lại KHÔNG được phát SSE lần hai.** Khối `emitEvent` nằm sau `finally`, nên nhánh
+  phát lại `return` từ trong `catch` là bỏ qua nó — cố ý.
+- ⚠️ **Đổi ca đích phải sinh khoá MỚI.** Giữ khoá cũ thì máy chủ tưởng là bấm lại và trả về kết
+  quả chuyển sang ca CŨ: người dùng chọn 14:45 mà vé vẫn nằm ở 09:30, không lỗi nào.
+- ⚠️ **`Idempotency-Key` phải có trong `allowedHeaders` của CORS** (`main.ts`). Thiếu nó thì
+  MÁY DEV gãy mọi thao tác ghi còn PRODUCTION vẫn chạy — production cùng origin qua nginx nên
+  không có preflight. Kiểu hỏng ngược đời nhất.
+
+`close`/`open`/`complete` cố ý KHÔNG mang khoá: chúng chỉ đặt `status` về một giá trị cố định.
+`PatientScheduleView.vue` gọi `fetch` TRẦN (không qua `api.ts`) nên phải gắn header tay.
+
+`api.ts` nay có hạn giờ 12 s (đọc) / 20 s (ghi) và tự thử lại; luật ở
+`frontend/src/lib/thuLaiApi.ts`, kiểm bằng `node --test src/lib/thuLaiApi.test.ts` (chạy thẳng
+`.ts`, không cần vitest). **Thao tác GHI không mang khoá thì TUYỆT ĐỐI không thử lại.**
+
+### Dụng cụ đo phải kiểm MÃ HTTP, không thì nó báo xanh lúc hệ thống đang chết
+
+Hai chốt tự viết đã báo xanh giả trong cùng một buổi (10/10/2026), cùng một lý do:
+`tmp/do-byte-api.mjs` in "✓ 157 B" trong lúc API trả 502 (trang lỗi thì nhẹ);
+`tmp/do-trong-luc-build.mjs` in "hỏng=0" suốt 30 giây API chết (`fetch` coi 502 là phản hồi hợp
+lệ, mà 502 lại về rất nhanh nên còn kéo trung vị xuống).
+
+⚠️ Và đo số byte thì **phải `curl --compressed`**: gzip đã bật sẵn cho mọi route API. `fetch`
+của Node thì ngược lại — undici **tự giải nén**, nên `arrayBuffer().length` trả về đúng con số
+thô mình đang muốn tránh. Máy dev KHÔNG gzip (nginx mới là nơi nén).
+
 ### Database env vars
 
 `AppModule` accepts either naming convention; both are checked:
