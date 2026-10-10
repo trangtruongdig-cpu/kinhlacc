@@ -106,26 +106,42 @@ nó có đi cùng nhịp với một response béo nào không.
 **34 IP khác nhau cùng chậm một route thì không phải wifi chỗ demo.** Nhưng lỗi cũng không ở
 đường truyền của họ — ở chỗ ta gửi 778 KB cho một danh sách 40 dòng.
 
-### Chỗ CHƯA giải thích được, và nói thẳng ra là chưa
+### Đợt nghẽn nhiều-IP: ĐÃ truy ra — build chạy trên chính máy production
 
-| Đợt | Số đo | Vì sao byte không giải thích nổi |
+*(Phần này viết lại 10/10/2026 sau khi vào được VPS. Bản trước ghi là "chưa giải thích được".)*
+
+**Máy thật:** 1 nhân CPU · 1.971 MB RAM · swap 2.047 MB (đang dùng 213 MB) · đĩa 20 GB đầy 78%.
+
+⚠️ **Và máy KHÔNG hề kiệt sức khi rỗi** — phải nói rõ vì lượt đo đầu của tôi suýt kết luận ngược:
+`load average 1.51` đo lúc 20:25 chỉ là **dư âm của lần khởi động container 3 phút trước đó**.
+Đo lại bằng `vmstat 1 6`: `r=0` (không ai xếp hàng) · `wa=0` (không chờ đĩa) · `id=93–99%` ·
+`si/so=0` (không thrash swap). **Load average một mình không phân định được gì — phải `vmstat`.**
+
+Thủ phạm thật của các đợt nhiều-IP: `docker-compose.yml` khai `build:` cho **cả bốn** service,
+nên **ảnh được build ngay trên máy đang phục vụ khách**. Và `frontend/Dockerfile` dòng 59 chạy
+`npm run blog:pre && npm run build-only && npm run blog:post` — tức **sinh trọn 18.425 trang
+tĩnh** trên chính cái nhân CPU duy nhất đó.
+
+Đo ngày 10/10/2026: backend build xong 20:04:46 · cms 20:16:16 · frontend 20:21:47 —
+**18 phút build liên tục** trong giờ phục vụ.
+
+Đối chiếu `git reflog` trên VPS với các đợt nghẽn nhiều-IP:
+
+| Đợt nghẽn | `git pull` trên VPS | Lệch |
 |---|---|---|
-| 07/10 09:22 | 29 lần · **3 IP** · max 21,2 s; `effective/:date` mất **13,9 s** và **14,6 s** | `getEffectiveSchedule` chỉ là 2 `findOneBy` tuần tự (≈2 × RTT 88 ms), phần còn lại thuần bộ nhớ; payload bé |
-| 08/10 23:58 | 9 lần · 2 IP · max 7,4 s | nhiều IP cùng lúc |
-| 06/10 21:31 | 7 lần · 2 IP · max 32,1 s | |
+| 07/10 **07:47** (9 lần) | 07/10 **07:45** | **2 phút** |
+| 06/10 **21:30–21:31** (17 lần, 2 IP, max 32,1 s) | 06/10 **21:28** | **2 phút** |
 
-Đây là đợt nghẽn **thật ở phía máy chủ**, nhưng hiếm (3 trong 15 đợt lớn). Không truy được tiếp
-vì **hai thiếu sót về đo lường**:
+⚠️ **Hai trên hai đợt kiểm được thì khớp, nhưng KHÔNG phải mọi đợt đều khớp** — `07/10 09:22`
+(29 lần, 3 IP, `effective/:date` mất 13,9 s) và `08/10 23:58` không có deploy nào gần đó. Nên
+build là **một** nguyên nhân đã chứng minh, không phải nguyên nhân duy nhất. Phần còn lại vẫn
+chưa truy được, vì:
 
-1. **Không SSH được** từ máy này (không có khoá riêng; `known_hosts` có VPS nên trước đây gõ mật
-   khẩu tay) → không có log nginx, `docker inspect RestartCount`, hay dấu vết OOM.
-2. **App chỉ ghi THẤT BẠI, không bao giờ ghi THÀNH CÔNG** → không tính được *tỉ lệ* chậm, chỉ
-   đếm được *số lần*. Một route chậm 86 lần trên 100 lượt gọi khác hẳn 86 lần trên 100.000 lượt,
-   mà hiện không phân biệt được.
-
-**Việc nhỏ nhất lấp chỗ này:** bật `$request_time` trong `log_format` của `frontend/nginx.conf`.
-Một dòng, và lần sau có bằng chứng thay vì suy diễn. (Không nằm trong phạm vi dựng của spec này;
-ghi ra để không ai tưởng đã đo xong.)
+1. **nginx chưa ghi `$request_time`** — `log_format main` trong `kinhlac_frontend` không có nó.
+2. **Log container không sống qua lần dựng lại** — log backend hiện chỉ lùi tới 13:23 cùng ngày,
+   nên đợt 07/10 **đã mất vĩnh viễn**.
+3. **App chỉ ghi THẤT BẠI, không ghi THÀNH CÔNG** → đếm được *số lần* chậm, không tính được
+   *tỉ lệ*.
 
 ## Phần A — Thao tác GHI phải LẶP LẠI ĐƯỢC VÔ HẠI
 
@@ -271,6 +287,39 @@ thời điểm; nếu sai thì toàn bộ mốc lịch hẹn dịch 7 giờ. Sao
 
 Xem phần 0, việc số 2.
 
+## Phần F — ĐỪNG BUILD TRÊN MÁY PRODUCTION
+
+Đây là thay đổi **hạ tầng**, không phải mã, và nó là thứ đắt nhất trong cả spec này về mặt hiệu
+quả trên mỗi dòng sửa.
+
+Hiện trạng đo được:
+
+- `docker-compose.yml` khai `build:` cho cả 4 service → build chạy tại chỗ.
+- **Không một `cpus:` nào trong cả tệp** (`grep -c cpus` = 0). Chỉ có `mem_limit`. Nên build và
+  backend tranh nhau cái nhân duy nhất mà không ai nhường ai.
+- `mem_limit` cộng lại = 768 + 896 + 512 + 128 = **2.304 MB > 1.971 MB RAM thật**. Hiện vô hại
+  (bốn container dùng tổng 204 MB) nhưng là bẫy nếu một container phình.
+- `dockerd` giữ **556 MB RSS** — nhiều hơn cả bốn container cộng lại.
+- Build cache **1,014 GB** đang chiếm chỗ trên đĩa đã đầy 78%.
+
+`deploy.sh` đã lường trước phần RAM (build từng ảnh một, cảnh báo swap, dọn đĩa ở bước 7) nhưng
+**không có hàng rào nào cho CPU**.
+
+Ba đường, xếp theo mức đúng đắn:
+
+| | Cách | Được | Mất |
+|---|---|---|---|
+| **F1** | Build ở nơi khác (CI hoặc máy dev), đẩy ảnh lên registry, VPS chỉ `pull` | Xoá hẳn 18 phút tranh CPU | Phải dựng registry + đổi `deploy.sh` |
+| **F2** | Giữ nguyên, nhưng **deploy ngoài giờ phục vụ** | Không sửa gì cả | Vẫn nghẽn, chỉ là không ai thấy |
+| **F3** | `renice` dockerd xuống thấp trong lúc build rồi trả lại | Hai dòng trong `deploy.sh` | ⚠️ **Chưa đo.** Với BuildKit, việc build chạy trong dockerd/buildkitd chứ không phải tiến trình `docker compose` — `nice` đặt lên tiến trình gọi **không chắc lan tới** nơi làm việc thật |
+
+⚠️ **F3 chưa được kiểm chứng và không được dùng nếu chưa đo.** Cách đo: chạy `deploy.sh`, trong
+lúc build thì bắn `/api/auth/me` mỗi giây từ máy ngoài và ghi phân bố; so với đường nền p90 =
+41 ms đã đo. Chưa có số thì đừng tin nó có tác dụng.
+
+Việc rẻ làm được ngay, độc lập với ba đường trên: `docker builder prune` thu lại **1,014 GB**
+(đĩa 78% → ~73%).
+
 ## Phép kiểm
 
 | Phép kiểm | Neo vào |
@@ -288,6 +337,7 @@ Xem phần 0, việc số 2.
 1. **Phần 0** — sửa comment sai, thêm `xay_ra_luc_khach`.
 2. **Phần A + B + E** — phần chịu lực: lặp lại vô hại, hạn giờ, hai lỗi.
 3. **Phần C** — cắt byte.
+4. **Phần F** — hạ tầng: thôi build trên máy production.
 
 Phần C để sau không phải vì nó nhẹ (nó chữa phần lớn 854 lần chậm), mà vì nó **đụng hợp đồng
 API** nên cần một lượt grep cẩn thận, trong khi A + B gói gọn trong ba phương thức và một tệp.
