@@ -202,6 +202,26 @@ export class ViThuocService {
     const idNhomLon = Number.isFinite(opts.idNhomLon as number) ? Number(opts.idNhomLon) : null;
 
     const qb = this.repo.createQueryBuilder('vt');
+
+    // Truy vấn NÀY chỉ dùng để sắp xếp / phân trang / đếm — chỉ `items.map(x => x.id)` được
+    // dùng tiếp. Không có `.select()` thì nó kéo trọn 40 bản ghi đầy đủ từ Aiven về chỉ để
+    // lấy ra mấy con số id. Dữ liệu TRẢ VỀ máy khách đến từ truy vấn thứ hai bên dưới.
+    qb.select([
+      'vt.id',
+      'vt.ten_vi_thuoc',
+      'vt.tinh',
+      'vt.vi',
+      'vt.quy_kinh',
+      'vt.lieu_dung',
+      'vt.ten_khoa_hoc',
+      'vt.ten_han',
+      'vt.ten_pinyin',
+      'vt.bo_phan_dung',
+      'vt.so_bai_thuoc',
+      'vt.anh_dai_dien',
+      'vt.cong_dung_tom_tat',
+    ]);
+
     if (q) {
       const term = `%${q}%`;
       qb.andWhere(
@@ -229,8 +249,36 @@ export class ViThuocService {
     let data: ViThuoc[] = [];
     if (items.length) {
       const ids = items.map((x) => x.id);
+      // ⚠️ ĐÂY mới là chỗ sinh ra thân phản hồi. Trước đây không có `select` nên mỗi mục kéo
+      // theo cả mo_ta / thanh_phan / duoc_ly / bao_che / don_thuoc / chu_tri / tham_khao /
+      // nuoi_duong / tinh_vi_quy_kinh: 40 mục thành 300 KB (đã nén). Tên hàm là "lite" nhưng
+      // dữ liệu thì không — và đây là route bị báo chậm nhiều nhất: 86 lần từ 34 IP khác nhau
+      // (đo 10/10/2026).
+      //
+      // ⚠️ Đã rà bốn nơi tiêu thụ trước khi cắt: DuocLieuBrowser (8 trường), PharmacologyManager
+      // và SoanPhieuHuyet (chỉ id + tên), MedicinesView (form sửa + `kinhMachLinks`). Vì vậy
+      // `kinhMachLinks` PHẢI giữ: bỏ nó đi thì ô "quy kinh" trong form sửa mở ra TRỐNG, và lần
+      // bấm Lưu kế tiếp sẽ xoá sạch quy kinh của vị thuốc đó mà không báo gì.
+      //
+      // Thêm trường vào đây thì rẻ; BỎ một trường đang có người đọc thì màn hình hiện trống mà
+      // không lỗi gì — grep trước khi cắt tiếp.
       const fetched = await this.repo.find({
         where: { id: In(ids) },
+        select: {
+          id: true,
+          ten_vi_thuoc: true,
+          tinh: true,
+          vi: true,
+          quy_kinh: true,
+          lieu_dung: true,
+          ten_khoa_hoc: true,
+          ten_han: true,
+          ten_pinyin: true,
+          bo_phan_dung: true,
+          so_bai_thuoc: true,
+          anh_dai_dien: true,
+          cong_dung_tom_tat: true,
+        },
         relations: { kinhMachLinks: { kinhMach: true } },
       });
       // GIỮ ĐÚNG thứ tự đã sắp (find theo In(ids) không bảo đảm thứ tự) → map lại theo ids.
