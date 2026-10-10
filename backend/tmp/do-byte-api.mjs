@@ -31,11 +31,23 @@ const NGUONG = {
 
 let hong = 0;
 for (const [duong, tran] of Object.entries(NGUONG)) {
-  const n = Number(
-    execFileSync('curl', [
-      '-s', '--compressed', '-o', '/dev/null', '-w', '%{size_download}', GOC + duong,
-    ]).toString(),
-  );
+  // ⚠️ PHẢI kiểm mã HTTP. Lượt chạy 10/10/2026 lúc production trả 502 đã cho ra "✓ 157 B" —
+  // xanh rực vì trang lỗi thì nhẹ. Một chốt báo đạt khi hệ thống đang chết còn tệ hơn không có chốt.
+  const [ma, soByte] = execFileSync('curl', [
+    '-s', '--compressed', '-o', '/dev/null',
+    '-w', '%{http_code} %{size_download}', GOC + duong,
+  ])
+    .toString()
+    .trim()
+    .split(/\s+/)
+    .map(Number);
+
+  if (ma !== 200) {
+    hong++;
+    console.log(`✗ ${duong}  HTTP ${ma} — KHÔNG đo được, chưa chắc đã nhẹ`);
+    continue;
+  }
+  const n = soByte;
   const dat = n <= tran;
   if (!dat) hong++;
   console.log(

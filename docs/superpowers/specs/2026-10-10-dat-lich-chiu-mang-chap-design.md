@@ -312,38 +312,67 @@ thời điểm; nếu sai thì toàn bộ mốc lịch hẹn dịch 7 giờ. Sao
 
 Xem phần 0, việc số 2.
 
-## Phần F — ĐỪNG BUILD TRÊN MÁY PRODUCTION
+## Phần F — ĐÃ ĐO: build KHÔNG phải thủ phạm. Thủ phạm là 30 giây khởi động lại
 
-Đây là thay đổi **hạ tầng**, không phải mã, và nó là thứ đắt nhất trong cả spec này về mặt hiệu
-quả trên mỗi dòng sửa.
+⚠️ **Viết lại 10/10/2026 sau lượt deploy có đo. Giả thuyết ở bản trước của mục này SAI**, và nó
+sai theo kiểu đắt nhất: nghe rất hợp lý (1 nhân CPU, build 18 phút, 2/2 đợt nghẽn trùng giờ
+`git pull`) nên suýt nữa đã đẻ ra cả một kế hoạch dời build sang CI.
 
-Hiện trạng đo được:
+**Phép đo:** 1.080 mẫu `/auth/me`, mỗi giây một mẫu, bao trọn một lượt deploy thật (21:20 → 21:38).
 
-- `docker-compose.yml` khai `build:` cho cả 4 service → build chạy tại chỗ.
-- **Không một `cpus:` nào trong cả tệp** (`grep -c cpus` = 0). Chỉ có `mem_limit`. Nên build và
-  backend tranh nhau cái nhân duy nhất mà không ai nhường ai.
-- `mem_limit` cộng lại = 768 + 896 + 512 + 128 = **2.304 MB > 1.971 MB RAM thật**. Hiện vô hại
-  (bốn container dùng tổng 204 MB) nhưng là bẫy nếu một container phình.
-- `dockerd` giữ **556 MB RSS** — nhiều hơn cả bốn container cộng lại.
-- Build cache **1,014 GB** đang chiếm chỗ trên đĩa đã đầy 78%.
+| | Đường nền (máy rỗi) | Trong lúc build 18 phút |
+|---|---|---|
+| trung vị | 23 ms | **17 ms** |
+| p90 | 35 ms | **31 ms** |
+| p99 | — | 156 ms |
+| max | 209 ms | **20.235 ms** ← đúng một lần |
 
-`deploy.sh` đã lường trước phần RAM (build từng ảnh một, cảnh báo swap, dọn đĩa ở bước 7) nhưng
-**không có hàng rào nào cho CPU**.
+Và đo riêng các route NẶNG trong lúc load đạt đỉnh (5,98 trên máy 1 nhân):
+`/nguon` 221 ms (nền 255–340) · `/demo/chan-doan-ref` 546 ms (nền 2.554) — **không chậm hơn, có
+chỗ còn nhanh hơn**.
 
-Ba đường, xếp theo mức đúng đắn:
+Tức: **CPU bị chiếm 6 lần quá tải mà người dùng không thấy gì.** Linux vẫn chia phần cho tiến
+trình Node, và Node thì chờ I/O chứ không tranh CPU. Lượt `max = 20 giây` duy nhất rơi đúng vào
+khoảng container dựng lại.
 
-| | Cách | Được | Mất |
-|---|---|---|---|
-| **F1** | Build ở nơi khác (CI hoặc máy dev), đẩy ảnh lên registry, VPS chỉ `pull` | Xoá hẳn 18 phút tranh CPU | Phải dựng registry + đổi `deploy.sh` |
-| **F2** | Giữ nguyên, nhưng **deploy ngoài giờ phục vụ** | Không sửa gì cả | Vẫn nghẽn, chỉ là không ai thấy |
-| **F3** | `renice` dockerd xuống thấp trong lúc build rồi trả lại | Hai dòng trong `deploy.sh` | ⚠️ **Chưa đo.** Với BuildKit, việc build chạy trong dockerd/buildkitd chứ không phải tiến trình `docker compose` — `nice` đặt lên tiến trình gọi **không chắc lan tới** nơi làm việc thật |
+**Thủ phạm thật, đo được:** backend mất **30 giây** từ lúc container khởi động đến lúc nghe được
+(14:36:22 → 14:36:52 UTC: Nest boot + `SchemaBootstrap` 74 câu DDL + nối Aiven). Trong 30 giây
+đó `/api/` trả **502**.
 
-⚠️ **F3 chưa được kiểm chứng và không được dùng nếu chưa đo.** Cách đo: chạy `deploy.sh`, trong
-lúc build thì bắn `/api/auth/me` mỗi giây từ máy ngoài và ghi phân bố; so với đường nền p90 =
-41 ms đã đo. Chưa có số thì đừng tin nó có tác dụng.
+⚠️ **Và tôi suýt chẩn đoán sai lần nữa ngay tại đây.** Thấy 502 thì nghĩ ngay tới ghi chú cũ
+"nginx ghim IP container cũ", bèn `nginx -s reload`, rồi API sống lại. Nhưng đối chiếu mốc:
+backend sẵn sàng lúc 14:36:52, còn lệnh reload chạy lúc **14:37:01** — tức **sau 9 giây**. Lần
+reload ấy **không chữa gì cả**; backend tự xong. `resolve` trong `upstream` (nginx 1.27,
+`resolver 127.0.0.11 valid=10s`) vẫn đang làm đúng việc của nó.
+**Hai nguyên nhân gây 502 sau deploy là khác nhau và phải phân định bằng mốc giờ, không bằng trí nhớ.**
 
-Việc rẻ làm được ngay, độc lập với ba đường trên: `docker builder prune` thu lại **1,014 GB**
-(đĩa 78% → ~73%).
+**Kết luận cho ba đường đã nêu:**
+
+| | Quyết | Vì sao |
+|---|---|---|
+| **F1** build ở nơi khác | **Chưa cần** | Build không làm chậm người dùng. Dời sang CI là công lớn mua một thứ đã không hỏng. |
+| **F2** deploy ngoài giờ | **Vẫn nên** | Nhưng vì 30 giây 502, không vì 18 phút build. |
+| **F3** `renice` dockerd | **BỎ** | Nó sinh ra để chữa cái không tồn tại. Giữ lại là để người sau tưởng đã có hàng rào. |
+
+**Việc đáng làm thật, thay cho cả ba:** rút ngắn hoặc che 30 giây đó. Rẻ nhất là cho nginx
+`proxy_next_upstream` / trang chờ thay vì 502 trần; đúng nhất là deploy xen kẽ (container mới
+healthy rồi mới tắt cái cũ). **Chưa làm — cần một kế hoạch riêng**, và phải cân với việc
+`docker-compose.yml` hiện dựng lại cả ba service cùng lúc.
+
+⚠️ Một lỗi thật còn lại của `deploy.sh`: lượt này **dừng ở bước [6/7]** vì
+`Error response from daemon: Conflict. The container name "/<hash>_kinhlac_frontend" is already
+in use` — xác container đổi tên còn sót từ lần deploy hỏng trước. Bốn container vẫn lên đúng và
+mã mới vẫn ra production, nhưng **bước [7/7] dọn đĩa không chạy**.
+
+### Hai dụng cụ đo đều từng báo XANH GIẢ, và cùng một lý do
+
+Ghi lại vì lỗi này sẽ tái diễn ở bất kỳ chốt nào đo "nhẹ/nhanh" mà quên hỏi "có đúng không":
+
+- `tmp/do-byte-api.mjs` in **"✓ 157 B"** rực xanh trong lúc API trả 502 — trang lỗi thì nhẹ.
+- `tmp/do-trong-luc-build.mjs` in **"hỏng=0"** suốt 30 giây API chết — `fetch` coi 502 là phản
+  hồi hợp lệ, mà 502 lại về rất NHANH nên nó còn kéo trung vị xuống.
+
+Cả hai nay kiểm mã HTTP. **Một chốt báo đạt khi hệ thống đang chết còn tệ hơn không có chốt.**
 
 ## Phép kiểm
 

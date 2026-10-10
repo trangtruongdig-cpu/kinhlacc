@@ -13,10 +13,15 @@ const GOC = process.env.API_GOC || 'https://kinhlac.online/api';
 const GIAY = Number(process.env.GIAY || 180);
 
 const xs = [];
+let so502 = 0;
 for (let i = 0; i < GIAY; i++) {
   const t0 = Date.now();
   try {
-    await fetch(GOC + '/auth/me');
+    const res = await fetch(GOC + '/auth/me');
+    // ⚠️ PHẢI đếm riêng 5xx. Lượt đo 10/10/2026 báo "hỏng=0" trong khi API thật sự CHẾT suốt
+    // 30 giây sau deploy — vì 502 vẫn là một phản hồi hợp lệ với `fetch`, lại còn trả về rất
+    // NHANH, nên nó lọt vào thống kê như một mẫu tốt và kéo trung vị xuống.
+    if (res.status >= 500) so502 += 1;
     xs.push(Date.now() - t0);
   } catch {
     xs.push(-1);
@@ -26,7 +31,9 @@ for (let i = 0; i < GIAY; i++) {
 
 const ok = xs.filter((x) => x >= 0).sort((a, b) => a - b);
 const p = (q) => ok[Math.min(ok.length - 1, Math.floor(ok.length * q))];
-console.log(`n=${xs.length}  hỏng=${xs.filter((x) => x < 0).length}`);
+console.log(
+  `n=${xs.length}  đứt mạng=${xs.filter((x) => x < 0).length}  máy chủ 5xx=${so502}`,
+);
 if (!ok.length) { console.log('Không có mẫu nào thành công.'); process.exit(1); }
 console.log(
   `min=${ok[0]}ms  trung vị=${p(0.5)}ms  p90=${p(0.9)}ms  p99=${p(0.99)}ms  max=${ok[ok.length - 1]}ms`,
