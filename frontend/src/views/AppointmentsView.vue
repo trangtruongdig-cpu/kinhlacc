@@ -112,17 +112,20 @@ onMounted(async () => {
     }
     const updatedSlot = change.slot as AppointmentSlot
 
-    // "Đang BOOKED mà thành OPEN" = vừa có người huỷ ở máy khác. Payload SSE không mang lượt đặt,
-    // nên phải nạp lại lịch sử ngày để dấu "⟲ từng huỷ" hiện đúng. Chỉ tốn 1 request và CHỈ khi
-    // thật sự có huỷ — khác hẳn loadPatients() cũ chạy cho mọi sự kiện.
+    // "Đang BOOKED mà thành OPEN" = ca vừa được NHẢ RA ở máy khác — huỷ vé HOẶC chuyển vé đi.
+    // Payload SSE không mang lượt đặt, nên phải nạp lại lịch sử ngày để dấu "⟲ từng huỷ" /
+    // "⇢ đã chuyển sang…" hiện đúng. Chỉ tốn 1 request và CHỈ khi ca thật sự được nhả —
+    // khác hẳn loadPatients() cũ chạy cho mọi sự kiện.
     const before = (slotsByDate.value[updatedSlot.slotDate] || []).find(
       s => s.id === updatedSlot.id,
     )
-    const vuaHuy = before?.status === 'BOOKED' && updatedSlot.status === 'OPEN'
+    const vuaNhaRa = before?.status === 'BOOKED' && updatedSlot.status === 'OPEN'
 
+    // Sự kiện realtime là trạng thái MỚI NHẤT; lượt tải ngày đang bay mang ảnh chụp cũ hơn nó.
+    huyLuotTaiDangBay()
     patchSlotLocal(updatedSlot)
 
-    if (vuaHuy && updatedSlot.slotDate === selectedDate.value) {
+    if (vuaNhaRa && updatedSlot.slotDate === selectedDate.value) {
       api
         .get<SlotBooking[]>(`/appointment-slots/bookings?date=${selectedDate.value}`)
         .then(rows => { dayBookings.value = rows || [] })
@@ -219,7 +222,58 @@ function selectDay(day: typeof weekDays.value[0]) {
   selectedDate.value = day.date
 }
 
+/**
+ * Số thứ tự lượt tải ngày. Phản hồi của lượt CŨ không bao giờ được ghi đè trạng thái MỚI.
+ *
+ * Vì sao cần: lưới đang tải chỉ MỜ đi (`.slots-grid.is-loading { opacity: .6 }`), nút vẫn bấm
+ * được. Backend đã có lúc trả `/clinic-schedule/effective/...` mất 6,5 giây (đo 10/10/2026, tab
+ * Góp Ý & Lỗi), nên hoàn toàn kịp bấm Chuyển vé trong lúc chờ: vé chuyển xong, ca cũ vừa vá về
+ * trống, rồi `loadDay` cũ trả về và dán đè ẢNH CHỤP LÚC CHƯA CHUYỂN — ca cũ hiện lại "Đã đặt"
+ * dù máy chủ đã đúng. Triệu chứng kinh điển: F5 là hết.
+ */
+let luotTai = 0
+
+/** Gọi TRƯỚC khi vá tại chỗ sau một thao tác ghi: mọi lượt tải đang bay thành vô hiệu. */
+function huyLuotTaiDangBay() {
+  luotTai += 1
+}
+
+/**
+ * Lỗi MẠNG khác hẳn lỗi nghiệp vụ, và với thao tác GHI thì khác biệt đó là chuyện an toàn.
+ *
+ * `fetch` ném TypeError("Failed to fetch") cho mọi kiểu đứt đường, và nó KHÔNG nói được máy chủ
+ * đã nhận lệnh hay chưa. Đo thật 09/10/2026: vé chuyển THÀNH CÔNG (b#86, movedAt 18:21:33), rồi
+ * ba lời gọi kế tiếp chết với `msTroi` = 387 ms. Trong hoàn cảnh ấy câu "Lỗi: Failed to fetch"
+ * đọc ra thành "chuyển không được" và người dùng sẽ chuyển lại lần nữa — trong khi vé đã đi rồi.
+ *
+ * ⚠️ ĐỪNG suy khoảng mất kết nối bằng hiệu của hai mốc: `su_co.xay_ra_luc` là giờ MÁY CHỦ NHẬN
+ * BÁO CÁO, không phải giờ lỗi xảy ra (máy khách gom tín hiệu vào hàng đợi rồi gửi khi có mạng
+ * lại). Một phiên trước đã lấy hiệu đó ra và kết luận nhầm là "mất kết nối 42 phút"; breadcrumbs
+ * cho thấy tab đó chỉ đơn giản không có hoạt động nào sau 18:21:37.
+ */
+function laLoiMang(err: unknown): boolean {
+  const e = err as { name?: string; message?: string } | null
+  const m = String(e?.message || '')
+  return e?.name === 'TypeError' || /failed to fetch|networkerror|load failed/i.test(m)
+}
+
+function baoLoiThaoTac(err: unknown, viec: string) {
+  if (laLoiMang(err)) {
+    alert(
+      `Mất kết nối khi đang ${viec}.\n\n` +
+        'Máy chủ CÓ THỂ đã thực hiện xong — đừng làm lại ngay. ' +
+        'Hãy chờ có mạng rồi tải lại trang (F5) để xem kết quả thật trước khi thử lần nữa.',
+    )
+    return
+  }
+  alert('Lỗi: ' + ((err as { message?: string } | null)?.message || err))
+}
+
+/** Lượt tải ngày gần nhất có thất bại không — lưới đang hiện số CŨ thì phải nói ra. */
+const taiNgayHong = ref(false)
+
 async function loadDay(date: string) {
+  const luot = ++luotTai
   isLoadingDay.value = true
   try {
     const [slots, eff, bookings] = await Promise.all([
@@ -232,14 +286,25 @@ async function loadDay(date: string) {
         .get<SlotBooking[]>(`/appointment-slots/bookings?date=${date}`)
         .catch(() => [] as SlotBooking[])
     ])
+    // Đã có lượt tải mới hơn, hoặc vừa có thao tác ghi vá tại chỗ → bỏ hẳn phản hồi này.
+    if (luot !== luotTai) return
     slotsByDate.value[date] = (slots || []).map(normalizeSlot)
     effectiveSchedule.value = eff
     dayBookings.value = bookings || []
+    taiNgayHong.value = false
+    error.value = null
   } catch (err: any) {
+    if (luot !== luotTai) return
     console.error(err)
-    error.value = 'Lỗi tải ngày: ' + err.message
+    // Lưới KHÔNG bị xoá (xoá đi thì mất luôn phần đang xem), nên nó vẫn hiện số của lần tải
+    // trước — phải gắn cờ để băng cảnh báo nói thẳng rằng đây là số CŨ.
+    taiNgayHong.value = true
+    error.value = laLoiMang(err)
+      ? 'Mất kết nối máy chủ — số đang hiện là bản cũ, không phải số mới nhất.'
+      : 'Lỗi tải ngày: ' + err.message
   } finally {
-    isLoadingDay.value = false
+    // Lượt cũ về muộn không được tắt cờ đang-tải của lượt mới.
+    if (luot === luotTai) isLoadingDay.value = false
   }
 }
 
@@ -410,7 +475,7 @@ async function generateForDate() {
     alert(`Đã sinh ${res.created} ca mới (tổng ${res.total} ca/ngày)`)
     await loadDay(selectedDate.value)
   } catch (err: any) {
-    alert('Lỗi: ' + err.message)
+    baoLoiThaoTac(err, 'sinh ca cho ngày này')
   } finally {
     actionLoading.value = false
     actionType.value = null
@@ -437,11 +502,18 @@ async function generateForWeek() {
     alert(`Đã sinh ${total} ca mới trong tuần`)
     await loadDay(selectedDate.value)
   } catch (err: any) {
-    alert('Lỗi: ' + err.message)
+    baoLoiThaoTac(err, 'sinh ca cho cả tuần')
   } finally {
     actionLoading.value = false
     actionType.value = null
   }
+}
+
+const TEN_VIEC: Record<'close' | 'open' | 'cancel' | 'complete', string> = {
+  close: 'đóng ca',
+  open: 'mở lại ca',
+  cancel: 'huỷ vé',
+  complete: 'chốt ca hoàn thành',
 }
 
 async function runSlotAction(
@@ -461,11 +533,12 @@ async function runSlotAction(
       data: AppointmentSlot
       booking?: SlotBooking
     }>(`/appointment-slots/${slot.id}/${endpoint}`, {})
+    huyLuotTaiDangBay()
     if (res?.booking) dayBookings.value = [...dayBookings.value, res.booking]
     if (res?.data) patchSlotLocal(res.data)
     else await loadDay(selectedDate.value)
   } catch (err: any) {
-    alert('Lỗi: ' + err.message)
+    baoLoiThaoTac(err, TEN_VIEC[type])
   } finally {
     actionLoading.value = false
     actionSlotId.value = null
@@ -551,14 +624,21 @@ async function confirmMove() {
       { targetSlotId: moveTargetId.value },
     )
     closeMoveModal()
-    if (res?.from) patchSlotLocal(res.from)
-    if (res?.to) patchSlotLocal(res.to)
-    // Dấu "⇢ đã chuyển sang…" đọc từ lịch sử lượt đặt → nạp lại lịch sử của ngày đang xem.
-    dayBookings.value = await api
-      .get<SlotBooking[]>(`/appointment-slots/bookings?date=${selectedDate.value}`)
-      .catch(() => dayBookings.value)
+    // Vé đã rời ca cũ trên máy chủ — mọi lượt tải ngày đang bay nay mang ảnh chụp CŨ.
+    huyLuotTaiDangBay()
+    if (res?.from && res?.to) {
+      patchSlotLocal(res.from)
+      patchSlotLocal(res.to)
+      // Dấu "⇢ đã chuyển sang…" đọc từ lịch sử lượt đặt → nạp lại lịch sử của ngày đang xem.
+      dayBookings.value = await api
+        .get<SlotBooking[]>(`/appointment-slots/bookings?date=${selectedDate.value}`)
+        .catch(() => dayBookings.value)
+    } else {
+      // Backend chưa kịp deploy bản trả đủ `from`/`to` → nạp lại cả ngày còn hơn để lưới nói sai.
+      await loadDay(selectedDate.value)
+    }
   } catch (err: any) {
-    alert('Lỗi: ' + err.message)
+    baoLoiThaoTac(err, 'chuyển vé sang ca khác')
     if (moveModal.value) loadMoveSlots(moveDate.value)
   } finally {
     actionLoading.value = false
@@ -607,11 +687,12 @@ async function confirmBook() {
       },
     )
     closeBookModal()
+    huyLuotTaiDangBay()
     // Vá thẳng từ phản hồi (đã có patientId) thay vì tải lại cả ngày.
     if (res?.data) patchSlotLocal(res.data)
     else await loadDay(selectedDate.value)
   } catch (err: any) {
-    alert('Lỗi: ' + err.message)
+    baoLoiThaoTac(err, 'đặt vé')
   } finally {
     actionLoading.value = false
   }
@@ -738,6 +819,15 @@ function goToPatient(id: number) {
         </div>
 
         <!-- Skeleton khi load ngày lần đầu -->
+        <!-- Lưới KHÔNG bị xoá khi tải hỏng, nên nó vẫn hiện số của lần tải trước. Băng này là thứ
+             DUY NHẤT phân biệt "số mới nhất" với "số cũ còn sót trên màn hình". Đặt ngay trên
+             lưới chứ không ở đầu trang: lúc đang xem ca thì đầu trang đã cuộn khuất. -->
+        <div v-if="taiNgayHong && daySlots.length > 0" class="canh-bao-du-lieu-cu">
+          ⚠️ Không tải được ngày này — <strong>số đang hiện là bản cũ</strong>, có thể đã thay đổi
+          trên máy chủ.
+          <button class="btn-link" :disabled="isLoadingDay" @click="loadDay(selectedDate)">Tải lại</button>
+        </div>
+
         <div v-if="isLoadingDay && daySlots.length === 0" class="slots-grid">
           <div v-for="i in 6" :key="'skel-' + i" class="slot-card slot-skeleton">
             <div class="skel-line skel-time"></div>
@@ -1044,6 +1134,11 @@ function goToPatient(id: number) {
 
 .empty { padding: var(--space-6); text-align: center; color: var(--gray-500); }
 .empty-hint { font-size: var(--font-size-sm); margin-top: 4px; }
+.canh-bao-du-lieu-cu {
+  margin: 0 0 12px; padding: 10px 14px; border-radius: 8px;
+  background: #fff8e1; border: 1px solid #f0c36d; color: #6b4e00;
+  font-size: var(--font-size-sm); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
 
 .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); padding: 0 var(--space-4) var(--space-4); }
 .slot-card { padding: var(--space-3); border: 1px solid var(--gray-200); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-2); background: var(--white); }

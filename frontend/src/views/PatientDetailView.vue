@@ -93,15 +93,23 @@ interface AppointmentSlot {
 const slots = ref<AppointmentSlot[]>([])
 const isLoadingSlots = ref(true)
 
+// Phản hồi của lượt nạp CŨ không được ghi đè danh sách MỚI: mở hồ sơ rồi đổi bệnh nhân (hoặc
+// chuyển vé ở tab khác rồi quay lại) trong lúc lời gọi trước còn đang bay thì lượt cũ về SAU sẽ
+// dán đè ảnh chụp cũ — vé đã chuyển hiện lại như chưa chuyển. Backend đã có lúc trả 6,5 giây
+// (đo 10/10/2026), đủ rộng để chuyện này xảy ra thật.
+let luotNapVe = 0
+
 async function loadSlots() {
+  const luot = ++luotNapVe
   isLoadingSlots.value = true
   try {
     const res = await api.get<AppointmentSlot[]>(`/appointment-slots/patient/${patientId.value}`)
+    if (luot !== luotNapVe) return
     slots.value = (res || []).map((s) => ({ ...s, slotTime: (s.slotTime || '').slice(0, 5) }))
   } catch (err: any) {
     console.error('Failed to load slots:', err)
   } finally {
-    isLoadingSlots.value = false
+    if (luot === luotNapVe) isLoadingSlots.value = false
   }
 }
 

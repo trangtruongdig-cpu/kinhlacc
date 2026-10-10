@@ -195,24 +195,58 @@ const pastSlots = computed(() =>
     .sort((a, b) => b.slotDate.localeCompare(a.slotDate) || b.slotTime.localeCompare(a.slotTime))
 )
 
+/**
+ * Số thứ tự lượt nạp. Phản hồi của lượt CŨ không được ghi đè trạng thái MỚI.
+ *
+ * Vì sao cần: nút trên màn hình KHÔNG bị khoá trong lúc đang nạp, mà backend đã có lúc trả một
+ * lời gọi mất 6,5 giây (đo 10/10/2026). Khi đó lượt nạp cũ về SAU khi vé đã chuyển sẽ dán đè
+ * danh sách cũ — vé hiện lại ở ca đã rời đi, dù máy chủ hoàn toàn đúng. F5 là hết, nên rất dễ
+ * bị chẩn đoán nhầm thành lỗi máy chủ.
+ */
+let luotNapVe = 0
+let luotNapCa = 0
+
+/**
+ * Mất mạng GIỮA một thao tác ghi: `fetch` ném trước khi biết máy chủ đã nhận lệnh hay chưa.
+ * Đo thật 09/10/2026: vé chuyển xong trên máy chủ lúc 18:21:33 rồi đường truyền chết 42 phút.
+ * Xui khách "vui lòng thử lại" trong hoàn cảnh đó là xui họ đặt/chuyển thêm một lần nữa.
+ */
+function baoDutMang(viec: string) {
+  showToast(
+    `Mất kết nối khi đang ${viec}. Thao tác có thể ĐÃ xong — hãy tải lại trang để xem lịch thật ` +
+      'trước khi làm lại.',
+    'error',
+  )
+}
+
+/** Gọi TRƯỚC khi vá tại chỗ sau một thao tác ghi: mọi lượt nạp đang bay thành vô hiệu. */
+function huyLuotNapDangBay() {
+  luotNapVe += 1
+  luotNapCa += 1
+}
+
 async function fetchMySlots() {
   if (!authStore.token) return
+  const luot = ++luotNapVe
   isLoadingMy.value = true
   try {
     const res = await fetch(`${API_BASE}/appointment-slots/my?_t=${Date.now()}`, {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
-    if (res.ok) mySlots.value = await res.json()
+    const data = res.ok ? await res.json() : null
+    if (luot !== luotNapVe) return
+    if (data) mySlots.value = data
   } catch (err) {
     console.error('Lỗi khi lấy lịch hẹn:', err)
   } finally {
-    isLoadingMy.value = false
+    if (luot === luotNapVe) isLoadingMy.value = false
   }
 }
 
 // ── Available Slots ──
 async function fetchAvailable(date: string) {
   if (!authStore.token) return
+  const luot = ++luotNapCa
   isLoadingSlots.value = true
   error.value = null
   try {
@@ -224,14 +258,17 @@ async function fetchAvailable(date: string) {
         headers: { Authorization: `Bearer ${authStore.token}` },
       }),
     ])
-    if (scheduleRes.ok) schedule.value = await scheduleRes.json()
-    if (slotsRes.ok) availableSlots.value = await slotsRes.json()
-    else availableSlots.value = []
+    const lichMoi = scheduleRes.ok ? await scheduleRes.json() : null
+    const caMoi = slotsRes.ok ? await slotsRes.json() : []
+    if (luot !== luotNapCa) return
+    if (lichMoi) schedule.value = lichMoi
+    availableSlots.value = caMoi
   } catch (err) {
+    if (luot !== luotNapCa) return
     error.value = 'Không thể tải thông tin lịch. Vui lòng thử lại.'
     console.error(err)
   } finally {
-    isLoadingSlots.value = false
+    if (luot === luotNapCa) isLoadingSlots.value = false
   }
 }
 
@@ -298,6 +335,7 @@ async function confirmBook() {
       showBookModal.value = false
       // Server trả sẵn `data` (ô giờ) + `booking` (lượt đặt) → vá thẳng, khỏi gọi lại API.
       const payload = await res.json().catch(() => null)
+      huyLuotNapDangBay()
       patchAvailable(payload?.data)
       patchMyBooking(payload?.booking)
     } else {
@@ -305,7 +343,7 @@ async function confirmBook() {
       showToast(data?.message || 'Không thể đặt lịch. Vui lòng thử lại.', 'error')
     }
   } catch {
-    showToast('Lỗi kết nối. Vui lòng thử lại.', 'error')
+    baoDutMang('đặt vé')
   } finally {
     isBooking.value = false
   }
@@ -330,6 +368,7 @@ async function confirmCancel() {
       showCancelModal.value = false
       // `data` = lượt đặt đã chuyển sang CANCELLED, `slot` = ô giờ đã trả về trống.
       const payload = await res.json().catch(() => null)
+      huyLuotNapDangBay()
       patchMyBooking(payload?.data)
       patchAvailable(payload?.slot)
     } else {
@@ -337,7 +376,7 @@ async function confirmCancel() {
       showToast(data?.message || 'Không thể huỷ. Vui lòng thử lại.', 'error')
     }
   } catch {
-    showToast('Lỗi kết nối. Vui lòng thử lại.', 'error')
+    baoDutMang('huỷ vé')
   } finally {
     isCancelling.value = false
   }
@@ -399,6 +438,7 @@ async function confirmMove() {
     const payload = await res.json().catch(() => null)
     if (res.ok) {
       // `moved` = vé ở ca cũ (nay "Đã chuyển"), `booking` = vé ở ca mới.
+      huyLuotNapDangBay()
       patchMyBooking(payload?.moved)
       patchMyBooking(payload?.booking)
       patchAvailable(payload?.from)
@@ -410,7 +450,7 @@ async function confirmMove() {
       loadMoveSlots(moveDate.value)
     }
   } catch {
-    showToast('Lỗi kết nối. Vui lòng thử lại.', 'error')
+    baoDutMang('chuyển vé')
   } finally {
     isMoving.value = false
   }
