@@ -836,7 +836,7 @@ const playlists: Playlist[] = [
   { id: 'PLoA7J_Cpj57WPJ9Z8aGnL6-yPUmiw8RDt', title: 'Lý Luận Cơ Bản Của Đông Y', sub: 'Âm Dương · Ngũ Hành · Tạng Phủ · Khí Huyết Tân Dịch' },
   { id: 'PLoA7J_Cpj57U4XrCRbvZOMMOuWUaWQGLa', title: 'Hoàng Đế Nội Kinh', sub: 'Kinh Điển Nền Tảng · Phim Tư Liệu CCTV' },
   { id: 'PLoA7J_Cpj57VDU_vhn0eUYJYSJeC50-uL', title: 'Thương Hàn Luận', sub: 'Lục Kinh Biện Chứng · G.S Hách Vạn Sơn Giảng' },
-  { id: 'PLoA7J_Cpj57UsS4bfR9OuwQY29QDFgSls', title: 'Châm Cứu Đại Thành', sub: 'Đại Thành Châm Cứu · Huyệt Vị & Thủ Pháp' },
+  { id: 'PLoA7J_Cpj57VhRhw5zMLU-xtLSMhZz5uh', title: 'Châm Cứu Đại Thành', sub: 'Đại Thành Châm Cứu · Huyệt Vị & Thủ Pháp' },
 ]
 const ytPlaylist = (id: string) => `https://www.youtube-nocookie.com/embed/videoseries?list=${id}`
 const ytPlaylistPage = (id: string) => `https://www.youtube.com/playlist?list=${id}`
