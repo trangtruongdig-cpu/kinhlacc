@@ -37,6 +37,7 @@ import { ClinicScheduleConfig } from './models/clinic-schedule-config.model';
 import { ClinicDayOverride } from './models/clinic-day-override.model';
 import { AppointmentSlot } from './models/appointment-slot.model';
 import { AppointmentBooking } from './models/appointment-booking.model';
+import { ThaoTacGhi } from './models/thao-tac-ghi.model';
 import { ThietChan } from './models/thiet-chan.model';
 import { MachChan } from './models/mach-chan.model';
 import { ViThuocCongDung } from './models/vi-thuoc-cong-dung.model';
@@ -297,6 +298,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
       ClinicDayOverride,
       AppointmentSlot,
       AppointmentBooking,
+      ThaoTacGhi,
       ThietChan,
       MachChan,
       ViThuocCongDung,

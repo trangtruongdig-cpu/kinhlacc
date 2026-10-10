@@ -45,6 +45,15 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
 
     // Mốc do máy khách khai — xem docMocKhach / spec 10/10/2026.
     `ALTER TABLE su_co ADD COLUMN IF NOT EXISTS xay_ra_luc_khach timestamptz`,
+
+    // Sổ khoá chống lặp cho thao tác ghi — xem models/thao-tac-ghi.model.ts.
+    `CREATE TABLE IF NOT EXISTS thao_tac_ghi (
+       khoa     VARCHAR(64) PRIMARY KEY,
+       route    VARCHAR(80) NOT NULL,
+       ket_qua  JSONB,
+       tao_luc  TIMESTAMPTZ NOT NULL DEFAULT now()
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_thao_tac_ghi_tao_luc ON thao_tac_ghi (tao_luc)`,
     // Cockpit Index — trạng thái index từng URL sitemap (GSC URL Inspection)
     `CREATE TABLE IF NOT EXISTS seo_index_status (
        id              SERIAL PRIMARY KEY,
