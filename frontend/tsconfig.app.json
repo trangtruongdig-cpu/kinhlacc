@@ -1,7 +1,9 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "exclude": ["src/**/__tests__/*"],
+  // Tệp *.test.ts chạy bằng `node --test` (tự bóc kiểu), không qua Vite — để chúng trong
+  // phạm vi type-check của app thì vue-tsc đòi @types/node mà gói này chỉ có gián tiếp.
+  "exclude": ["src/**/__tests__/*", "src/**/*.test.ts"],
   "compilerOptions": {
     // Extra safety for array and object lookups, but may have false positives.
     "noUncheckedIndexedAccess": true,
