@@ -65,9 +65,13 @@ export class AppointmentBooking {
   @Column({ type: 'varchar', length: 10, nullable: true })
   cancelledBy: 'PATIENT' | 'STAFF' | null;
 
-  // TIMESTAMPTZ — khớp với appointment_slots."createdAt"/"updatedAt" (xem
+  // TIMESTAMPTZ — nay đã khớp với appointment_slots."createdAt"/"updatedAt" (xem
   // backend/sql/rebuild-appointment-system.sql). KHÔNG dùng `timestamp` trần: backfill chép
   // thẳng từ cột timestamptz sang sẽ quy đổi theo múi giờ phiên làm việc và lệch 7 tiếng.
+  //
+  // ⚠️ Câu "khớp với appointment_slots" ở trên chỉ ĐÚNG TỪ 10/10/2026. Trước đó bảng kia là
+  // `timestamp` TRẦN, tức hai bảng của cùng một nghiệp vụ nằm ở hai hệ quy chiếu và mọi phép so
+  // trộn chúng lệch 7 giờ. Xem sql/dong-nhat-moc-thoi-gian-appointment-slots.sql.
   @Column({ type: 'timestamptz', nullable: true })
   cancelledAt: Date | null;
 
