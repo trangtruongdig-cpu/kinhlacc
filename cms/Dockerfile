@@ -1,4 +1,5 @@
-# syntax=docker/dockerfile:1.7
+# KHÔNG khai "# syntax=" — dòng đó bắt BuildKit hỏi Docker Hub MỖI lượt build (TLS handshake
+# timeout ở VN là gãy deploy). Frontend dựng sẵn của Docker đã đủ cho --mount=type=cache/secret.
 #
 # CMS (EmDash trên Astro). Khác frontend ở chỗ đây là tiến trình Node SỐNG, không phải
 # file tĩnh: nó render từ Postgres mỗi request, nên không có bước "build ra HTML".

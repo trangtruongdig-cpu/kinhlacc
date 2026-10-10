@@ -1,4 +1,5 @@
-# syntax=docker/dockerfile:1.7
+# KHÔNG khai "# syntax=" — dòng đó bắt BuildKit hỏi Docker Hub MỖI lượt build (TLS handshake
+# timeout ở VN là gãy deploy). Frontend dựng sẵn của Docker đã đủ cho --mount=type=cache/secret.
 
 ############################
 # 1. Build SPA bằng Vite
