@@ -16,6 +16,40 @@ import { BenhDongYExcelService } from '../controllers/benh-dong-y-excel.controll
  *
  * Quan trọng về RIÊNG TƯ: dữ liệu đo là thật nhưng tên/địa chỉ bệnh nhân được ẩn danh ở đây.
  */
+/**
+ * Ca đo cho hai màn DEMO công khai — chỉ các trường chúng THẬT SỰ đọc (xem `RealCase` trong
+ * LandingView và `DemoExam` trong DemoKetQuaDoView). Đây là DANH SÁCH CHO PHÉP: màn demo cần
+ * thêm field thì thêm vào đây, đừng quay lại trả nguyên entity.
+ *
+ * Hai lý do, và lý do thứ hai mới là lý do bắt buộc:
+ *  · NẶNG — đo 10/10/2026: 6 ca = 856 KB thô, trong đó `comparisonRows` 335 KB,
+ *    `legacySyndromes` 173 KB, `currentSyndromes` 156 KB mà KHÔNG màn nào đọc. Chúng do
+ *    `attachFreshAnalysis()` gắn trong bộ nhớ chứ không phải cột DB, nên cắt ở đây là đủ.
+ *  · LỘ DỮ LIỆU BỆNH NHÂN THẬT — bản đầy đủ trả ra `patientId`, `notes` ("Triệu chứng: …"),
+ *    `kinhDo`/`viDo` (toạ độ GPS lúc đo), `tinhThanh`/`phuongXa`, `donThuoc`, trên một endpoint
+ *    @Public không cần đăng nhập. Khâu "ẩn danh" cũ chỉ thay mỗi `fullName`, nên dòng ghi chú
+ *    "KHÔNG lộ tên/địa chỉ" bên dưới trước đây đúng một nửa.
+ */
+function caDoDemoGon(examination: unknown) {
+  const e = (examination ?? {}) as Record<string, unknown>;
+  return {
+    inputData: e.inputData,
+    createdAt: e.createdAt,
+    thoiDiemKham: e.thoiDiemKham,
+    // `syndromes` nguyên bản nặng 156 KB / 6 ca (50 khoá, phần lớn là 36 cột điểm theo tạng
+    // phủ), mà màn demo chỉ đọc đúng `phap_tri` — computed `phapTriList` trong LandingView.
+    // ⚠️ Đo 10/10/2026: khoá `phap_tri` KHÔNG tồn tại trong dữ liệu (khoá thật là tieuket /
+    // chung_trang / trieuchung / benhly / phuyet_chamcuu / bai_thuoc), nên khối "Pháp Trị" ở
+    // landing vốn đã luôn rỗng — cắt xuống một trường GIỮ NGUYÊN hành vi đó, không phải gây ra
+    // nó. Muốn khối ấy hiện thật thì phải chọn khoá có thật rồi khai lại ở cả hai đầu.
+    syndromes: (Array.isArray(e.syndromes) ? e.syndromes : []).map((s) => ({
+      phap_tri: (s as Record<string, unknown>)?.phap_tri,
+    })),
+    excelSyndromes: e.excelSyndromes,
+    modernSyndromes: e.modernSyndromes,
+  };
+}
+
 @Controller('demo')
 export class DemoRouter {
   constructor(
@@ -41,7 +75,23 @@ export class DemoRouter {
       this.cauThanhService.findAll(),
       this.benhExcelService.findAll(),
     ]);
-    return { phacDo, cauThanh, benhList };
+    // benhList: findAll() còn phục vụ app thật nên KHÔNG đụng vào service — cắt ở đây. Hai màn
+    // demo chỉ tra `id → baiThuocList` (xem BenhLite trong LandingView/DemoKetQuaDoView), trong
+    // khi bản đầy đủ nặng 206 KB vì kèm trieuChungList 82 KB, nguyen_nhan_list 48 KB,
+    // phapTriList 27 KB và cả sqlCaseText/excelFormula (đo 10/10/2026). `phapTriList` hiện trên
+    // màn là computed CỤC BỘ, trùng tên chứ không phải field này.
+    return {
+      phacDo,
+      cauThanh,
+      benhList: benhList.map((b) => ({
+        id: b.id,
+        name: b.name,
+        baiThuocList: (b.baiThuocList ?? []).map((t) => ({
+          id: t.id,
+          ten_bai_thuoc: t.ten_bai_thuoc,
+        })),
+      })),
+    };
   }
 
   /** Một ca đo kinh lạc mẫu (bảng chỉ số nhiệt độ + thể bệnh), ẩn danh bệnh nhân. */
@@ -62,7 +112,7 @@ export class DemoRouter {
 
     // Ẩn danh: KHÔNG lộ tên/địa chỉ/điện thoại thật của bệnh nhân.
     const patient = { fullName: 'Bệnh Nhân Mẫu', gender, dateOfBirth };
-    return { patient, examination };
+    return { patient, examination: caDoDemoGon(examination) };
   }
 
   /** Vài ca đo kinh lạc mẫu cho slider (mỗi ca ẩn danh bệnh nhân). */
@@ -87,7 +137,7 @@ export class DemoRouter {
         }
         // Ẩn danh: KHÔNG lộ tên/địa chỉ/điện thoại thật.
         const patient = { fullName: `Bệnh Nhân Mẫu ${i + 1}`, gender, dateOfBirth };
-        return { patient, examination };
+        return { patient, examination: caDoDemoGon(examination) };
       }),
     );
 

@@ -67,7 +67,7 @@ interface DemoExam {
   thoiDiemKham?: string
   excelSyndromes?: SyndromeLite[]
   modernSyndromes?: SyndromeLite[]
-  syndromes?: { syndrome_name?: string; phap_tri?: string }[]
+  syndromes?: { phap_tri?: string }[]
 }
 interface DemoPatient {
   fullName?: string

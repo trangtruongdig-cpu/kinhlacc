@@ -26,26 +26,20 @@ export class PhacDoDieuTriService {
         order: { idPhacDo: 'ASC' },
       });
     }
+    // Bản slim chỉ phục vụ /demo/chan-doan-ref (call site DUY NHẤT), và hai màn demo đọc đúng
+    // ten_huyet + ma_huyet của huyệt. Đo 10/10/2026 trên site thật: nhánh huyetVi chiếm 265 KB
+    // trong 426 KB của phacDo vì còn kéo vi_tri_giai_phau / tac_dung / id_tu_dien và cả quan hệ
+    // kinhMach — KHÔNG màn nào đọc. Thêm field cho màn demo thì thêm lại ở đây, đừng bỏ `slim`.
     return this.repo.find({
-      relations: { benh: true, huyetVi: { kinhMach: true } },
+      relations: { benh: true, huyetVi: true },
       select: {
         idPhacDo: true,
         idBenh: true,
         idHuyet: true,
         phuong_phap_tac_dong: true,
-        ghi_chu_ky_thuat: true,
         y_nghia_huyet: true,
         benh: { id: true, chung_trang: true },
-        huyetVi: {
-          idHuyet: true,
-          ten_huyet: true,
-          ma_huyet: true,
-          vi_tri_giai_phau: true,
-          tac_dung: true,
-          id_tu_dien: true,
-          // KinhMach dùng khoá chính `idKinhMach` (không phải `id`) — select sai tên là lỗi 500.
-          kinhMach: { idKinhMach: true, ten_kinh_mach: true, ten_viet_tat: true },
-        },
+        huyetVi: { idHuyet: true, ten_huyet: true, ma_huyet: true },
       },
       order: { idPhacDo: 'ASC' },
     });

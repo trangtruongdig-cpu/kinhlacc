@@ -259,7 +259,7 @@ interface RealCase {
     inputData: InputData
     excelSyndromes?: ExamSyndrome[]
     modernSyndromes?: ExamSyndrome[]
-    syndromes?: { tieuket?: string; chung_trang?: string; phap_tri?: string }[]
+    syndromes?: { phap_tri?: string }[]
   }
 }
 // 6 ca đo THẬT (ẩn danh) GIÀU THỂ BỆNH NHẤT — /demo/ket-qua-do-list xếp hạng theo
