@@ -64,8 +64,9 @@ export class AppointmentSlotsRouter {
   async cancelMy(
     @Param('id', ParseIntPipe) id: number,
     @Request() req: any,
+    @Headers('idempotency-key') khoa?: string,
   ) {
-    const { slot, booking } = await this.service.cancelMy(id, req.user.id);
+    const { slot, booking } = await this.service.cancelMy(id, req.user.id, khoa);
     return { success: true, data: booking, slot };
   }
 
@@ -76,11 +77,13 @@ export class AppointmentSlotsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Request() req: any,
     @Body(new ZodPipe(chuyenVeSchema)) body: { targetSlotId: number },
+    @Headers('idempotency-key') khoa?: string,
   ) {
     const { from, to, booking, moved } = await this.service.moveMy(
       id,
       req.user.id,
       body.targetSlotId,
+      khoa,
     );
     // Khách chỉ nhận bản CÔNG KHAI của hai ca (không kèm patientId/lý do của ai khác).
     return {
@@ -242,10 +245,13 @@ export class AppointmentSlotsRouter {
 
   @UseGuards(NhanVienGuard)
   @Put(':id/cancel')
-  async cancel(@Param('id', ParseIntPipe) id: number) {
+  async cancel(
+    @Param('id', ParseIntPipe) id: number,
+    @Headers('idempotency-key') khoa?: string,
+  ) {
     // `data` là Ô GIỜ sau khi huỷ (đã trả về trống) — bảng ngày của nhân viên vá thẳng từ đây,
     // khỏi gọi lại cả ngày. `booking` là lượt đặt vừa bị huỷ, giữ lại cho lịch sử.
-    const { slot, booking } = await this.service.cancel(id, 'STAFF');
+    const { slot, booking } = await this.service.cancel(id, 'STAFF', khoa);
     return { success: true, data: slot, booking };
   }
 
@@ -255,10 +261,13 @@ export class AppointmentSlotsRouter {
   async move(
     @Param('id', ParseIntPipe) id: number,
     @Body(new ZodPipe(chuyenVeSchema)) body: { targetSlotId: number },
+    @Headers('idempotency-key') khoa?: string,
   ) {
     const { from, to, booking } = await this.service.move(
       id,
       body.targetSlotId,
+      'STAFF',
+      khoa,
     );
     return { success: true, from, to, booking };
   }

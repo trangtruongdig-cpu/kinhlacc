@@ -486,6 +486,7 @@ export class AppointmentSlotsService {
   async cancel(
     id: number,
     by: 'PATIENT' | 'STAFF' = 'STAFF',
+    khoa?: string,
   ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView | null }> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -494,6 +495,17 @@ export class AppointmentSlotsService {
     let savedSlot: AppointmentSlot;
     let savedBooking: AppointmentBooking | null = null;
     try {
+      if (khoa) {
+        try {
+          await queryRunner.manager.insert(ThaoTacGhi, { khoa, route: 'cancel' });
+        } catch (e) {
+          // Bọc RIÊNG: 23505 ở đây là "bấm lại", còn 23505 của ux_appt_booking_active là
+          // "ca đã có người khác đặt" — hai nghĩa ngược hẳn nhau.
+          if (!laTrungKhoa(e)) throw e;
+          throw new PhatLaiThaoTac(khoa);
+        }
+      }
+
       const slot = await queryRunner.manager.findOne(AppointmentSlot, {
         where: { id },
         lock: { mode: 'pessimistic_write' },
@@ -532,9 +544,29 @@ export class AppointmentSlotsService {
       slot.reminded15m = false;
       savedSlot = await queryRunner.manager.save(slot);
 
+      if (khoa) {
+        await queryRunner.manager.update(
+          ThaoTacGhi,
+          { khoa },
+          {
+            ketQua: {
+              slot: savedSlot,
+              booking: savedBooking ? toBookingView(savedBooking) : null,
+            },
+          },
+        );
+      }
+
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      if (err instanceof PhatLaiThaoTac) {
+        const cu = await this.thaoTacRepo.findOneBy({ khoa: err.khoa });
+        return cu?.ketQua as {
+          slot: AppointmentSlot;
+          booking: PatientBookingView | null;
+        };
+      }
       throw err;
     } finally {
       await queryRunner.release();
@@ -565,13 +597,14 @@ export class AppointmentSlotsService {
   async cancelMy(
     id: number,
     patientId: number,
+    khoa?: string,
   ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
     // Kiểm quyền trên LƯỢT ĐẶT còn hiệu lực (nguồn sự thật), không dựa vào ô giờ.
     const booking = await this.activeBooking(this.slotRepo.manager, id);
     if (!booking || booking.patientId !== patientId) {
       throw new ForbiddenException('Bạn không có quyền thao tác trên vé này');
     }
-    const res = await this.cancel(id, 'PATIENT');
+    const res = await this.cancel(id, 'PATIENT', khoa);
     if (!res.booking) {
       throw new NotFoundException('Không tìm thấy lượt đặt để huỷ');
     }
@@ -592,6 +625,7 @@ export class AppointmentSlotsService {
     id: number,
     targetId: number,
     by: 'PATIENT' | 'STAFF' = 'STAFF',
+    khoa?: string,
   ): Promise<{
     from: AppointmentSlot;
     to: AppointmentSlot;
@@ -609,6 +643,17 @@ export class AppointmentSlotsService {
     let newBooking: AppointmentBooking;
     try {
       const m = queryRunner.manager;
+      if (khoa) {
+        try {
+          await m.insert(ThaoTacGhi, { khoa, route: 'move' });
+        } catch (e) {
+          // Bọc RIÊNG: 23505 ở đây là "bấm lại", còn 23505 của ux_appt_booking_active là
+          // "ca đã có người khác đặt" — hai nghĩa ngược hẳn nhau.
+          if (!laTrungKhoa(e)) throw e;
+          throw new PhatLaiThaoTac(khoa);
+        }
+      }
+
       const locked: Record<number, AppointmentSlot> = {};
       for (const sid of [id, targetId].sort((a, b) => a - b)) {
         const s = await m.findOne(AppointmentSlot, {
@@ -673,9 +718,30 @@ export class AppointmentSlotsService {
       from.reminded15m = false;
       savedFrom = await m.save(from);
 
+      if (khoa) {
+        await m.update(
+          ThaoTacGhi,
+          { khoa },
+          {
+            ketQua: {
+              from: savedFrom,
+              to: savedTo,
+              booking: toBookingView(newBooking),
+              moved: toBookingView(oldBooking),
+            },
+          },
+        );
+      }
+
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      // PHẢI đứng TRƯỚC nhánh 23505 bên dưới, không thì câu "Ca mới vừa có người khác đặt mất"
+      // nuốt mất lần phát lại và người dùng tưởng chuyển hỏng.
+      if (err instanceof PhatLaiThaoTac) {
+        const cu = await this.thaoTacRepo.findOneBy({ khoa: err.khoa });
+        return cu?.ketQua as Awaited<ReturnType<AppointmentSlotsService['move']>>;
+      }
       if ((err as { code?: string }).code === '23505') {
         throw new ConflictException(
           'Ca mới vừa có người khác đặt mất, mời chọn ca khác',
@@ -714,12 +780,12 @@ export class AppointmentSlotsService {
   }
 
   /** Khách tự chuyển vé CỦA MÌNH — cùng luật với nhân viên, kiểm chủ vé trước. */
-  async moveMy(id: number, patientId: number, targetId: number) {
+  async moveMy(id: number, patientId: number, targetId: number, khoa?: string) {
     const booking = await this.activeBooking(this.slotRepo.manager, id);
     if (!booking || booking.patientId !== patientId) {
       throw new ForbiddenException('Bạn không có quyền thao tác trên vé này');
     }
-    return this.move(id, targetId, 'PATIENT');
+    return this.move(id, targetId, 'PATIENT', khoa);
   }
 
   async complete(id: number): Promise<AppointmentSlot> {

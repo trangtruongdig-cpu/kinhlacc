@@ -153,3 +153,51 @@ describe('book — bấm lại khi mạng chập KHÔNG được đặt hai lầ
     expect(kq.slot.status).toBe('BOOKED');
   });
 });
+
+describe('move — bấm lại KHÔNG được chuyển vé đi hai chặng', () => {
+  const haiCa = () => [
+    caGia({ id: 486, slotTime: '09:30:00', status: 'BOOKED', patientId: 5639 }),
+    caGia({ id: 490, slotTime: '14:45:00', status: 'OPEN' }),
+  ];
+
+  it('cùng khoá gọi hai lần → vé chỉ đi MỘT chặng, lần hai trả lại kết quả cũ', async () => {
+    const { service, soKhoa } = dungService(haiCa(), veGia({ slotId: 486 }));
+    const lan1 = await service.move(486, 490, 'STAFF', 'k-move-1');
+    const lan2 = await service.move(486, 490, 'STAFF', 'k-move-1');
+
+    expect(soKhoa.size).toBe(1);
+    expect(lan2.booking.id).toBe(lan1.booking.id);
+  });
+
+  it('lần bấm lại KHÔNG phát SSE và KHÔNG báo cho khách lần hai', async () => {
+    const { service, suKien } = dungService(haiCa(), veGia({ slotId: 486 }));
+    await service.move(486, 490, 'STAFF', 'k-move-1');
+    const sau1 = suKien.length;
+    await service.move(486, 490, 'STAFF', 'k-move-1');
+
+    expect(suKien.length).toBe(sau1);
+  });
+
+  it('KHÔNG có khoá thì chuyển bình thường — máy khách bản cũ không gãy', async () => {
+    const { service, soKhoa } = dungService(haiCa(), veGia({ slotId: 486 }));
+    const kq = await service.move(486, 490);
+
+    expect(soKhoa.size).toBe(0);
+    expect(kq.from.status).toBe('OPEN');
+    expect(kq.to.status).toBe('BOOKED');
+  });
+});
+
+describe('cancel — bấm lại không được huỷ nhầm vé khác', () => {
+  it('cùng khoá gọi hai lần → chỉ huỷ một lần, lần hai trả kết quả cũ', async () => {
+    const { service, soKhoa } = dungService(
+      [caGia({ id: 10, status: 'BOOKED', patientId: 5639 })],
+      veGia({ slotId: 10 }),
+    );
+    const lan1 = await service.cancel(10, 'STAFF', 'k-huy-1');
+    const lan2 = await service.cancel(10, 'STAFF', 'k-huy-1');
+
+    expect(soKhoa.size).toBe(1);
+    expect(lan2).toEqual(lan1);
+  });
+});
