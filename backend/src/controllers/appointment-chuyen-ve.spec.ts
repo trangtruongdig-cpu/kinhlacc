@@ -102,6 +102,8 @@ function dungService(caNguon: AppointmentSlot, caDich: AppointmentSlot, ve: Appo
     { emitEvent: jest.fn((e: any) => suKien.push(e)) } as any,
     {} as any,
     { createQueryRunner: () => queryRunner } as any,
+    // Sổ khoá chống lặp — các phép kiểm ở đây không truyền khoá nên không bao giờ chạm tới nó.
+    { findOneBy: jest.fn() } as any,
   );
   return { service, queryRunner, suKien, daLuu };
 }

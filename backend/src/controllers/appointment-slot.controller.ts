@@ -23,6 +23,8 @@ import { ClinicScheduleService } from './clinic-schedule.controller';
 import { buildIcsCalendar, IcsEvent, IcsAlarm } from './ics.util';
 import { randomBytes, timingSafeEqual } from 'crypto';
 import { caDaQuaGio, lyDoKhongChuyenDuoc } from '../utils/ve-da-qua.util';
+import { ThaoTacGhi } from '../models/thao-tac-ghi.model';
+import { PhatLaiThaoTac, laTrungKhoa } from '../utils/thao-tac-ghi.util';
 
 /**
  * So khớp khoá theo thời gian HẰNG ĐỊNH.
@@ -133,6 +135,9 @@ export class AppointmentSlotsService {
     private readonly sseService: SseService,
     private readonly clinicScheduleService: ClinicScheduleService,
     private readonly dataSource: DataSource,
+    // Đặt CUỐI có chủ ý: chèn vào giữa là xô lệch mọi lời gọi theo vị trí trong phép kiểm.
+    @InjectRepository(ThaoTacGhi)
+    private readonly thaoTacRepo: Repository<ThaoTacGhi>,
   ) {}
 
   async findByDate(date: string): Promise<AppointmentSlot[]> {
@@ -338,6 +343,7 @@ export class AppointmentSlotsService {
   async book(
     id: number,
     dto: BookSlotDto,
+    khoa?: string,
   ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
     if (!dto.patientId) {
       throw new BadRequestException('Thiếu patientId');
@@ -352,6 +358,19 @@ export class AppointmentSlotsService {
     let savedSlot: AppointmentSlot;
     let savedBooking: AppointmentBooking;
     try {
+      // Khoá chống lặp PHẢI chèn TRƯỚC khi làm việc: lần gửi thứ hai tới lúc lần một chưa
+      // commit sẽ bị CHẶN CHỜ trên khoá chính, đúng hành vi muốn có.
+      if (khoa) {
+        try {
+          await queryRunner.manager.insert(ThaoTacGhi, { khoa, route: 'book' });
+        } catch (e) {
+          // Bọc RIÊNG quanh lệnh này: ux_appt_booking_active cũng ném 23505 ở cùng giao dịch
+          // nhưng nghĩa ngược hẳn ("ca đã có người khác đặt").
+          if (!laTrungKhoa(e)) throw e;
+          throw new PhatLaiThaoTac(khoa);
+        }
+      }
+
       // Dùng pessimistic_write để lock dòng vé (Chống Race Condition - Trùng vé)
       const slot = await queryRunner.manager.findOne(AppointmentSlot, {
         where: { id },
@@ -405,9 +424,23 @@ export class AppointmentSlotsService {
       });
       savedBooking = await queryRunner.manager.save(booking);
 
+      if (khoa) {
+        await queryRunner.manager.update(
+          ThaoTacGhi,
+          { khoa },
+          { ketQua: { slot: savedSlot, booking: toBookingView(savedBooking) } },
+        );
+      }
+
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      if (err instanceof PhatLaiThaoTac) {
+        // Lần BẤM LẠI: trả lại y hệt kết quả cũ. Khối phát SSE nằm SAU `finally`, nên `return`
+        // ở đây bỏ qua nó — không ai nhận thông báo hai lần cho một việc.
+        const cu = await this.thaoTacRepo.findOneBy({ khoa: err.khoa });
+        return cu?.ketQua as { slot: AppointmentSlot; booking: PatientBookingView };
+      }
       if ((err as { code?: string }).code === '23505') {
         throw new ConflictException(
           'Ca vừa có người khác đặt mất, mời chọn ca khác',
@@ -776,8 +809,9 @@ export class AppointmentSlotsService {
     id: number,
     patientId: number,
     dto: BookSlotDto,
+    khoa?: string,
   ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
-    return this.book(id, { ...dto, patientId });
+    return this.book(id, { ...dto, patientId }, khoa);
   }
 
   async summaryByDate(

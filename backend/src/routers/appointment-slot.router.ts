@@ -12,6 +12,7 @@ import {
   Request,
   Res,
   BadRequestException,
+  Headers,
 } from '@nestjs/common';
 import { AppointmentSlotsService } from '../controllers/appointment-slot.controller';
 import { toPublicSlot } from '../controllers/sse.service';
@@ -50,10 +51,11 @@ export class AppointmentSlotsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Request() req: any,
     @Body() dto: BookSlotDto,
+    @Headers('idempotency-key') khoa?: string,
   ) {
     // `data` = ô giờ (để vá lưới giờ), `booking` = lượt đặt vừa tạo (để vá "Lịch của tôi").
     // Trả đủ ở đây thì máy khách khỏi gọi lại 2 API sau mỗi lần đặt.
-    const { slot, booking } = await this.service.bookMy(id, req.user.id, dto);
+    const { slot, booking } = await this.service.bookMy(id, req.user.id, dto, khoa);
     return { success: true, data: slot, booking };
   }
 
@@ -232,8 +234,9 @@ export class AppointmentSlotsRouter {
   async book(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: BookSlotDto,
+    @Headers('idempotency-key') khoa?: string,
   ) {
-    const { slot } = await this.service.book(id, dto);
+    const { slot } = await this.service.book(id, dto, khoa);
     return { success: true, data: slot };
   }
 
