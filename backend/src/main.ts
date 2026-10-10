@@ -75,7 +75,10 @@ async function bootstrap() {
       }
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    // ⚠️ 'Idempotency-Key' phải có mặt, nếu không MÁY DEV gãy mọi thao tác ghi còn PRODUCTION
+    // vẫn chạy — ở production frontend và API cùng origin (nginx) nên trình duyệt không hỏi
+    // preflight, còn máy dev thì localhost:5173 → localhost:3001 là khác origin.
+    allowedHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key'],
     credentials: true,
     optionsSuccessStatus: 204,
   };
