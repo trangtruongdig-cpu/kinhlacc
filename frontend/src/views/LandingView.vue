@@ -173,8 +173,10 @@ function closeHuThucDetail() {
 // (BaiThuocAnalysis): Tứ Khí + 3 radar + bảng Quân–Thần–Tá–Sứ — chỉ cần truyền nguyên bài thuốc.
 const formulaLoading = ref(true)
 const demoFormula = ref<any>(null)
+// Mốc để biết khối demo (#measure) sắp vào khung nhìn — xem onMounted bên dưới.
+const khoiDemo = ref<HTMLElement | null>(null)
 
-onMounted(() => {
+function taiDuLieuDemo() {
   // 4 khối demo ĐỘC LẬP nhau (kết quả đo, dữ liệu tham chiếu, bài thuốc demo) — bắn cùng lúc, KHÔNG
   // gộp Promise.all() giữa ket-qua-do-list và chan-doan-ref nữa: chan-doan-ref đo được ~17,5s (bảng
   // benh_dong_y_excel kéo nguyên entity BaiThuoc cho toàn bộ 51 thể — xem comment findAll() trong
@@ -218,6 +220,28 @@ onMounted(() => {
       formulaLoading.value = false
     }
   })()
+}
+
+// Ba khối demo nằm ở section #measure (DƯỚI màn đầu) nhưng kéo về ~1,66 MB JSON và hai lời gọi
+// chậm ~1 giây. Tải ngay lúc mở trang là giành băng thông + luồng chính với đúng phần người đọc
+// ĐANG nhìn (hero/dials), nên hero hiện ra rồi mà trang vẫn như đang quay. Chỉ tải khi #measure
+// sắp tới (600px trước), và chỉ MỘT lần. Trình duyệt không có IntersectionObserver → tải ngay
+// như cũ, không mất nội dung.
+onMounted(() => {
+  const moc = khoiDemo.value
+  if (!moc || typeof IntersectionObserver === 'undefined') {
+    taiDuLieuDemo()
+    return
+  }
+  const quanSat = new IntersectionObserver(
+    (muc) => {
+      if (!muc.some((m) => m.isIntersecting)) return
+      quanSat.disconnect()
+      taiDuLieuDemo()
+    },
+    { rootMargin: '600px' },
+  )
+  quanSat.observe(moc)
 })
 
 // ── "Nhá hàng" kết quả đo kinh lạc — XOAY QUA NHIỀU CA THẬT (đã ẩn danh) ──
@@ -1025,7 +1049,7 @@ const faqs: { q: string; a: string }[] = [
     </section>
 
     <!-- ============ Kết quả đo kinh lạc — ĐỈNH "BIG DATA" (xoay nhiều ca thật) ============ -->
-    <section class="lp-measure" id="measure">
+    <section ref="khoiDemo" class="lp-measure" id="measure">
       <div class="lp-section-head">
         <span class="lp-eyebrow">Đo Kinh Lạc · Big Data</span>
         <h2 class="lp-h2">Đo Nhiệt Độ Kinh Lạc, Cơ Thể Tự Kể Bạn Nghe Về Bệnh Của Mình.</h2>

@@ -21,6 +21,15 @@ export default defineConfig(({ command }) => ({
       includeAssets: ['favicon.ico', 'favicon.svg', 'pwa-icon-512.png'],
       workbox: {
         maximumFileSizeToCacheInBytes: 5000000, // 5 MB để cho phép cache các file JS data lớn như benh.js và acupoints.js
+        // ⚠️ Precache mặc định nuốt cả public/: đo trên site thật 03/10 → 199 tệp / 3,9 MB, service
+        // worker kéo HẾT ngay sau `load` của LẦN GHÉ ĐẦU, tức giành băng thông với chính trang
+        // người ta đang mở. Hai nhóm nặng nhất KHÔNG đáng precache cho khách vãng lai:
+        //   · kinhmach3d/** = 1,87 MB (acupoints.js, benh.js, three.min.js…) — chỉ trang Đồ Hình 3D
+        //     cần, phần lớn người đọc không bao giờ mở;
+        //   · pwa-icon-*.png = ~0,9 MB cho 11 cỡ, mà trình duyệt chỉ lấy đúng một cỡ.
+        // Bỏ khỏi precache KHÔNG làm hỏng gì lúc online (nginx vẫn phục vụ + đệm); cái mất là
+        // offline cho trang 3D. Đổi ý thì xoá dòng globIgnores là về như cũ.
+        globIgnores: ['**/kinhmach3d/**', '**/pwa-icon-*.png'],
         // ⚠️ KHÔNG được bỏ danh sách này. Service worker mặc định trả index.html cho MỌI lần
         // điều hướng trong scope '/'. Sinh ra sw.js chỉ có đúng một dòng:
         //   registerRoute(new NavigationRoute(createHandlerBoundToURL("index.html")))
