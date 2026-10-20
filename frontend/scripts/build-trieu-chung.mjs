@@ -6,9 +6,8 @@
 //
 // Mỗi trang triệu chứng hiện: tên + nhóm + danh sách pháp trị có triệu chứng này (link tới
 // /phap-tri/<slug>/) + bài thuốc chủ phương của mỗi pháp trị (link /bai-thuoc/).
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { writeFileSync, mkdirSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
-import { datMetaSeo, setJsonLd } from './seo-vo-spa.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
@@ -30,7 +29,7 @@ try {
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch {}
 
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
-import { tieuDeSeo, SITE, OG_IMAGE } from './seo-html.mjs'
+import { tieuDeSeo, SITE, OG_IMAGE, head, topbar, footer, disclaimer, ld } from './seo-html.mjs'
 import { dungMucLuc } from './muc-luc.mjs'
 
 const ghiDeSEO = await napGhiDe()
@@ -56,9 +55,6 @@ const escText = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt
 
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
-const indexPath = resolve(distDir, 'index.html')
-if (!existsSync(indexPath)) { console.error('✗ Chưa có dist/index.html — chạy vite build trước.'); process.exit(1) }
-const baseHtml = readFileSync(indexPath, 'utf8')
 
 // Tên nhóm triệu chứng hiện thị (slug → label).
 const TEN_NHOM = {
@@ -197,9 +193,13 @@ function stub(tc, phapTris, baiThuocById) {
         ],
       },
     ]
-    let html = datMetaSeo(baseHtml, seo, url)
-    html = setJsonLd(html, jsonLd)
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(tc, pts, baiThuocById)}</div>`)
+    const html = head({
+      title: seo.title, description: seo.description, canonical: seo.canonical,
+      jsonLds: jsonLd.map(ld), ogImage: seo.ogImage, index, noindexVanFollow: true,
+    }) + `<body>${topbar}
+<main class="bl-main"><article class="bl-article dl-article"><div class="bl-body">${stub(tc, pts, baiThuocById)}</div>
+  ${disclaimer({})}
+</article></main>${footer}</body></html>`
 
     const outDir = join(distDir, 'trieu-chung', slug)
     mkdirSync(outDir, { recursive: true })

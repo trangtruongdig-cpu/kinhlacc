@@ -513,11 +513,29 @@ CSDL, trong khi route đó đơn giản là không còn tồn tại.
 
 | Kiểu | Đường | Sinh bởi | Có mount Vue? |
 |---|---|---|---|
-| Độc lập | `/huyet/` `/kinh/` `/benh-hoc/` `/cham-cuu-tri-benh/` `/nguon/` | `build-dict`, `build-nguon` | **Không** |
+| Độc lập | `/huyet/` `/kinh/` `/benh-hoc/` `/cham-cuu-tri-benh/` `/nguon/` `/phap-tri/` `/trieu-chung/` | `build-dict`, `build-nguon`, `build-phap-tri`, `build-trieu-chung` | **Không** |
 | Vỏ SPA | `/bai-thuoc/` `/duoc-lieu/` | `build-phuong`, `build-duoc-lieu` | Có (`<div id="app">`) |
 
 Trang độc lập không cần route Vue. Trang vỏ SPA thì **bắt buộc** phải có route Vue khớp,
 không thì tải trang ra nội dung tĩnh còn bấm link ra 404.
+
+⚠️ **Vỏ SPA KHÔNG có route Vue thì hậu quả nặng hơn "404" — nó ra TRANG CHỦ, mã 200.**
+Catch-all `/:pathMatch(.*)*` (`router/index.ts`) `redirect` về `landing`, nên Vue mount xong
+là xoá sạch nội dung tĩnh trong `#app` rồi vẽ trang chủ lên. Đo 20/10/2026: `build-phap-tri`
+và `build-trieu-chung` chép lối `build-duoc-lieu` (vỏ SPA) nhưng `/duoc-lieu/` CÓ route còn
+hai nhóm này thì KHÔNG — **967 trang** (389 pháp trị + 578 triệu chứng) hiện ra trang chủ với
+mọi người dùng có JS, suốt từ lúc nhóm trang ra đời. Đã chuyển cả hai sang trang độc lập
+(`head()`/`topbar`/`footer` của `seo-html.mjs`, thêm vào `navigateFallbackDenylist`).
+
+Phép dò: trang nào trong sitemap còn `type="module"` thì nhóm đường của nó **phải** có route
+khớp trong `router/index.ts`. `curl` không bao giờ bắt được — HTTP 200, HTML đúng, chỉ người
+thật mới thấy trang chủ. Cùng họ với bẫy service worker bên dưới, và phân định bằng cùng một
+cách: mở bằng trình duyệt thật, không mở bằng `curl`.
+
+⚠️ `head()` của `seo-html.mjs` mặc định ghi `noindex, nofollow`. Trang mồ côi của hai nhóm này
+(7 pháp trị + 478 triệu chứng) sống chỉ để **truyền liên kết nội bộ**, nên chúng truyền
+`noindexVanFollow: true` để giữ `noindex, follow` như bản vỏ SPA cũ. Bỏ cờ đó đi là lặng lẽ
+cắt đúng công dụng duy nhất của 485 trang.
 
 ⚠️ **MÃ WHO của trang huyệt lấy từ `p.code` của ĐƯỜNG KINH, không từ `IDX.points[].code`.**
 `acu-index.js` có HAI nguồn mã và chúng lệch nhau: `codeToId` đủ 361 mã và đúng, còn

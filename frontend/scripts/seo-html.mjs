@@ -70,6 +70,10 @@ export function head({
   jsonLds = [],
   ogType = 'article',
   index = true,
+  // Trang noindex vẫn TRUYỀN liên kết. Nhóm trang mồ côi (/phap-tri/, /trieu-chung/)
+  // sống để liên kết nội bộ chạy, mở index dần khi thêm cạnh — cắt follow là cắt đúng
+  // công dụng duy nhất của chúng. Mặc định false: giữ nguyên hành vi các trang cũ.
+  noindexVanFollow = false,
   ogImage = OG_IMAGE,
   extraHead = '',
 }) {
@@ -87,7 +91,7 @@ export function head({
   <link rel="alternate icon" href="/favicon.ico?v=2">
   <title>${escText(title)}</title>
   <meta name="description" content="${escAttr(description)}">
-  <meta name="robots" content="${index === false ? 'noindex, nofollow' : 'index, follow'}">
+  <meta name="robots" content="${index === false ? (noindexVanFollow ? 'noindex, follow' : 'noindex, nofollow') : 'index, follow'}">
   <link rel="canonical" href="${escAttr(canonical)}">
   <meta property="og:type" content="${ogType}">
   <meta property="og:site_name" content="${SITE}">

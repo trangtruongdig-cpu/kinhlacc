@@ -5,11 +5,17 @@
 // riêng. Luật index: trang vào sitemap khi có ≥ 1 cạnh (triệu chứng HOẶC bài thuốc). Trang không
 // đạt vẫn sống cho liên kết nội bộ, chỉ không mời bot vào.
 //
-// Mirror build-duoc-lieu.mjs: chèn title/meta/canonical/OG/JSON-LD + khối nội dung tĩnh vào
-// dist/index.html; Vue mount sẽ thay #app → user thấy SPA, bot thấy nội dung.
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+// Trang TĨNH ĐỘC LẬP (như /huyet/, /nguon/): KHÔNG mount Vue.
+// ⚠️ Trước 20/10/2026 builder này chèn nội dung vào vỏ SPA dist/index.html theo lối
+// build-duoc-lieu. Nhưng /duoc-lieu/ CÓ route Vue còn /phap-tri/ thì KHÔNG — nên Vue mount
+// xong rơi vào catch-all `/:pathMatch(.*)*` → redirect về trang chủ, xoá sạch nội dung tĩnh.
+// Cả 389 trang hiện ra TRANG CHỦ với mọi người dùng có JS, mà HTTP vẫn 200 nên không phép
+// đo nào từ máy chủ bắt được. Thêm route Vue thì phải viết component cho thứ vốn là văn bản
+// tĩnh — nên đi lối ngược: dựng trang độc lập bằng head()/topbar/footer dùng chung.
+// ⚠️ Nhóm đường này PHẢI nằm trong navigateFallbackDenylist (vite.config.ts), không thì
+// service worker vẫn trả app shell cho người đã cài PWA — cùng hậu quả, cùng kiểu im lặng.
+import { writeFileSync, mkdirSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
-import { datMetaSeo, setJsonLd } from './seo-vo-spa.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
@@ -31,7 +37,7 @@ try {
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch {}
 
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
-import { tieuDeSeo, SITE, OG_IMAGE } from './seo-html.mjs'
+import { tieuDeSeo, SITE, OG_IMAGE, head, topbar, footer, disclaimer, ld } from './seo-html.mjs'
 import { dungMucLuc } from './muc-luc.mjs'
 
 const ghiDeSEO = await napGhiDe()
@@ -80,9 +86,6 @@ function paras(text) {
 
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
-const indexPath = resolve(distDir, 'index.html')
-if (!existsSync(indexPath)) { console.error('✗ Chưa có dist/index.html — chạy vite build trước.'); process.exit(1) }
-const baseHtml = readFileSync(indexPath, 'utf8')
 
 function groupBy(rows, key) {
   const m = new Map()
@@ -254,10 +257,13 @@ function stub(pt, rel, baiThuoc) {
         ],
       },
     ]
-    let html = datMetaSeo(baseHtml, seo, url)
-    html = setJsonLd(html, jsonLd)
-
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(pt, rel, bt)}</div>`)
+    const html = head({
+      title: seo.title, description: seo.description, canonical: seo.canonical,
+      jsonLds: jsonLd.map(ld), ogImage: seo.ogImage, index, noindexVanFollow: true,
+    }) + `<body>${topbar}
+<main class="bl-main"><article class="bl-article dl-article"><div class="bl-body">${stub(pt, rel, bt)}</div>
+  ${disclaimer({})}
+</article></main>${footer}</body></html>`
 
     const outDir = join(distDir, 'phap-tri', slug)
     mkdirSync(outDir, { recursive: true })

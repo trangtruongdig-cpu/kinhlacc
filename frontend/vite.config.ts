@@ -49,7 +49,9 @@ export default defineConfig(({ command }) => ({
           /^\/cham-cuu-tri-benh\//,  // 101 trang châm cứu trị bệnh
           /^\/duoc-lieu\//,          // trang dược liệu tĩnh (gồm cả /duoc-lieu/nhom/…)
           /^\/bai-thuoc\//,          // trang cổ phương tĩnh
-          /^\/nguon\//,              // 2.045 trang thư mục nguồn y văn
+          /^\/nguon\//,             // 2.045 trang thư mục nguồn y văn
+          /^\/phap-tri\//,          // 389 trang pháp trị (tĩnh độc lập, không route Vue)
+          /^\/trieu-chung\//,       // 578 trang triệu chứng (tĩnh độc lập, không route Vue)
           /^\/trang\//,              // trang do CMS phục vụ (nginx đẩy sang container cms)
           /^\/sitemap.*\.xml$/,      // sitemap
         ],
