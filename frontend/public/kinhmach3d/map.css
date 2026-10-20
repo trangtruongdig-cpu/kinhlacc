@@ -326,3 +326,49 @@
   .acu3d .map-drawer { left: 14px; right: 14px; width: auto; bottom: 14px; top: auto; max-height: 60%; }
   .acu3d .hf-inset { width: calc(100% - 24px); bottom: 8px; }
 }
+
+/* ===== ĐIỆN THOẠI (≤560px): panel thôi ĐÈ LÊN mô hình =====
+   Đo 20/10/2026 trên iPhone SE 375px và Android 360px: media 860px ở trên CÓ ăn, nhưng
+   bốn khối nổi vẫn che 81% / 71% diện tích canvas, và hai lỗi nặng hơn cả con số đó:
+
+   · .map-search-stack rộng 484px trên màn 375px → left = -134px, ô tìm bị CẮT khỏi mép trái.
+   · .map-tools-float với width:96px + wrap xếp 8 nút thành cột đôi CAO 362px — tức 76% chiều
+     cao canvas — rồi đè dọc suốt cạnh phải.
+   · .map-systems-panel dùng chung top:14px với ô tìm nên hai khối chồng khít lên nhau.
+   · Nút Chat Zalo (fixed, 117x48 góc phải-dưới) nằm đúng trên nút "Đặt Lại" và nhãn
+     "TÁCH RỜI" của thanh Bóc Tách → bấm không trúng. Nhãn đó là CTA cố ý giữ trên điện
+     thoại (xem ZaloButton.vue), nên ở đây CHỪA CHỖ cho nó thay vì thu nó lại.
+
+   Sau khi vá: che 59% / 50%, 0 tràn, mọi nút bấm tới được. Đo lại bằng cách so diện tích
+   giao giữa từng panel và <canvas> — đừng tin mắt nhìn trên máy để bàn thu nhỏ cửa sổ,
+   vì nó không có emulation thiết bị. */
+@media (max-width: 560px) {
+  /* Ô tìm: ép vừa khung, không để con rộng nhất kéo cả stack tràn ra ngoài. */
+  .acu3d .map-search-stack { left: 10px; right: 10px; width: auto; max-width: none; }
+  .acu3d .map-search, .acu3d .map-part-search { width: auto; min-width: 0; max-width: none; }
+  .acu3d .map-search input, .acu3d .map-part-search input { width: 100%; min-width: 0; }
+  .acu3d .map-part-results { left: 0; right: 0; width: auto; }
+
+  /* Hệ Cơ Quan xuống DƯỚI ô tìm (84px + hở) thay vì chồng lên nó. */
+  .acu3d .map-systems-panel { top: 104px; left: 10px; width: 176px; max-height: 30%; }
+
+  /* Cột nút → HÀNG ngang sát đáy, cuộn ngang khi thiếu chỗ. Bỏ gạch phân cách vì trong
+     hàng ngang nó chỉ tạo khe trống. */
+  .acu3d .map-tools-float {
+    left: 10px; right: 10px; width: auto; top: auto; bottom: 100px; transform: none;
+    flex-direction: row; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+    justify-content: flex-start; gap: 6px; -webkit-overflow-scrolling: touch;
+  }
+  .acu3d .map-tools-float .mv-btn { flex: 0 0 auto; }
+  .acu3d .map-tools-float .mv-sep { display: none; }
+
+}
+
+/* Nút Chat Zalo (fixed, ~117x48 góc phải-dưới, xem ZaloButton.vue) nằm đè lên đuôi thanh
+   Bóc Tách. Breakpoint RỘNG HƠN phần trên vì máy bảng cũng dính: ở 768px nút "Đặt Lại"
+   vẫn nằm trong vùng của Zalo dù bố cục khác hẳn điện thoại.
+   Chỉ padding-right thôi KHÔNG đủ — nút vẫn rơi vào 117px đó, nên đưa nó sang TRÁI. */
+@media (max-width: 900px) {
+  .acu3d .map-explode-dock { padding-right: 72px; }
+  .acu3d .map-explode-dock .dock-reset { order: -1; margin-right: 8px; }
+}
