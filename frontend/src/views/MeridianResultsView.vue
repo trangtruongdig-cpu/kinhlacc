@@ -2580,7 +2580,30 @@ onMounted(async () => {
 // (theo tên A→Z) bị thiếu vị → Thang Đặc Trị & danh sách bài nguồn hụt vị. Trang 1 lấy total,
 // các trang còn lại tải song song rồi gộp.
 type BaiThuocLiteResp = { data?: BaiThuocFull[]; total?: number }
-async function loadAllBaiThuocLite(): Promise<BaiThuocFull[]> {
+
+/**
+ * Đệm theo PHIÊN. Danh sách này ~685 bài qua 4 trang — đo 20/10/2026 trên bản sống là
+ * **1,2 MB** mỗi lần mở một ca đo, mà nó chỉ phục vụ phép tính Thang Đặc Trị và gần như
+ * không đổi trong lúc thầy thuốc xem liên tiếp nhiều ca của cùng buổi khám.
+ *
+ * Giữ PROMISE chứ không giữ mảng: mở nhanh hai ca liền nhau thì lời gọi thứ hai bám vào
+ * cùng một lượt tải thay vì mở thêm một lượt nữa.
+ *
+ * Đánh đổi đã biết: sửa bài thuốc ở tab Quản Lý Thuốc rồi quay lại màn này sẽ thấy bản cũ
+ * cho tới khi tải lại trang. Chấp nhận được vì ở đây bài thuốc chỉ dùng để TÍNH, không phải
+ * để biên tập.
+ */
+let demBaiThuoc: Promise<BaiThuocFull[]> | null = null
+
+function loadAllBaiThuocLite(): Promise<BaiThuocFull[]> {
+  demBaiThuoc ??= taiBaiThuocLite().catch((e) => {
+    demBaiThuoc = null // hỏng thì ĐỪNG đệm lỗi lại — lần mở sau phải được thử lại
+    throw e
+  })
+  return demBaiThuoc
+}
+
+async function taiBaiThuocLite(): Promise<BaiThuocFull[]> {
   const LIMIT = 200
   const unwrap = (r: BaiThuocFull[] | BaiThuocLiteResp): BaiThuocFull[] =>
     Array.isArray(r) ? r : (r.data ?? [])
