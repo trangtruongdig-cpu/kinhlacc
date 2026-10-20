@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 /**
- * Một "lớp" trong hành trình bóc lớp Thương Hàn Tạp Luận Bệnh:
+ * Một "lớp" trong hành trình bóc lớp Thương Hàn Tạp Bệnh Luận:
  * Âm Dương → Ngũ Hành → Tạng Phủ → Lục Khí → Lục Kinh (→ Lâm sàng sau).
  * Nội dung giảng giải (khái niệm / ví dụ / vì sao / liên hệ app) lưu ở đây để sửa được trong DB.
  */

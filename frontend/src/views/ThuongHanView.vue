@@ -8,7 +8,7 @@ import BenhCoBang from '@/components/BenhCoBang.vue'
 import { lucKhiByKey, type LucKhiInfo } from '@/constants/lucKhi'
 
 /**
- * Thương Hàn Tạp Luận Bệnh — hành trình "bóc lớp" lý thuyết (GĐ1: ①→⑤).
+ * Thương Hàn Tạp Bệnh Luận — hành trình "bóc lớp" lý thuyết (GĐ1: ①→⑤).
  * Vòng mọc dần theo lớp; panel bên phải lấy nội dung từ /thuong-han/lop (sửa được trong DB).
  */
 interface LopContent {
@@ -291,7 +291,7 @@ onMounted(load)
     <header class="th-hero">
       <div class="th-hero-main">
         <span class="th-eyebrow">傷寒雜病論 · Trương Trọng Cảnh</span>
-        <h1 class="th-title">Thương Hàn Tạp Luận Bệnh</h1>
+        <h1 class="th-title">Thương Hàn Tạp Bệnh Luận</h1>
         <p class="th-sub">
           Bóc từng lớp lý thuyết — từ <b>Âm Dương</b> tới <b>Lục Kinh</b> — để người mới cũng thấy
           được mạch tư duy dẫn tới lâm sàng.

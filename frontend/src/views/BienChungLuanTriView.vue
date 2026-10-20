@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * Biện Chứng Luận Trị — GỘP "Thương Hàn Tạp Luận Bệnh" (lý thuyết, bóc lớp) + "Bàn Xoay Biện Chứng"
+ * Biện Chứng Luận Trị — GỘP "Thương Hàn Tạp Bệnh Luận" (lý thuyết, bóc lớp) + "Bàn Xoay Biện Chứng"
  * (tra cứu lâm sàng) vào 1 tab. Hai chế độ chung một khung Lục Kinh·Tạng Phủ·Lục Khí:
  *   ① Lý thuyết — bóc lớp Âm Dương → … → Lục Kinh (hiểu mạch tư duy).
  *   ② Tra cứu   — bàn xoay: Khung → nhánh Tây Y / Đông Y → soi bệnh.

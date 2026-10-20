@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * BienChungWheel — ĐỒ HÌNH NGŨ HÀNH (ngũ giác) bóc lớp theo Thương Hàn Tạp Luận.
+ * BienChungWheel — ĐỒ HÌNH NGŨ HÀNH (ngũ giác) bóc lớp theo Thương Hàn Tạp Bệnh Luận.
  * lop 1..5: 1 Âm Dương (Thái Cực) → 2 +Ngũ Hành (5 vòng tròn + tương sinh XANH + tương khắc ĐỎ)
  *   → 3 +Tạng Phủ → 4 +Lục Khí → 5 +Lục Kinh (vòng bao ngoài).
  * Tương sinh/khắc GIỮ NGUYÊN khi bóc thêm lớp. Chữ Việt lớn, Hán nhỏ; nhãn vòng cong bám vành khăn.

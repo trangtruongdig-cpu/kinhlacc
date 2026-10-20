@@ -12,7 +12,7 @@ import { Public } from '../middlewares/auth/public.decorator';
 import type { ThuongHanBenhCo } from '../models/thuong-han-benh-co.model';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
-/** Thương Hàn Tạp Luận Bệnh — API đọc (lớp bóc, 6 kinh, và "định vị" bệnh cơ). */
+/** Thương Hàn Tạp Bệnh Luận — API đọc (lớp bóc, 6 kinh, và "định vị" bệnh cơ). */
 @Controller('thuong-han')
 export class ThuongHanRouter {
   constructor(private readonly service: ThuongHanService) {}

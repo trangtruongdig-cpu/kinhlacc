@@ -48,7 +48,7 @@ function parseStages(lucKinh: string | null | undefined): StageHit[] {
 }
 
 /**
- * Service cho tính năng "Thương Hàn Tạp Luận Bệnh".
+ * Service cho tính năng "Thương Hàn Tạp Bệnh Luận".
  * Tự tạo bảng + nạp seed IDEMPOTENT khi boot (giống SchemaBootstrapService) → tính năng
  * hoạt động ở mọi môi trường mà không cần chạy migration tay; không ghi đè bản đã sửa.
  */

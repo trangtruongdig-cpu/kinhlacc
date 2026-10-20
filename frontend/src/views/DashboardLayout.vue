@@ -206,6 +206,29 @@ const visibleNavItems = computed(() =>
 
 const currentRouteName = computed(() => route.name)
 
+// Nhãn thanh tiêu đề cho route KHÔNG có mục sidebar, hoặc cần tên khác tên mục.
+// Trước 20/10/2026 chỗ này là một chuỗi ternary dài; route nào quên khai thì lặng lẽ
+// rơi về 'Trang Chủ' — /app/thuong-han và /app/ban-xoay-bien-chung đã hiện sai như vậy.
+const NHAN_TRANG: Record<string, string> = {
+  'patient-detail': 'Chi Tiết Bệnh Nhân',
+  'new-examination': 'Ca Đo Mới',
+  'meridian-results': 'Kết Quả Đo Kinh Lạc',
+  'western-medicine': 'Bệnh Tây Y',
+  'meridian-diseases': 'Bệnh Đo Kinh Lạc',
+  medicines: 'Quản Lý Thuốc',
+  symptoms: 'Triệu Chứng',
+  treatments: 'Pháp Trị',
+  'schedule-config': 'Cấu Hình Giờ Làm Việc',
+  'thuong-han': 'Thương Hàn Tạp Bệnh Luận',
+  'ban-xoay-bien-chung': 'Bàn Xoay Biện Chứng',
+}
+const tieuDeTrang = computed(
+  () =>
+    NHAN_TRANG[String(currentRouteName.value ?? '')] ??
+    navItems.find((i) => i.routeName === currentRouteName.value)?.name ??
+    'Trang Chủ',
+)
+
 function navigate(routeName: string) {
   // Mọi mục nay đều là route Vue — kể cả "Quản Trị Nội Dung", vốn đi qua trang cầu nối
   // /vao-cms rồi mới rời sang CMS. Nhánh mở-ứng-dụng-ngoài cũ đã bỏ vì không còn ai dùng.
@@ -354,7 +377,7 @@ function handleLogout() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           </button>
           <h1 class="page-title">
-            {{ currentRouteName === 'patient-detail' ? 'Chi Tiết Bệnh Nhân' : (currentRouteName === 'new-examination' ? 'Ca Đo Mới' : currentRouteName === 'meridian-results' ? 'Kết Quả Đo Kinh Lạc' : currentRouteName === 'western-medicine' ? 'Bệnh Tây Y' : currentRouteName === 'meridian-diseases' ? 'Bệnh Đo Kinh Lạc' : currentRouteName === 'medicines' ? 'Quản Lý Thuốc' : currentRouteName === 'symptoms' ? 'Triệu Chứng' : currentRouteName === 'treatments' ? 'Pháp Trị' : currentRouteName === 'schedule-config' ? 'Cấu Hình Giờ Làm Việc' : (navItems.find(i => i.routeName === currentRouteName)?.name || 'Trang Chủ')) }}
+            {{ tieuDeTrang }}
           </h1>
         </div>
         <div class="header-right">

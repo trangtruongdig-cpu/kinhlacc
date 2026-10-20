@@ -1,5 +1,5 @@
 /**
- * Nội dung seed cho tính năng "Thương Hàn Tạp Luận Bệnh".
+ * Nội dung seed cho tính năng "Thương Hàn Tạp Bệnh Luận".
  * Được nạp idempotent (ON CONFLICT slug DO NOTHING) khi backend khởi động — tự lành,
  * không ghi đè bản đã sửa. Đây là nguồn kiến thức kinh điển, ổn định.
  */
