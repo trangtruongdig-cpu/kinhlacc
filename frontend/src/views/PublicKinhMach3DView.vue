@@ -115,8 +115,15 @@ onBeforeUnmount(() => {
     <ThuVienNav active="3d" />
 
     <div class="pub3d-hint">
-      <span class="pub3d-hint-text">
+      <!-- Câu thao tác KHÁC nhau giữa chuột và ngón tay: trên điện thoại một ngón nay dành cho
+           CUỘN TRANG, phải hai ngón mới xoay mô hình (xem chanMotNgon trong map3d.js). Dặn sai
+           thì người dùng vuốt mãi mà mô hình không nhúc nhích rồi tưởng trang hỏng. -->
+      <span class="pub3d-hint-text pub3d-hint-chuot">
         Kéo để xoay · Bấm huyệt để xem · Gõ ô tìm kiếm để bay tới huyệt. Đây là bản <strong>xem thử</strong>.
+      </span>
+      <span class="pub3d-hint-text pub3d-hint-cham">
+        <strong>Hai ngón</strong> để xoay &amp; phóng · một ngón để cuộn trang · chạm huyệt để xem.
+        Đây là bản <strong>xem thử</strong>.
       </span>
     </div>
 
@@ -241,6 +248,14 @@ onBeforeUnmount(() => {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Chỉ một trong hai câu hiện — theo THIẾT BỊ CHỈ ĐIỂM, không theo bề ngang màn hình:
+   máy bảng lai và màn cảm ứng cỡ lớn cũng chạm bằng ngón. */
+.pub3d-hint-cham { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .pub3d-hint-chuot { display: none; }
+  .pub3d-hint-cham { display: inline; }
 }
 
 @media (max-width: 768px) {

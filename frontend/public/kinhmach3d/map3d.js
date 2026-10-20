@@ -371,6 +371,33 @@
     controls.minDistance = 0.6; controls.maxDistance = 8;
     raycaster = new THREE.Raycaster();
 
+    // ĐIỆN THOẠI: MỘT ngón = cuộn trang, HAI ngón = xoay/phóng mô hình.
+    //
+    // Vì sao cần: OrbitControls gọi event.preventDefault() VÔ ĐIỀU KIỆN ngay đầu
+    // onTouchStart/onTouchMove ("prevent scrolling"), và .map-stage đặt touch-action:none.
+    // Hệ quả là mọi cú vuốt trong khung 3D đều rơi vào mô hình, trang không nhúc nhích.
+    // Đo 20/10/2026 ở 320x568: trang còn 50px phải cuộn, vuốt dọc giữa canvas cho scrollY = 0
+    // — người dùng kẹt, không lướt tiếp được. (Ở 375x667 trang vừa khít nên không lộ ra;
+    // lộ ra ở máy thấp hơn, và ở Safari khi thanh địa chỉ bung ra làm viewport co lại.)
+    //
+    // Chặn ở pha CAPTURE của stage nên sự kiện không xuống tới canvas → OrbitControls không
+    // thấy nó, không preventDefault, trình duyệt cuộn như trang thường (cùng với
+    // touch-action: pan-y trong map.css).
+    //
+    // ⚠️ Phải lọc đúng target là CANVAS. Chặn cả stage thì thanh trượt "Bóc Tách" và các
+    // nút nổi cũng mất touch — chúng là con của stage.
+    // ⚠️ BẤM HUYỆT không hỏng: onClick nghe 'click', mà 'click' vẫn được sinh ra từ cú chạm
+    // dù touchstart bị chặn lan truyền. Chế độ Chấm Tay dùng pointerdown/up, cũng không dính.
+    // Hỏi matchMedia TRONG handler chứ không chỉ lúc gắn: xoay ngang máy đổi bề ngang mà
+    // listener thì đã gắn rồi. Đọc .matches là rẻ, không phải tạo lại MediaQueryList.
+    var mqCham = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;
+    var chanMotNgon = function (e) {
+      if (!mqCham || !mqCham.matches) return;
+      if (e.target === renderer.domElement && e.touches && e.touches.length === 1) e.stopPropagation();
+    };
+    stage.addEventListener('touchstart', chanMotNgon, { capture: true });
+    stage.addEventListener('touchmove', chanMotNgon, { capture: true });
+
     renderer.domElement.addEventListener('pointermove', onMove);
     renderer.domElement.addEventListener('click', onClick);
     renderer.domElement.addEventListener('pointerdown', onEditDown);
@@ -913,6 +940,10 @@
     // Đếm ở đây để kiểm bằng máy được — nhìn màn hình KHÔNG phân biệt nổi vì 12 hệ ấy mặc định TẮT.
     heDaVao: Object.keys(layerMeshes).sort(),
     soMesh: Object.values(layerMeshes).reduce((n, v) => n + v.length, 0),
+    // GÓC NHÌN. Thêm 20/10/2026 khi cần chứng minh "cử chỉ này có xoay mô hình không" mà
+    // không chứng minh nổi: cảnh vẽ theo nhu cầu và còn nạp nốt mesh giai đoạn hai, nên hai
+    // ảnh chụp liên tiếp ĐÃ khác nhau dù không ai chạm vào — so ảnh là phép đo dối ở đây.
+    goc: camera ? [+camera.position.x.toFixed(3), +camera.position.y.toFixed(3), +camera.position.z.toFixed(3)] : null,
   });
 
   /* Móc ĐO — chấm huyệt có THẬT SỰ nằm trên ống đường kinh trong CẢNH không?

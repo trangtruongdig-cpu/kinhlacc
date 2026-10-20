@@ -563,6 +563,38 @@ Còn đúng **1 mục có rác thật**: Dương Trì (TE4) có đuôi `: 31v¼9
 noindex. Dọn một dòng đó trong CMS rồi chạy lại `cms/scripts-di-cu/xuat-huyet-js.mjs` là trang
 tự bật lại, không phải sửa mã.
 
+### Đồ hình 3D trên điện thoại: MỘT ngón là của TRANG, hai ngón mới của mô hình
+
+`vendor/OrbitControls.js` gọi `event.preventDefault()` **vô điều kiện** ngay đầu
+`onTouchStart`/`onTouchMove` (chú thích gốc: "prevent scrolling"), và `map.css` đặt
+`.map-stage { touch-action: none }`. Hệ quả: mọi cú vuốt trong khung 3D đều rơi vào mô
+hình — người dùng muốn lướt tiếp thì mô hình xoay còn trang đứng im.
+
+Đo 20/10/2026 ở **320×568**: trang còn **50px phải cuộn**, vuốt dọc giữa canvas cho
+`scrollY = 0`. Ở 375×667 trang vừa khít nên **không lộ ra** — bẫy chỉ hiện ở máy thấp
+hơn, và ở Safari khi thanh địa chỉ bung ra làm viewport co lại.
+
+Cách chữa (≤900px): `touch-action: pan-y` trên `.map-stage` + `chanMotNgon` trong
+`map3d.js` chặn `touchstart`/`touchmove` MỘT ngón ở **pha capture của stage**.
+
+- ⚠️ **Phải chặn ở pha capture của tổ tiên, không gắn trên canvas.** Ở target phase các
+  listener chạy theo THỨ TỰ ĐĂNG KÝ bất kể capture hay bubble, nên gắn trên canvas không
+  bảo đảm chạy trước OrbitControls.
+- ⚠️ **Phải lọc `e.target === renderer.domElement`.** Chặn cả stage là thanh trượt "Bóc
+  Tách" và các nút nổi mất touch — chúng đều là con của stage.
+- ⚠️ **`touch-action` đặt trên `.map-stage`, không trên `<canvas>`**: trình duyệt lấy GIAO
+  của element và mọi tổ tiên, nên stage để `none` thì canvas có `pan-y` cũng vô ích.
+- Bấm huyệt KHÔNG hỏng: `onClick` nghe `click`, mà `click` vẫn sinh ra từ cú chạm dù
+  `touchstart` bị chặn lan truyền; chế độ Chấm Tay dùng `pointerdown/up`, cũng không dính.
+- Câu hướng dẫn thao tác phải tách theo **thiết bị chỉ điểm** (`(hover: none) and
+  (pointer: coarse)`), không theo bề ngang màn hình. Dặn "kéo để xoay" trên điện thoại thì
+  người dùng vuốt mãi không thấy gì rồi tưởng trang hỏng.
+
+⚠️ **Phép đo bằng `TouchEvent` dựng trong JS là phép đo DỐI.** Sự kiện tổng hợp không đi
+qua cơ chế `touch-action` của trình duyệt nên `scrollY` không bao giờ đổi — lượt đo đầu
+kết luận "bản vá không ăn" chính vì thế. Phải bắn cử chỉ thật qua CDP
+`Input.dispatchTouchEvent`.
+
 ### `/blog/` — tĩnh trước, CMS đỡ sau, backend cũ đỡ chót (từ 01/10/2026)
 
 Ngoại lệ DUY NHẤT của câu "không có đường thư viện nào sang CMS". Kế hoạch:

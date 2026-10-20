@@ -369,6 +369,11 @@
    vẫn nằm trong vùng của Zalo dù bố cục khác hẳn điện thoại.
    Chỉ padding-right thôi KHÔNG đủ — nút vẫn rơi vào 117px đó, nên đưa nó sang TRÁI. */
 @media (max-width: 900px) {
+  /* MỘT ngón nhường cho trang CUỘN; hai ngón mới xoay/phóng mô hình (xem chanMotNgon trong
+     map3d.js). touch-action phải đặt trên .map-stage chứ không trên <canvas>: trình duyệt
+     lấy GIAO của element và mọi tổ tiên, nên stage để 'none' thì canvas có pan-y cũng vô ích. */
+  .acu3d .map-stage { touch-action: pan-y; }
+
   .acu3d .map-explode-dock { padding-right: 72px; }
   .acu3d .map-explode-dock .dock-reset { order: -1; margin-right: 8px; }
 }
