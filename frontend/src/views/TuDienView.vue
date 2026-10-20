@@ -871,8 +871,31 @@ const acuDetailHtml = computed<string>(() => {
     </article>`
 })
 
+/**
+ * Màn HẸP: xem danh sách và xem chi tiết là HAI màn, không phải hai cột xếp chồng.
+ *
+ * Bố cục hai cột của desktop khi co xuống 375px thành: danh sách 1.059 huyệt ở trên, chi tiết ở
+ * dưới. Bấm một huyệt thì chi tiết của nó nằm sau cả danh sách — người dùng tưởng không có gì xảy
+ * ra. Đây là lối master–detail quen thuộc của mọi app danh bạ/từ điển: chọn mục thì sang màn chi
+ * tiết, có nút quay lại.
+ *
+ * ⚠️ Chỉ đổi trên màn hẹp. Desktop giữ nguyên hai cột — ở đó nhìn thấy cả hai cùng lúc là ĐIỂM MẠNH.
+ */
+const xemChiTiet = ref(false)
+watch(() => subtab.value, () => { xemChiTiet.value = false })
+const manHep = () => typeof window !== 'undefined' && window.matchMedia('(max-width: 560px)').matches
+
 function selectAcu(id: number) {
   activeAcuId.value = id
+  if (manHep()) xemChiTiet.value = true
+}
+function veDanhSach() {
+  xemChiTiet.value = false
+  // trả người dùng về ĐÚNG mục họ vừa mở, đừng bắt cuộn tìm lại trong 1.059 dòng
+  nextTick(() => {
+    if (activeAcuId.value != null)
+      document.getElementById('td-acu-' + activeAcuId.value)?.scrollIntoView({ block: 'center' })
+  })
 }
 function jumpAcuLetter(l: string) {
   const target = acuFiltered.value.find((r) => norm(r.ten)[0]?.toUpperCase() === l)
@@ -1270,7 +1293,11 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
     </div>
 
     <!-- ═════ HUYỆT VỊ · CHÂM CỨU ═════ -->
-    <div v-show="!loading && !error && subtab === 'huyet'" class="td-shell">
+    <div
+      v-show="!loading && !error && subtab === 'huyet'"
+      class="td-shell"
+      :class="{ 'td-xem-ct': xemChiTiet }"
+    >
       <aside class="td-aside">
         <div class="td-search">
           <input
@@ -1354,6 +1381,8 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
           <li v-if="!acuFiltered.length" class="td-empty">Không khớp huyệt nào.</li>
         </ul>
       </aside>
+      <!-- Chỉ hiện ở màn hẹp, khi đang xem chi tiết (CSS lo phần ẩn/hiện). -->
+      <button type="button" class="td-ve-ds" @click="veDanhSach">← Danh sách huyệt</button>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="td-main" @click="onAcuDetailClick" v-html="acuDetailHtml"></div>
     </div>
@@ -1989,7 +2018,18 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
   .td-main :deep(.field .body) { font-size: 14.5px; line-height: 1.75; }
   .mer-head h2 { font-size: 23px; }
 }
+.td-ve-ds { display: none; }
+
 @media (max-width: 560px) {
+  /* MASTER–DETAIL: một lúc chỉ một màn. */
+  .td-shell.td-xem-ct > aside { display: none; }
+  .td-shell:not(.td-xem-ct) .td-main { display: none; }
+  .td-shell.td-xem-ct .td-ve-ds {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    padding: var(--space-3); border: none; border-bottom: 1px solid var(--border);
+    background: var(--surface); color: var(--text); font-weight: 700; font-size: var(--font-size-sm);
+  }
+
   .td-main { padding: var(--space-3); }
   /* nhãn : giá trị → xuống dòng cho dễ đọc trên màn hẹp */
   .td-main :deep(.meta .m-row),
