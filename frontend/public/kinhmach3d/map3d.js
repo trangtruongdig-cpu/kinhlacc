@@ -1969,6 +1969,13 @@
       '<div class="sys-foot"><span id="sysFootCount"></span><button type="button" id="sysFootBtn">Ẩn tất cả</button></div>';
     stage.appendChild(systemsPanel);
 
+    // Điện thoại: GẬP SẴN về thanh tiêu đề. Đo 20/10/2026 ở 375px — mở sẵn thì riêng panel
+    // này che 26% mô hình ngay khi vào trang, mà phần lớn người dùng vào để NHÌN cơ thể
+    // trước đã. Bấm ▲ là mở ra, nên không mất chức năng nào; màn rộng giữ nguyên như cũ.
+    if (window.matchMedia && window.matchMedia('(max-width: 560px)').matches) {
+      systemsPanel.classList.add('folded');
+    }
+
     systemsPanel.addEventListener('click', e => {
       if (e.target.closest('#sysFold')) { systemsPanel.classList.toggle('folded'); return; }
       const tab = e.target.closest('.sys-tab');
