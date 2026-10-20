@@ -285,7 +285,7 @@ function handleLogout() {
             <span v-show="!isSidebarCollapsed" class="logo-text">Y Học Cổ Truyền</span>
           </Transition>
         </button>
-        <button class="sidebar-toggle" @click="toggleSidebar" aria-label="Toggle sidebar">
+        <button class="sidebar-toggle" @click="toggleSidebar" aria-label="Thu gọn thanh bên">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <path v-if="!isSidebarCollapsed" fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
             <path v-else fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
@@ -618,6 +618,12 @@ function handleLogout() {
 
 .top-header{height:var(--header-height);padding:0 var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .header-left{display:flex;align-items:center;gap:var(--space-4);min-width:0}
+/* Ngón tay cần vùng chạm rộng hơn con trỏ chuột. Nới bằng min-* nên Ô HÌNH giữ nguyên
+   32px (bố cục thanh bên không xê dịch), chỉ vùng bấm to ra. Theo THIẾT BỊ CHỈ ĐIỂM chứ
+   không theo bề ngang: máy bảng lai cũng chạm bằng ngón. */
+@media (hover: none) and (pointer: coarse) {
+  .sidebar-toggle { min-width: 44px; min-height: 44px }
+}
 .mobile-menu-btn{display:none;width:40px;height:40px;flex-shrink:0;align-items:center;justify-content:center;border-radius:var(--radius-sm);color:var(--gray-600);transition:all var(--transition-fast)}
 .mobile-menu-btn:hover{background:var(--gray-100);color:var(--brown-700)}
 .page-title{font-size:var(--font-size-lg);font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
