@@ -98,6 +98,37 @@ export const usePatientAuthStore = defineStore('patientAuth', () => {
     }
   }
 
+  /**
+   * Quên mật khẩu — máy chủ đặt lại mật khẩu về CHÍNH số điện thoại. Không có bước xác minh
+   * nào (xem ghi chú ở backend `PatientAuthService.datLaiMatKhauMacDinh`).
+   */
+  async function quenMatKhau(phone: string): Promise<boolean> {
+    isLoading.value = true
+    error.value = null
+
+    try {
+      const response = await fetch(`${API_BASE}/patient-auth/quen-mat-khau`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        throw new Error(data?.message || 'Không đặt lại được mật khẩu. Vui lòng thử lại.')
+      }
+      return true
+    } catch (err: any) {
+      const laLoiMang = err instanceof TypeError
+      error.value = laLoiMang
+        ? 'Không kết nối được tới máy chủ. Kiểm tra mạng hoặc thử lại sau ít phút.'
+        : err.message || 'Đã có lỗi xảy ra'
+      return false
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   /** Lấy lại thông tin (Nếu cần, có thể lấy từ /patients/:id) */
   async function fetchMe(): Promise<void> {
     if (!token.value || !patient.value?.id) return
@@ -140,6 +171,7 @@ export const usePatientAuthStore = defineStore('patientAuth', () => {
     isAuthenticated,
     login,
     register,
+    quenMatKhau,
     fetchMe,
     clearError,
     logout,

@@ -3,15 +3,18 @@ import {
   Post,
   Body,
   UnauthorizedException,
+  BadRequestException,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { PatientAuthService } from '../controllers/patient-auth.controller';
 import { Public } from '../middlewares/auth/public.decorator';
 import { ZodPipe } from '../middlewares/validation/zod.pipe';
 import {
   dangKyBenhNhanSchema,
   dangNhapBenhNhanSchema,
+  quenMatKhauBenhNhanSchema,
 } from '../models/validation.schema';
 
 @Public()
@@ -54,6 +57,31 @@ export class PatientAuthRouter {
       registerDto.password,
       registerDto.fullName,
     );
+  }
+
+  /**
+   * Quên mật khẩu: đặt lại về mặc định = chính số điện thoại. Cửa CÔNG KHAI, không xác minh —
+   * đọc ghi chú rủi ro ở PatientAuthService.datLaiMatKhauMacDinh trước khi sửa.
+   *
+   * Trần 5 lượt/phút/IP (ThrottlerGuard toàn cục mặc định 120/phút là quá rộng cho một cửa
+   * đặt lại mật khẩu: nó cho phép quét sạch danh bạ khách trong vài giờ).
+   */
+  @Throttle({ short: { limit: 5, ttl: 60_000 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('quen-mat-khau')
+  async quenMatKhau(
+    @Body(new ZodPipe(quenMatKhauBenhNhanSchema)) dto: { phone: string },
+  ) {
+    const ok = await this.patientAuthService.datLaiMatKhauMacDinh(dto.phone);
+    if (!ok) {
+      throw new BadRequestException(
+        'Số điện thoại này chưa có tài khoản. Vui lòng bấm Đăng ký.',
+      );
+    }
+    return {
+      success: true,
+      message: 'Đã đặt lại mật khẩu thành chính số điện thoại của bạn.',
+    };
   }
 
   /**

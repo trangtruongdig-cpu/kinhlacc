@@ -142,6 +142,9 @@ describe('Phủ quyền trên route GHI', () => {
       // MCP_TOKEN 64 ký tự trong đường dẫn, và thiếu biến thì cửa trả 404 chứ không mở.
       'mcp.router.ts::token',
       'patient-auth.router.ts:login', // đăng nhập bệnh nhân
+      // Quên mật khẩu → đặt lại về chính số điện thoại. KHÔNG xác minh gì thêm: quyết định
+      // của chủ phòng chẩn trị (20/10/2026) sau khi đã nêu rủi ro. Trần riêng 5 lượt/phút/IP.
+      'patient-auth.router.ts:quen-mat-khau',
       'patient-auth.router.ts:register', // đăng ký bệnh nhân
       'patient-auth.router.ts:request-deletion', // yêu cầu xoá tài khoản (Google Play đòi)
       // Hồ sơ cụm cho Rada SEO. Dùng POST vì thân mang mảng biến thể từ vựng Đông y (tên có dấu,

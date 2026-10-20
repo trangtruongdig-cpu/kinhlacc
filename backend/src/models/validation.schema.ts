@@ -161,6 +161,15 @@ export const dangKyBenhNhanSchema = z
   })
   .strict();
 
+/**
+ * POST /patient-auth/quen-mat-khau — đặt lại mật khẩu về MẶC ĐỊNH (= chính số điện thoại).
+ * Thân chỉ có `phone`: cố ý KHÔNG có bước xác minh nào khác, xem ghi chú rủi ro ở
+ * PatientAuthService.datLaiMatKhauMacDinh.
+ */
+export const quenMatKhauBenhNhanSchema = z
+  .object({ phone: z.string().trim().min(1, 'không được để trống').max(20) })
+  .strict();
+
 /** PUT /appointment-slots/:id/move — chuyển vé sang ca khác. */
 export const chuyenVeSchema = z
   .object({ targetSlotId: z.number().int().positive() })

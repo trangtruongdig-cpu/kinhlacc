@@ -63,6 +63,28 @@ export class PatientAuthService {
     return true;
   }
 
+  /**
+   * Quên mật khẩu — đặt lại về MẶC ĐỊNH là CHÍNH số điện thoại.
+   *
+   * ⚠️ Không có bước xác minh nào: không OTP, không nhân viên duyệt. Ai gõ đúng một số điện
+   * thoại đã đăng ký cũng đặt lại được mật khẩu của người đó, mà mật khẩu mới lại chính là số
+   * điện thoại — tức cũng là TÊN ĐĂNG NHẬP. Nói thẳng hệ quả: biết số điện thoại của một khách
+   * là đọc được phiếu đo, chẩn đoán và lịch trị liệu của khách đó. Đây là quyết định của chủ
+   * phòng chẩn trị, chốt ngày 20/10/2026 SAU khi đã nêu rủi ro, không phải sơ sót — đừng
+   * "sửa" nó ở chỗ khác. Muốn siết thì thêm OTP hoặc bước nhân viên duyệt, và chỗ sửa là
+   * đúng hàm này.
+   *
+   * Chỉ nhận tài khoản ĐÃ có mật khẩu: hồ sơ do nhân viên lập hộ (`passwordHash` null) chưa
+   * phải tài khoản, đặt mật khẩu cho nó ở đây là tự mở tài khoản thay người ta.
+   */
+  async datLaiMatKhauMacDinh(phone: string): Promise<boolean> {
+    const patient = await this.patientRepository.findOne({ where: { phone } });
+    if (!patient || !patient.passwordHash) return false;
+    patient.passwordHash = await bcrypt.hash(phone, 10);
+    await this.patientRepository.save(patient);
+    return true;
+  }
+
   async login(patient: Patient) {
     const payload = { phone: patient.phone, sub: patient.id, role: 'patient' };
     return {

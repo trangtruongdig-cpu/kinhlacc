@@ -8,12 +8,31 @@ const authStore = usePatientAuthStore()
 const phone = ref('')
 const password = ref('')
 const showPassword = ref(false)
+const thongBao = ref('')
 
 onMounted(() => {
   if (authStore.isAuthenticated) router.push({ name: 'patient-dashboard' })
 })
 
+/**
+ * Quên mật khẩu: dùng luôn số điện thoại đã gõ ở ô trên, máy chủ đặt lại mật khẩu về chính số
+ * đó rồi ta điền sẵn vào ô mật khẩu — khách chỉ còn bấm Đăng nhập.
+ */
+async function handleQuenMatKhau() {
+  thongBao.value = ''
+  const sdt = phone.value.trim()
+  if (!sdt) {
+    authStore.error = 'Nhập số điện thoại vào ô trên rồi bấm "Quên mật khẩu?"'
+    return
+  }
+  if (await authStore.quenMatKhau(sdt)) {
+    password.value = sdt
+    thongBao.value = `Mật khẩu đã đặt lại thành chính số điện thoại của bạn (${sdt}). Bấm Đăng nhập để vào.`
+  }
+}
+
 async function handleLogin() {
+  thongBao.value = ''
   if (!phone.value.trim() || !password.value.trim()) {
     authStore.error = 'Vui lòng nhập đầy đủ thông tin'
     return
@@ -43,6 +62,12 @@ async function handleLogin() {
           </div>
         </Transition>
 
+        <Transition name="fade">
+          <div v-if="thongBao" class="success-alert" role="status">
+            <span>{{ thongBao }}</span>
+          </div>
+        </Transition>
+
         <form @submit.prevent="handleLogin" class="login-form">
           <div class="form-group">
             <label class="form-label">Số điện thoại</label>
@@ -58,6 +83,14 @@ async function handleLogin() {
                 <span v-else>Hiện</span>
               </button>
             </div>
+            <button
+              type="button"
+              class="forgot-link"
+              :disabled="authStore.isLoading"
+              @click="handleQuenMatKhau"
+            >
+              Quên mật khẩu?
+            </button>
           </div>
 
           <button type="submit" class="btn-login" :disabled="authStore.isLoading">
@@ -126,6 +159,30 @@ async function handleLogin() {
   font-size: var(--font-size-sm);
   margin-bottom: var(--space-4);
   text-align: center;
+}
+.success-alert {
+  background: var(--success-bg);
+  color: var(--success-fg);
+  border: 1px solid var(--success-border);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+.forgot-link {
+  align-self: flex-end;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--brown-600);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+.forgot-link:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 .login-form {
   display: flex;
