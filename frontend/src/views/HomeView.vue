@@ -139,7 +139,11 @@ async function loadDashboard() {
   const today = todayYMD()
   const [pPatients, pBai, pVi, pTrieu, pPhap, pTay, pSlots] = await Promise.allSettled([
     api.get<any>(`/patients?page=1&limit=6`),
-    api.get<any>(`/bai-thuoc/lite?page=1&limit=1`),
+    // slim=1: chỗ này chỉ lấy `total` + `statsByCategory`, không đọc `data`. Thiếu nó thì
+    // mỗi lần mở Trang Chủ kéo về nguyên một bài thuốc kèm TOÀN BỘ entity ViThuoc của
+    // từng vị (~82 KB cho 1 bản ghi) chỉ để đọc một con số — tab Góp Ý & Lỗi đã ghi
+    // cụm "GET /bai-thuoc/lite?page=1&limit=1 mất 3.6s" 52 lần.
+    api.get<any>(`/bai-thuoc/lite?page=1&limit=1&slim=1`),
     api.get<any>(`/vi-thuoc/lite?page=1&limit=1`),
     api.get<any>(`/trieu-chung?page=1&limit=1`),
     api.get<any>(`/phap-tri/lite?page=1&limit=1`),

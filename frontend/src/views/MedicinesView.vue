@@ -844,10 +844,16 @@ async function loadActiveTabData(forceReload = false, focusBtId?: number) {
   isLoading.value = true
   try {
     if (activeTab.value === 'bai-thuoc') {
-      await ensureBaiThuocSupport()
-      if (forceReload || baiThuocList.value.length === 0) {
-        await loadBaiThuocPage(focusBtId)
-      }
+      // SONG SONG, không tuần tự: `loadBaiThuocPage` không đọc phapTriOptions /
+      // trieuChungOptions / benhTayYList (nhãn dựng bằng computed nên tự hiện khi catalog
+      // về). Đo 20/10/2026 trên bản sống: catalog 2,29s rồi MỚI tới danh sách 1,26s —
+      // màn hình đứng ở "Đang tải dữ liệu…" suốt cả hai khâu.
+      await Promise.all([
+        ensureBaiThuocSupport(),
+        forceReload || baiThuocList.value.length === 0
+          ? loadBaiThuocPage(focusBtId)
+          : Promise.resolve(),
+      ])
     } else if (activeTab.value === 'vi-thuoc') {
       await ensureViThuocSupport()
       if (forceReload || viThuocList.value.length === 0) {
