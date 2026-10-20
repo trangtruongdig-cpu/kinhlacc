@@ -6,12 +6,58 @@
  */
 // Link Zalo dùng số định dạng QUỐC TẾ (bỏ số 0 đầu, thêm mã VN 84) → zalo.me/84353247247.
 // aria-label vẫn hiển thị số nội địa 0353 247 247 cho dễ nhận.
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const ZALO_URL = 'https://zalo.me/84353247247'
+
+/**
+ * Thu thành nút TRÒN trong lúc người dùng CUỘN, bung lại nhãn khi họ dừng — chỉ ở màn hẹp.
+ *
+ * Vì sao không thu hẳn: nhãn "Chat Zalo" là CTA, bỏ đi là đổi một quyết định sản phẩm.
+ * Vì sao phải thu: đo 20/10/2026 ở 375px, nút (117x48, fixed góc phải-dưới) đè đúng H1
+ * "Đông Y ngàn năm…" của trang chủ và mục danh sách + tiêu đề huyệt ở Thư Viện. Lúc đang
+ * cuộn là lúc người ta ĐỌC, nên đó đúng là lúc nút nên nhường chỗ.
+ *
+ * Chỉ bật dưới 900px: trên desktop nút nằm ở góc trống, thu lại chỉ làm CTA kém đi.
+ */
+const thuGon = ref(false)
+let hen: ReturnType<typeof setTimeout> | undefined
+let manHep: MediaQueryList | undefined
+
+function khiCuon() {
+  if (!manHep?.matches) return
+  thuGon.value = true
+  clearTimeout(hen)
+  hen = setTimeout(() => {
+    thuGon.value = false
+  }, 700)
+}
+
+// Xoay ngang máy / đổi cỡ cửa sổ sang khung rộng: bung lại ngay, đừng để kẹt ở dạng tròn.
+function khiDoiKhung() {
+  if (!manHep?.matches) {
+    clearTimeout(hen)
+    thuGon.value = false
+  }
+}
+
+onMounted(() => {
+  manHep = window.matchMedia('(max-width: 900px)')
+  manHep.addEventListener('change', khiDoiKhung)
+  window.addEventListener('scroll', khiCuon, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', khiCuon)
+  manHep?.removeEventListener('change', khiDoiKhung)
+  clearTimeout(hen)
+})
 </script>
 
 <template>
   <a
     class="zalo-fab"
+    :class="{ 'zalo-fab--gon': thuGon }"
     :href="ZALO_URL"
     target="_blank"
     rel="noopener noreferrer"
@@ -52,9 +98,26 @@ const ZALO_URL = 'https://zalo.me/84353247247'
   font-size: var(--font-size-sm);
   line-height: 1;
   box-shadow: 0 8px 22px rgba(0, 104, 255, 0.38), 0 2px 6px rgba(0, 0, 0, 0.12);
+  /* min-width = height để khi thu gọn nó thành hình TRÒN chứ không phải viên thuốc hẹp. */
+  min-width: 48px;
+  box-sizing: border-box;
   transition:
     transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast),
+    padding 0.22s ease,
+    gap 0.22s ease;
+}
+
+/* Dạng thu gọn: bóp padding + gap về 0, nhãn co lại — bề ngang tự về đúng min-width.
+   Dùng max-width chứ không display:none vì display không chuyển động được. */
+.zalo-fab--gon {
+  padding: 0;
+  gap: 0;
+  justify-content: center;
+}
+.zalo-fab--gon .zalo-fab__label {
+  max-width: 0;
+  opacity: 0;
 }
 .zalo-fab:hover {
   color: #fff;
@@ -71,6 +134,11 @@ const ZALO_URL = 'https://zalo.me/84353247247'
 }
 .zalo-fab__label {
   white-space: nowrap;
+  overflow: hidden;
+  max-width: 140px;
+  transition:
+    max-width 0.22s ease,
+    opacity 0.16s ease;
 }
 
 /* Vòng nhịp thu hút chú ý (dùng ::pulse span để không đụng layout) */
@@ -112,6 +180,11 @@ const ZALO_URL = 'https://zalo.me/84353247247'
   .zalo-fab__pulse {
     animation: none;
     opacity: 0;
+  }
+  /* Vẫn thu gọn (đó là chuyện nhường chỗ, không phải trang trí) — chỉ bỏ phần chuyển động. */
+  .zalo-fab,
+  .zalo-fab__label {
+    transition: none;
   }
 }
 </style>
