@@ -431,6 +431,12 @@ img {
 .content-area .nhht-rx-text,
 .content-area .nhht-nl-box .cond-sub,
 .content-area .nhht-empty,
+/* Thông báo lỗi: là CÂU, và thường kèm URL hoặc mã kỹ thuật. Title Case biến
+   "/patients?page=1&limit=10" thành "/Patients?Page=1&Limit=10" — người dùng chép câu đó
+   đi báo lỗi là chép sai đường dẫn. Bắt theo MẪU tên class chứ không liệt kê, vì mỗi màn
+   đặt một kiểu: alert--error, error-state, form-error, ptm-error, cdl-ai-error, td-error… */
+.content-area [class*="error"],
+.content-area [class*="alert"],
 .content-area p {
   text-transform: none;
 }
