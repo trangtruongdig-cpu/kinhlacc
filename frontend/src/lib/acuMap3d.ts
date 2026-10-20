@@ -99,6 +99,12 @@ const HOST_HTML = `
           <div class="map-part-results glass" id="mapPartResults"></div>
         </div>
       </div>
+      <!-- ĐIỆN THOẠI: mặc định CẤT hết bảng điều khiển để mô hình chiếm trọn khung; nút này gọi
+           chúng ra. Trên máy để bàn nút ẩn (map.css) vì ở đó màn rộng, panel không che ai. -->
+      <button id="mapGoiCongCu" class="map-goi-cc glass" type="button"
+              aria-expanded="false" aria-label="Hiện bảng công cụ">
+        <span class="map-goi-cc-i" aria-hidden="true">☰</span><span class="map-goi-cc-t">Công cụ</span>
+      </button>
       <div class="map-tools-float glass">
         <button id="mapView34" class="mv-btn view-btn active" data-view="three-quarter" title="Góc nhìn 3/4 (mặc định)">¾</button>
         <button id="mapViewFront" class="mv-btn view-btn" data-view="front" title="Nhìn thẳng mặt trước">Tr</button>

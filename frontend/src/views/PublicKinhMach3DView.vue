@@ -121,9 +121,10 @@ onBeforeUnmount(() => {
       <span class="pub3d-hint-text pub3d-hint-chuot">
         Kéo để xoay · Bấm huyệt để xem · Gõ ô tìm kiếm để bay tới huyệt. Đây là bản <strong>xem thử</strong>.
       </span>
+      <!-- Câu cho ngón tay phải GỌN: trên 375px bản hai dòng ăn 57px ngay phía trên khung 3D,
+           mà mô hình chỉ còn 36% màn hình. Giữ đúng ba điều người dùng cần biết, bỏ phần còn lại. -->
       <span class="pub3d-hint-text pub3d-hint-cham">
-        <strong>Hai ngón</strong> để xoay &amp; phóng · một ngón để cuộn trang · chạm huyệt để xem.
-        Đây là bản <strong>xem thử</strong>.
+        <strong>Hai ngón</strong> để xoay · một ngón để cuộn · chạm huyệt để xem
       </span>
     </div>
 
@@ -256,6 +257,9 @@ onBeforeUnmount(() => {
 @media (hover: none) and (pointer: coarse) {
   .pub3d-hint-chuot { display: none; }
   .pub3d-hint-cham { display: inline; }
+  /* Một dòng, không xuống hàng: mỗi dòng thừa ở đây là 28px lấy mất của mô hình. */
+  .pub3d-hint { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .pub3d-hint-cham { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; font-size: var(--font-size-sm); }
 }
 
 @media (max-width: 768px) {

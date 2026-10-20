@@ -388,6 +388,26 @@
     // nút nổi cũng mất touch — chúng là con của stage.
     // ⚠️ BẤM HUYỆT không hỏng: onClick nghe 'click', mà 'click' vẫn được sinh ra từ cú chạm
     // dù touchstart bị chặn lan truyền. Chế độ Chấm Tay dùng pointerdown/up, cũng không dính.
+    /* BẢNG ĐIỀU KHIỂN CẤT SẴN TRÊN ĐIỆN THOẠI.
+     *
+     * Đo 20/10/2026 ở 375x667: bốn khối nổi (hai ô tìm, panel Hệ Cơ Quan, hàng nút, dock Bóc Tách)
+     * che 49% khung, mô hình chỉ còn 242px — 36% màn hình — và chúng đè đúng vào giữa thân người.
+     * Thu nhỏ từng khối chỉ đưa được lên 49%; thứ thật sự cần là CẤT chúng đi rồi gọi ra khi cần,
+     * đúng lối Google Maps / Sketchfab: nội dung chiếm trọn, điều khiển lùi về một nút.
+     *
+     * Mặc định cất (màn ≤560px) vì người vào đây để NHÌN cơ thể trước đã. Một cú bấm là mở ra, và
+     * trạng thái giữ nguyên tới khi họ bấm lại — không tự đóng, vì tự đóng thì thao tác nào cũng
+     * phải mở lại. Máy để bàn không bao giờ vào nhánh này. */
+    var mqGon = window.matchMedia ? window.matchMedia('(max-width: 560px)') : null;
+    if (mqGon && mqGon.matches) stage.classList.add('cc-cat');
+    var nutGoi = document.getElementById('mapGoiCongCu');
+    if (nutGoi) nutGoi.addEventListener('click', function () {
+      var cat = stage.classList.toggle('cc-cat');
+      nutGoi.setAttribute('aria-expanded', String(!cat));
+      nutGoi.setAttribute('aria-label', cat ? 'Hiện bảng công cụ' : 'Ẩn bảng công cụ');
+      onResize();   // khung đổi kích thước hữu dụng → vẽ lại cho khỏi méo
+    });
+
     // Hỏi matchMedia TRONG handler chứ không chỉ lúc gắn: xoay ngang máy đổi bề ngang mà
     // listener thì đã gắn rồi. Đọc .matches là rẻ, không phải tạo lại MediaQueryList.
     var mqCham = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;

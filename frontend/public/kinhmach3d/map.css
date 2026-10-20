@@ -327,6 +327,9 @@
   .acu3d .hf-inset { width: calc(100% - 24px); bottom: 8px; }
 }
 
+/* Nút gọi/cất bảng công cụ — CHỈ có trên điện thoại (bật trong media ≤560px bên dưới). */
+.acu3d .map-goi-cc { display: none; }
+
 /* ===== ĐIỆN THOẠI (≤560px): panel thôi ĐÈ LÊN mô hình =====
    Đo 20/10/2026 trên iPhone SE 375px và Android 360px: media 860px ở trên CÓ ăn, nhưng
    bốn khối nổi vẫn che 81% / 71% diện tích canvas, và hai lỗi nặng hơn cả con số đó:
@@ -343,8 +346,41 @@
    giao giữa từng panel và <canvas> — đừng tin mắt nhìn trên máy để bàn thu nhỏ cửa sổ,
    vì nó không có emulation thiết bị. */
 @media (max-width: 560px) {
-  /* Ô tìm: ép vừa khung, không để con rộng nhất kéo cả stack tràn ra ngoài. */
-  .acu3d .map-search-stack { left: 10px; right: 10px; width: auto; max-width: none; }
+  /* ===== CẤT BẢNG ĐIỀU KHIỂN =====
+     Mặc định `.cc-cat` do map3d.js đặt. Khi cất thì mô hình chiếm TRỌN khung, chỉ còn một nút.
+     display:none chứ không opacity/visibility: phải trả lại chỗ THẬT, và cũng để các khối đó
+     thôi nhận chạm — nửa trong suốt mà vẫn bắt touch là kiểu hỏng khó đoán nhất. */
+  .acu3d .map-goi-cc {
+    position: absolute; top: 10px; right: 10px; z-index: 30;
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 40px; min-width: 40px; padding: 0 13px;
+    border: none; border-radius: 999px; cursor: pointer;
+    font-size: 13px; font-weight: 700; color: var(--text); line-height: 1;
+  }
+  .acu3d .map-goi-cc-i { font-size: 15px; }
+
+  .acu3d .map-stage.cc-cat .map-search-stack,
+  .acu3d .map-stage.cc-cat .map-systems-panel,
+  .acu3d .map-stage.cc-cat .map-tools-float,
+  .acu3d .map-stage.cc-cat .map-explode-dock,
+  .acu3d .map-stage.cc-cat .map-caption,
+  .acu3d .map-stage.cc-cat .map-credit { display: none; }
+
+  /* Đã mở thì nút co thành dấu đóng tròn, nhường chỗ cho chính bảng nó vừa gọi ra. */
+  .acu3d .map-stage:not(.cc-cat) .map-goi-cc { padding: 0; width: 40px; justify-content: center; }
+  .acu3d .map-stage:not(.cc-cat) .map-goi-cc-t { display: none; }
+  .acu3d .map-stage:not(.cc-cat) .map-goi-cc-i { font-size: 0; }
+  .acu3d .map-stage:not(.cc-cat) .map-goi-cc-i::after { content: '\2715'; font-size: 15px; }
+
+  /* Ô tìm: ép vừa khung, không để con rộng nhất kéo cả stack tràn ra ngoài.
+     Và xếp HAI ô thành MỘT HÀNG: trên 375px chúng chồng dọc ăn 84px ngay giữa mô hình — đo
+     20/10/2026, mô hình chỉ còn 242px tức 36% màn hình. Nằm ngang còn 42px, trả lại một nửa.
+     min-width:0 là bắt buộc, không có nó flex item không co và hàng lại tràn. */
+  .acu3d .map-search-stack {
+    left: 10px; right: 10px; width: auto; max-width: none;
+    flex-direction: row; gap: 6px; align-items: flex-start;
+  }
+  .acu3d .map-search-stack > * { flex: 1 1 0; min-width: 0; }
   .acu3d .map-search, .acu3d .map-part-search { width: auto; min-width: 0; max-width: none; }
   .acu3d .map-search input, .acu3d .map-part-search input { width: 100%; min-width: 0; }
   .acu3d .map-part-results { left: 0; right: 0; width: auto; }
@@ -376,4 +412,8 @@
 
   .acu3d .map-explode-dock { padding-right: 72px; }
   .acu3d .map-explode-dock .dock-reset { order: -1; margin-right: 8px; }
+
+  /* Hai nhãn đầu mút thanh trượt ("LẮP RÁP" / "TÁCH RỜI") là chữ phụ: vị trí con trượt đã nói
+     đủ. Bỏ trên màn hẹp để dock thấp xuống, trả thêm ~24px cho mô hình. */
+  .acu3d .map-explode-dock .msp-explode-ends { display: none; }
 }
