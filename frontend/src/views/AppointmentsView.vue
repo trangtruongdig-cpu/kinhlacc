@@ -132,11 +132,12 @@ onMounted(async () => {
         .catch(() => {})
     }
 
-    // Vé của một bệnh nhân CHƯA có trong danh bạ đang giữ (bệnh nhân mới đăng ký hôm nay):
-    // chỉ khi đó mới cần gọi lại danh bạ. Trước đây gọi `loadPatients()` cho MỌI sự kiện, tức
-    // GET /patients?limit=1000 mỗi lần bất kỳ ai đặt/huỷ vé.
+    // Vé của một bệnh nhân CHƯA có trong danh bạ đang giữ → tra LẺ theo id (~340 B).
+    // Hai bản trước đều sai theo hai kiểu: bản đầu gọi loadPatients() cho MỌI sự kiện (2,1 MB
+    // mỗi lần bất kỳ ai đặt/huỷ vé), bản sau chỉ gọi khi thiếu — vẫn 2,1 MB, và với bệnh nhân
+    // ngoài 1000 hồ sơ mới nhất thì tải xong VẪN không có họ.
     if (updatedSlot.patientId && !patientsMap.value[updatedSlot.patientId]) {
-      loadPatients()
+      void napTenConThieu([updatedSlot.patientId])
     }
   })
 })
@@ -291,6 +292,8 @@ async function loadDay(date: string) {
     slotsByDate.value[date] = (slots || []).map(normalizeSlot)
     effectiveSchedule.value = eff
     dayBookings.value = bookings || []
+    // Vé của bệnh nhân ngoài danh bạ đang giữ → tra lẻ, đừng để hiện "BN #id".
+    void napTenConThieu(slotsByDate.value[date].map((x) => x.patientId))
     taiNgayHong.value = false
     error.value = null
   } catch (err: any) {
@@ -337,6 +340,33 @@ function removeSlotLocal(slotId: number, slotDate: string) {
 
 function normalizeSlot(s: AppointmentSlot): AppointmentSlot {
   return { ...s, slotTime: (s.slotTime || '').slice(0, 5) }
+}
+
+/**
+ * Nạp BÙ tên cho những bệnh nhân không nằm trong danh bạ đang giữ.
+ *
+ * `loadPatients()` chỉ lấy 1000 hồ sơ MỚI NHẤT (createdAt DESC) — đo 20/10/2026 là 2,1 MB —
+ * trong khi kho có 5.708 người. Bệnh nhân cũ quay lại khám thì lịch hiện "BN #1234" thay vì
+ * tên, và cơ chế cũ gặp id lạ lại gọi `loadPatients()`: tải thêm 2,1 MB mà VẪN không có
+ * người đó, vì họ vốn không thuộc 1000 hồ sơ mới nhất.
+ *
+ * Tra lẻ theo id tốn ~340 B mỗi người và luôn ra đúng. Hỏng thì im lặng — ô vé giữ nguyên
+ * "BN #id", không làm vỡ bảng ngày.
+ */
+async function napTenConThieu(ids: Array<number | null | undefined>) {
+  const can = [...new Set(ids.filter((id): id is number => !!id && !patientsMap.value[id]))]
+  if (!can.length) return
+  const ket = await Promise.all(
+    can.map((id) =>
+      api
+        .get<Patient>(`/patients/${id}`)
+        .then((p) => (p && (p as any).id ? p : null))
+        .catch(() => null),
+    ),
+  )
+  const them: Record<number, Patient> = {}
+  for (const p of ket) if (p) them[(p as any).id] = p
+  if (Object.keys(them).length) patientsMap.value = { ...patientsMap.value, ...them }
 }
 
 async function loadPatients() {
