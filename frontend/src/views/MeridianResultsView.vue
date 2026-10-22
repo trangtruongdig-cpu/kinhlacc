@@ -3718,11 +3718,7 @@ watch(
     </div>
 
     <template v-else-if="patient">
-      <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══
-           Ẩn ở bước 1: đại câu chốt ngay dưới đã nói đúng verdict ấy bằng cỡ chữ lớn nhất màn.
-           Giữ cả hai là giữ đúng phần trùng mà bản thiết kế này sinh ra để bỏ. Bước 2 và 3
-           vẫn cần nó vì verdict không còn trên màn ở đó. -->
-      <template v-if="activeView !== 1">
+      <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══ -->
       <div class="mr-ctxbar">
         <div class="mr-ctx-patient">
           <strong class="mr-ctx-name">{{ displayPatientName }}</strong>
@@ -3730,9 +3726,14 @@ watch(
           <button type="button" class="mr-ctx-more" :aria-expanded="showPatientMore" title="Thêm thông tin bệnh nhân" @click="showPatientMore = !showPatientMore">ⓘ</button>
         </div>
         <div class="mr-verdict">
-          <span class="mr-vd-label">Bát Cương</span>
-          <button v-for="t in batCuongVerdictTokens" :key="t.key" type="button" class="mr-vd-badge" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
-          <span v-if="!batCuongVerdictTokens.length" class="mr-vd-empty">—</span>
+          <!-- Bước 1 bỏ riêng cụm chip Bát Cương: đại câu chốt ngay dưới đã nói đúng chứng ấy
+               bằng cỡ chữ lớn nhất màn (kể cả Biểu/Lý, nằm trong hội chứng ở dòng phụ). Thể chất
+               và Tạng phủ thì KHÔNG có trong câu chốt nên vẫn giữ — không mất thông tin nào. -->
+          <template v-if="activeView !== 1">
+            <span class="mr-vd-label">Bát Cương</span>
+            <button v-for="t in batCuongVerdictTokens" :key="t.key" type="button" class="mr-vd-badge" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
+            <span v-if="!batCuongVerdictTokens.length" class="mr-vd-empty">—</span>
+          </template>
           <template v-if="theChatVerdictTokens.length">
             <span class="mr-vd-sep">Thể chất</span>
             <button v-for="t in theChatVerdictTokens" :key="t.key" type="button" class="mr-vd-badge mr-vd-badge--tc" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
@@ -3758,7 +3759,6 @@ watch(
         <div class="pi-field"><span class="pi-label">Cân nặng</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
-      </template>
 
       <!-- ═══ TRUYỀN BIẾN QUA CÁC LẦN ĐO (DÙNG CHUNG TOÀN TRANG — ĐẶT TRÊN CẢ 3 TAB) ═══ -->
       <div v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" class="mr-traj-global">
