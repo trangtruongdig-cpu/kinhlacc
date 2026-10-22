@@ -75,7 +75,9 @@ app_kinhlac/
 # ảnh/đồ hoạ nộp Play Store (marketing, không deploy)
 play-store-assets/
 # tài liệu kế hoạch SEO (JSON) — không cần lúc chạy
-SEO/
+# Phải neo "/" đầu: máy macOS KHÔNG phân biệt hoa thường nên "SEO/" trần vồ luôn
+# frontend/src/seo/ (route-seo.json — nguồn SEO của app), chặn mọi lệnh git add ở đó.
+/SEO/
 SEO-PLAN.md
 YMYL-PLAN.md
 RA-SOAT-BAI-THUOC-THIEU-VI.md
