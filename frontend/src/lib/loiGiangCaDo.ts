@@ -35,3 +35,39 @@ export function cauChotTongCuong(tc: TongCuong): { chinh: string; thuong: string
   if (!chinh || tc.loai === 'unknown') return { chinh: '', thuong: '' }
   return { chinh, thuong: loiThuong(chinh) }
 }
+
+/**
+ * Lời thường cho VỊ TRÍ bệnh của sáu kinh (Thương Hàn) — khoá là `KinhMeta.viTri`.
+ *
+ * ⚠️ Vẫn chỉ MÔ TẢ chỗ bệnh đang nằm, KHÔNG phán đoán thêm và KHÔNG hàm ý chữa trị. Sáu câu
+ * này là diễn giải mức căn bản của chính thuật ngữ đã có trong `lib/lucKinh.ts`, không phải
+ * kết luận mới — nhưng vẫn là chữ y văn, nên thầy thuốc nên đọc lại một lượt trước khi tin.
+ */
+const BANG_VI_TRI: Record<string, string> = {
+  'Biểu': 'bệnh còn ở lớp ngoài',
+  'Lý thực nhiệt': 'bệnh đã vào trong, thiên về nóng',
+  'Bán biểu bán lý': 'bệnh ở khoảng giữa — nửa ngoài nửa trong',
+  'Lý hư hàn': 'bệnh vào trong, thiên về lạnh và yếu sức',
+  'Lý hư (hàn/nhiệt hóa)': 'bệnh vào sâu, cơ thể đang yếu',
+  'Hàn nhiệt thác tạp': 'nóng và lạnh lẫn lộn',
+}
+
+/** Kinh có `viTri`; thiếu dữ liệu hoặc `viTri` ngoài bảng thì phần lời thường để rỗng. */
+export function cauChotLucKinh(
+  v: { kinh?: { ten?: string; viTri?: string } | null; giaiDoan?: string } | null | undefined,
+): { chinh: string; thuong: string; phu: string } {
+  const ten = (v?.kinh?.ten || '').trim()
+  if (!ten) return { chinh: '', thuong: '', phu: '' }
+  const viTri = (v?.kinh?.viTri || '').trim()
+  return { chinh: ten, thuong: BANG_VI_TRI[viTri] ?? '', phu: (v?.giaiDoan || '').trim() }
+}
+
+/**
+ * Câu chốt bước ĐIỀU TRỊ: nguyên tắc pháp trị lấy thẳng từ `tongCuong.phapTri`
+ * (bảng PHAP_TRI_TONG_CUONG đã lương y duyệt). Không thêm chữ nào.
+ */
+export function cauChotPhapTri(tc: TongCuong): { chinh: string; thuong: string } {
+  const chinh = (tc.phapTri || '').trim()
+  if (!chinh || tc.loai === 'unknown') return { chinh: '', thuong: '' }
+  return { chinh, thuong: 'hướng chữa chung theo Bát Cương — thầy thuốc lập phương cụ thể' }
+}

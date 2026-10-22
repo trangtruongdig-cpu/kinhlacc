@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { cauChotTongCuong, loiThuong } from './loiGiangCaDo.ts'
+import { cauChotTongCuong, cauChotLucKinh, cauChotPhapTri, loiThuong } from './loiGiangCaDo.ts'
 
 const MAU = {
   amDuong: 'Dương hư', tinhChat: 'Hàn', viTri: 'Biểu', chinhKhi: 'Hư',
@@ -25,4 +25,26 @@ test('loai unknown thì rỗng DÙ amDuong có chữ', () => {
 
 test('thuật ngữ ngoài bảng trả rỗng, không bịa lời giải', () => {
   assert.equal(loiThuong('Một thuật ngữ chưa có trong bảng'), '')
+})
+
+test('câu chốt lục kinh lấy tên kinh và lời thường theo viTri', () => {
+  const r = cauChotLucKinh({ kinh: { ten: 'Thiếu Dương', viTri: 'Bán biểu bán lý' }, giaiDoan: 'kinh chứng' })
+  assert.equal(r.chinh, 'Thiếu Dương')
+  assert.match(r.thuong, /nửa ngoài nửa trong/)
+  assert.equal(r.phu, 'kinh chứng')
+})
+
+test('không có kết luận lục kinh (ngoài Thương Hàn) thì rỗng, không ép', () => {
+  assert.equal(cauChotLucKinh(null).chinh, '')
+})
+
+test('viTri lạ thì bỏ lời thường, vẫn giữ tên kinh', () => {
+  const r = cauChotLucKinh({ kinh: { ten: 'Kinh Lạ', viTri: 'Chưa có trong bảng' } })
+  assert.equal(r.chinh, 'Kinh Lạ')
+  assert.equal(r.thuong, '')
+})
+
+test('pháp trị lấy thẳng từ tongCuong, unknown thì rỗng', () => {
+  assert.equal(cauChotPhapTri(MAU).chinh, 'Ôn dương')
+  assert.equal(cauChotPhapTri({ ...MAU, loai: 'unknown' }).chinh, '')
 })

@@ -9,7 +9,7 @@ import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import DaiCauChot from '@/components/DaiCauChot.vue'
 import ChiTietChuyenMon from '@/components/ChiTietChuyenMon.vue'
-import { cauChotTongCuong } from '@/lib/loiGiangCaDo'
+import { cauChotTongCuong, cauChotLucKinh, cauChotPhapTri } from '@/lib/loiGiangCaDo'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
 import {
@@ -2037,6 +2037,10 @@ const affectedOrgans = computed<OrganState[]>(() => {
  */
 // Câu chốt bước 1 — dòng lớn nhất màn, lấy TỪ tongCuong, không sinh kết luận mới.
 const cauChot1 = computed(() => cauChotTongCuong(tongCuong.value))
+// Bước BIỆN CHỨNG (activeView 3, hiện ở vị trí thứ 2 trên thanh) — tên kinh + chỗ bệnh nằm.
+const cauChotBienChung = computed(() => cauChotLucKinh(lucKinhVerdict.value))
+// Bước ĐIỀU TRỊ (activeView 2, vị trí thứ 3) — nguyên tắc pháp trị theo Bát Cương.
+const cauChotDieuTri = computed(() => cauChotPhapTri(tongCuong.value))
 
 const tongCuong = computed<TongCuong>(() => {
   const orgs = affectedOrgans.value
@@ -4009,6 +4013,7 @@ watch(
 
       <!-- ═══ VIEW 2: Chẩn đoán (III) + Phác đồ điều trị (IV+V) cạnh nhau ═══ -->
       <section class="mr-view" v-show="activeView === 2">
+        <DaiCauChot :chinh="cauChotDieuTri.chinh" :thuong="cauChotDieuTri.thuong" />
         <div class="mr-grid mr-grid--v2">
           <section class="result-section">
             <h2 class="section-title">
@@ -4654,6 +4659,7 @@ watch(
 
       <!-- ═══ VIEW 3: Biện chứng – Pháp trị (ĐỊNH VỊ bệnh nhân theo taxonomy Pháp Trị) ═══ -->
       <section class="mr-view" v-show="activeView === 3">
+        <DaiCauChot :chinh="cauChotBienChung.chinh" :thuong="cauChotBienChung.thuong" :phu="cauChotBienChung.phu" />
         <div class="bcpt">
           <!-- 1. ĐỒ HÌNH ĐỊNH VỊ ĐÔNG Y — TRUNG TÂM TAB 3 ĐƯỢC ĐƯA LÊN ĐẦU -->
           <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
