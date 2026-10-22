@@ -8,6 +8,7 @@ import { api } from '@/services/api'
 import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import DaiCauChot from '@/components/DaiCauChot.vue'
+import ChiTietChuyenMon from '@/components/ChiTietChuyenMon.vue'
 import { cauChotTongCuong } from '@/lib/loiGiangCaDo'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
@@ -3861,6 +3862,9 @@ watch(
       <section class="mr-view" v-show="activeView === 1">
         <DaiCauChot :chinh="cauChot1.chinh" :thuong="cauChot1.thuong" :phu="tongCuong.hoiChung" />
       <div class="mr-grid mr-grid--v1">
+        <!-- TẦNG 3: bảng 24 kinh là số đo thô — thầy thuốc cần khi nghi ngờ, bệnh nhân
+             ngồi trước mặt thì không. Lùi xuống đây, KHÔNG bỏ đi: mở ra là nguyên vẹn. -->
+        <ChiTietChuyenMon nhan="Chi tiết số đo (24 kinh)">
         <section class="result-section">
               <h2 class="section-title">
                 <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
@@ -3946,6 +3950,7 @@ watch(
               </div>
               </div>
             </section>
+        </ChiTietChuyenMon>
 
       <!-- KẾT LUẬN BÁT CƯƠNG — dải full-width, đồ hình 3D lớn (đặt sau số đo kinh lạc) -->
       <section class="result-section bc-band">
