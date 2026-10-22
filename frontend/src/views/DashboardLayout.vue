@@ -57,7 +57,11 @@ function isMobileViewport() {
  * vào trang thì tự thu sidebar về rail hẹp cho canvas rộng thêm ~190px, rời trang thì trả lại như cũ.
  * Nếu người dùng tự mở sidebar ra trong lúc ở trang đó thì TÔN TRỌNG lựa chọn của họ, không ép đóng
  * lại và cũng không "khôi phục" gì khi rời trang. */
-const WIDE_PAGES = new Set(['kinh-mach-3d'])
+// 'meridian-results': màn Kết Quả Đo được dùng nhiều nhất để GIẢNG GIẢI cho bệnh nhân ngồi
+// trước mặt (hỏi người dùng 22/10/2026). Lúc ấy 19 mục quản trị ở thanh bên là thứ họ không
+// cần thấy, và nó ăn mất bề ngang của đồ hình. Cơ chế dưới đây vẫn tôn trọng lựa chọn: tự mở
+// ra thì không bị ép đóng lại.
+const WIDE_PAGES = new Set(['kinh-mach-3d', 'meridian-results'])
 let collapsedTruocTrangRong: boolean | null = null
 watch(
   () => route.name,
