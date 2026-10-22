@@ -18,7 +18,20 @@
 // ⚠️ CHỐT TỰ KIỂM: đo HAI lượt liên tiếp không thao tác gì; khác nhau thì số không tin được.
 //    Màn này vẽ đồ hình theo nhu cầu và nạp mesh giai đoạn hai, nên so ảnh chụp là phép đo
 //    DỐI (xem memory `phep-do-ui-phai-co-chot-tu-kiem`). Đếm phần tử thì ổn định.
-import { chromium } from 'playwright'
+// playwright KHÔNG nằm trong dependencies của repo (nó chỉ phục vụ việc đo tay, không phục vụ
+// build). Nạp động để báo cho rõ thay vì ném "Cannot find package" trần trụi.
+// ⚠️ NODE_PATH KHÔNG có tác dụng với ESM — ESM phân giải theo VỊ TRÍ TỆP, nên phải trỏ
+// thẳng đường dẫn. PW_DIR là thư mục đã `npm i playwright`.
+let chromium
+const _pw = process.env.PW_DIR ? process.env.PW_DIR.replace(/\/$/, '') + '/node_modules/playwright/index.mjs' : 'playwright'
+try {
+  ({ chromium } = await import(_pw))
+} catch {
+  console.error('Thiếu playwright (nó không nằm trong dependencies của repo — chỉ phục vụ đo tay).')
+  console.error('  mkdir -p /tmp/pw && cd /tmp/pw && npm i playwright && npx playwright install chromium')
+  console.error('  PW_DIR=/tmp/pw node frontend/scripts/do-mat-do-man.mjs <url>')
+  process.exit(1)
+}
 
 const URL = process.argv[2]
 const W = Number(process.argv[3] || 1440)
@@ -61,6 +74,13 @@ const on = JSON.stringify(a) === JSON.stringify(b)
 // Đo nhầm trang đăng nhập là cái bẫy im lặng nhất ở đây: nó vẫn ra một con số đẹp.
 const daVao = await pg.evaluate(() => !/\/login|\/khach-hang/.test(location.pathname))
 if (!daVao) console.log('  ⚠ ĐANG Ở TRANG ĐĂNG NHẬP — số dưới KHÔNG phải của màn bạn muốn đo. Đặt TOKEN=…')
+
+// 0 phần tử TRÔNG NHƯ "màn rất gọn" — đó là cái bẫy dễ nuốt nhất của script này. Thật ra nó
+// nghĩa là selector không khớp: trang công khai không có .content-area, chỉ /app mới có.
+if (a.pt === 0) {
+  console.log('  ⚠ ĐẾM ĐƯỢC 0 PHẦN TỬ — không phải màn gọn, mà là selector không khớp.')
+  console.log('    Script này đo màn TRONG /app (có .content-area). Trang công khai dùng thước khác.')
+}
 
 console.log(`  chốt dụng cụ : hai lượt không thao tác ${on ? '✓ GIỐNG — số dưới tin được' : '✗ KHÁC — số dưới KHÔNG tin được'}`)
 console.log(`  phần tử ${a.pt} · nút ${a.nut} · cỡ chữ ${a.cu} · màu chữ ${a.mau} · bóng ${a.bong} · nhỏ nhất ${a.nhoNhat}px`)
