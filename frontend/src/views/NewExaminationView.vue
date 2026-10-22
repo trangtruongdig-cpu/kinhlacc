@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, computed, reactive, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
@@ -194,9 +194,23 @@ const keyMap: Record<string, string> = {
   'Tỳ': 'ty'
 }
 
+/**
+ * Khoá chống lặp: MỘT khoá cho mỗi lần điền phiếu, giữ nguyên qua mọi lần bấm lại.
+ *
+ * `fetch` ném "Failed to fetch" cho mọi kiểu đứt đường và KHÔNG nói được máy chủ đã ghi hay
+ * chưa — người dùng đọc báo lỗi rồi bấm lại, trong khi phiếu đã vào sổ. Đo trên DB 22/10/2026:
+ * 7 phiếu thừa, cùng 24 số và cùng giờ đo, cách nhau 12–222 giây.
+ *
+ * ⚠️ Sửa số đo rồi bấm lưu là một Ý ĐỊNH KHÁC → phải sinh khoá mới, không thì máy chủ tưởng
+ * bấm lại và trả về phiếu mang số CŨ.
+ */
+const khoaLuu = ref<string | null>(null)
+watch([form, meridianTemps, diaDiem], () => { khoaLuu.value = null }, { deep: true })
+
 async function saveExamination() {
   if (isSubmitting.value) return
   isSubmitting.value = true
+  if (!khoaLuu.value) khoaLuu.value = crypto.randomUUID()
   try {
     const dto: any = {
       patientId: patientId.value,
@@ -226,7 +240,7 @@ async function saveExamination() {
       dto[`${key}phai`] = Number(meridianTemps.lowerRight[m]) || 0
     })
 
-    const response = await api.post<any>('/examinations', dto)
+    const response = await api.post<any>('/examinations', dto, khoaLuu.value ?? undefined)
 
     if (response && response.success && response.id) {
       alert('Đã lưu phiếu đo thành công!')

@@ -6,13 +6,15 @@ import {
   Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { Examination, ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { MeridianMeasurement } from '../models/meridian-measurement.model';
 import { Diagnosis } from '../models/diagnosis.model';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
 import { MeridiansService, AnalyzeInputDto } from './meridian.controller';
 import { PatientsService } from './patient.controller';
+import { ThaoTacGhi } from '../models/thao-tac-ghi.model';
+import { PhatLaiThaoTac, laTrungKhoa } from '../utils/thao-tac-ghi.util';
 
 /**
  * 24 khoá <tạng><phải|trái> của AnalyzeInputDto/inputData <-> 24 cột snake_case thật trên
@@ -47,6 +49,9 @@ export class ExaminationsService implements OnModuleInit {
     private readonly diagnosisRepository: Repository<Diagnosis>,
     private readonly meridiansService: MeridiansService,
     private readonly patientsService: PatientsService,
+    private readonly dataSource: DataSource,
+    @InjectRepository(ThaoTacGhi)
+    private readonly thaoTacRepo: Repository<ThaoTacGhi>,
   ) {}
 
   /**
@@ -59,26 +64,25 @@ export class ExaminationsService implements OnModuleInit {
     examinationId: number,
     inputData: Record<string, number>,
     thoiDiem: Date | null,
+    manager: EntityManager = this.meridianMeasurementRepository.manager,
   ): Promise<void> {
     const cot: Record<string, number | null> = {};
     for (const [key, col] of MERIDIAN_FIELD_MAP) {
       cot[col] = inputData[key] ?? null;
     }
-    const existing = await this.meridianMeasurementRepository.findOneBy({ examinationId });
+    const existing = await manager.findOneBy(MeridianMeasurement, { examinationId });
     if (existing) {
       Object.assign(existing, cot);
       existing.updatedAt = new Date();
-      await this.meridianMeasurementRepository.save(existing);
+      await manager.save(MeridianMeasurement, existing);
     } else {
-      await this.meridianMeasurementRepository.save(
-        this.meridianMeasurementRepository.create({
-          examinationId,
-          ...cot,
-          measuredAt: thoiDiem,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }),
-      );
+      await manager.save(MeridianMeasurement, {
+        examinationId,
+        ...cot,
+        measuredAt: thoiDiem,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
     }
   }
 
@@ -211,7 +215,15 @@ export class ExaminationsService implements OnModuleInit {
       .getMany();
   }
 
-  async create(dto: CreateExaminationDto): Promise<Examination> {
+  /**
+   * `khoa` là `Idempotency-Key` do máy khách sinh MỘT lần cho mỗi lần điền phiếu. Có nó thì lần
+   * bấm lại (mạng chập, người dùng tưởng chưa lưu) nhận lại ĐÚNG phiếu cũ thay vì sinh phiếu
+   * thứ hai — xem `examination-idempotency.spec.ts`.
+   */
+  async create(
+    dto: CreateExaminationDto,
+    khoa?: string,
+  ): Promise<Examination> {
     await this.patientsService.findOne(dto.patientId);
 
     const analyzeInput: AnalyzeInputDto = {
@@ -264,10 +276,19 @@ export class ExaminationsService implements OnModuleInit {
       kinhDo: dto.kinhDo ?? null,
     });
 
-    let saved: Examination;
     try {
-      saved = await this.examinationRepository.save(examination);
+      return await this.ghiPhieuDo(examination, inputData, result, khoa);
     } catch (error) {
+      if (error instanceof PhatLaiThaoTac) {
+        // Lần BẤM LẠI: phiếu đã ghi ở lần trước, trả lại y hệt chứ không ghi thêm.
+        const cu = await this.thaoTacRepo.findOneBy({ khoa: error.khoa });
+        if (!cu?.ketQua) {
+          throw new BadRequestException(
+            'Phiếu đo này đang được lưu, vui lòng chờ vài giây rồi mở lại hồ sơ bệnh nhân.',
+          );
+        }
+        return cu.ketQua as Examination;
+      }
       // 23505 is PostgreSQL unique_violation.
       // If it's a conflict on the primary key, we try to fix the sequence and retry.
       if (
@@ -276,21 +297,71 @@ export class ExaminationsService implements OnModuleInit {
       ) {
         console.warn('Primary key sequence out of sync, fixing and retrying...');
         await this.fixSequence();
-        saved = await this.examinationRepository.save(examination);
-      } else {
-        throw error;
+        // Giao dịch trước đã rollback nên khoá chống lặp cũng đã nhả — chèn lại được.
+        return await this.ghiPhieuDo(examination, inputData, result, khoa);
       }
+      throw error;
     }
-    // Ghi số đo thô vào meridian_measurements — cột examinations.inputData không còn tồn tại
-    // (xem luuMeridianMeasurement); thiếu bước này thì bảng Kết Quả Đo Kinh Lạc trống khi mở lại ca.
-    await this.luuMeridianMeasurement(saved.id, inputData, saved.thoiDiemKham ?? saved.createdAt);
-    (saved as any).inputData = inputData;
-    (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
-    (saved as any).legacySyndromes = result.legacySyndromes ?? [];
-    (saved as any).excelSyndromes = result.excelSyndromes ?? [];
-    (saved as any).modernSyndromes = result.modernSyndromes ?? [];
-    (saved as any).comparisonRows = result.comparisonRows ?? [];
-    return saved;
+  }
+
+  /**
+   * Ghi phiếu + 24 số đo trong MỘT giao dịch, có khoá chống lặp chèn TRƯỚC mọi thao tác khác:
+   * lần gửi thứ hai tới lúc lần một chưa commit sẽ bị CHẶN CHỜ trên khoá chính, đúng hành vi
+   * muốn có. Hỏng giữa chừng thì rollback nhả luôn khoá, không nuốt lần ghi thật sau đó.
+   */
+  private async ghiPhieuDo(
+    examination: Examination,
+    inputData: Record<string, number>,
+    result: Awaited<ReturnType<MeridiansService['analyze']>>,
+    khoa?: string,
+  ): Promise<Examination> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      if (khoa) {
+        try {
+          await queryRunner.manager.insert(ThaoTacGhi, {
+            khoa,
+            route: 'examination-create',
+          });
+        } catch (e) {
+          // Bọc RIÊNG quanh lệnh này: 23505 của khoá chính bảng examinations cũng tới đây
+          // nhưng nghĩa ngược hẳn ("sequence lệch"), và nó phải được fixSequence xử lý.
+          if (!laTrungKhoa(e)) throw e;
+          throw new PhatLaiThaoTac(khoa);
+        }
+      }
+
+      const saved = await queryRunner.manager.save(Examination, examination);
+      // Ghi số đo thô vào meridian_measurements — cột examinations.inputData không còn tồn tại
+      // (xem luuMeridianMeasurement); thiếu bước này thì bảng Kết Quả Đo Kinh Lạc trống khi mở lại ca.
+      await this.luuMeridianMeasurement(
+        saved.id,
+        inputData,
+        saved.thoiDiemKham ?? saved.createdAt,
+        queryRunner.manager,
+      );
+      (saved as any).inputData = inputData;
+      (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
+      (saved as any).legacySyndromes = result.legacySyndromes ?? [];
+      (saved as any).excelSyndromes = result.excelSyndromes ?? [];
+      (saved as any).modernSyndromes = result.modernSyndromes ?? [];
+      (saved as any).comparisonRows = result.comparisonRows ?? [];
+
+      // Cất nguyên thân phản hồi để lần bấm lại nhận lại y hệt. Mốc thời gian qua jsonb thành
+      // chuỗi ISO — frontend chỉ đọc `id` nên không đổi gì, nhưng đừng trông vào kiểu Date ở đây.
+      if (khoa) {
+        await queryRunner.manager.update(ThaoTacGhi, { khoa }, { ketQua: saved });
+      }
+      await queryRunner.commitTransaction();
+      return saved;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   async update(id: number, dto: UpdateExaminationDto): Promise<Examination> {

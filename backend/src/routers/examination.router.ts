@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   Body,
+  Headers,
   ParseIntPipe,
   UseGuards,
   Request,
@@ -50,8 +51,9 @@ export class ExaminationsRouter {
   @Post()
   async create(
     @Body(new ZodPipe(createExaminationSchema)) dto: CreateExaminationDto,
+    @Headers('idempotency-key') khoa?: string,
   ) {
-    const item = await this.examinationsService.create(dto);
+    const item = await this.examinationsService.create(dto, khoa);
     return { success: true, id: item.id, data: item };
   }
 
