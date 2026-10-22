@@ -3718,7 +3718,11 @@ watch(
     </div>
 
     <template v-else-if="patient">
-      <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══ -->
+      <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══
+           Ẩn ở bước 1: đại câu chốt ngay dưới đã nói đúng verdict ấy bằng cỡ chữ lớn nhất màn.
+           Giữ cả hai là giữ đúng phần trùng mà bản thiết kế này sinh ra để bỏ. Bước 2 và 3
+           vẫn cần nó vì verdict không còn trên màn ở đó. -->
+      <template v-if="activeView !== 1">
       <div class="mr-ctxbar">
         <div class="mr-ctx-patient">
           <strong class="mr-ctx-name">{{ displayPatientName }}</strong>
@@ -3754,6 +3758,7 @@ watch(
         <div class="pi-field"><span class="pi-label">Cân nặng</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
+      </template>
 
       <!-- ═══ TRUYỀN BIẾN QUA CÁC LẦN ĐO (DÙNG CHUNG TOÀN TRANG — ĐẶT TRÊN CẢ 3 TAB) ═══ -->
       <div v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" class="mr-traj-global">
@@ -5677,8 +5682,13 @@ watch(
      cao quá mà vẫn không tràn/đè (min-height ở trên đã đảm bảo không đè). */
   .bc-wrap--band .bc-organs-col :deep(.organ-card) { padding: 3px; gap: 0; }
   .bc-wrap--band .bc-organs-col :deep(.organ-svg) { width: 28px; height: 28px; }
-  .bc-wrap--band .bc-organs-col :deep(.organ-card-name) { font-size: 10px; }
-  .bc-wrap--band .bc-organs-col :deep(.organ-card-tag) { font-size: 8px; }
+  /* ⚠️ Trước 22/10/2026 hai dòng này nén chữ xuống 10px và 8px cho "6 thẻ/cột vừa khít".
+     Nhưng màn này được dùng để GIẢNG cho bệnh nhân ngồi cách ~1m, và dưới 12px thì họ không
+     đọc được — tức là nén cho vừa chỗ bằng cách làm mất tác dụng của chính thông tin đó.
+     Sàn 12px giữ nguyên; thẻ cao thêm vài pixel thì để nó cao, min-height ở trên vẫn lo
+     phần không tràn/đè. */
+  .bc-wrap--band .bc-organs-col :deep(.organ-card-name) { font-size: var(--font-size-xs); }
+  .bc-wrap--band .bc-organs-col :deep(.organ-card-tag) { font-size: var(--font-size-xs); }
 }
 
 /* Sections */

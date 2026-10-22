@@ -142,12 +142,12 @@ function tempLabel(t: string) {
   top: 2px;
   right: 2px;
   z-index: 1;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
+  font-size: var(--font-size-xs);
   font-weight: 800;
   font-style: italic;
   color: var(--brown-500);
@@ -172,18 +172,23 @@ function tempLabel(t: string) {
   display: block;
 }
 .organ-card-name {
-  font-size: 11px;
+  /* Sàn 12px: màn Kết Quả Đo được dùng để giảng cho bệnh nhân ngồi cách ~1m, dưới 12px là
+     không đọc được. Đo 22/10/2026 thấy thẻ tạng phủ là chỗ duy nhất còn chữ dưới sàn. */
+  font-size: var(--font-size-xs);
   font-weight: 700;
   color: var(--gray-800);
   line-height: 1.15;
   text-align: center;
 }
 .organ-card-name small {
+  /* `small` mặc định của trình duyệt là 0,83em → 10px, lọt dưới sàn 12px. Phân biệt bằng
+     độ đậm và màu nhạt, không bằng cỡ chữ. */
+  font-size: inherit;
   font-weight: 500;
   color: var(--gray-500);
 }
 .organ-card-tag {
-  font-size: 9px;
+  font-size: var(--font-size-xs);
   font-weight: 700;
   color: #fff;
   padding: 0 6px;
