@@ -7,6 +7,8 @@ import { maskHoTen } from '@/lib/maskThongTin'
 import { api } from '@/services/api'
 import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
+import DaiCauChot from '@/components/DaiCauChot.vue'
+import { cauChotTongCuong } from '@/lib/loiGiangCaDo'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
 import {
@@ -2032,6 +2034,9 @@ const affectedOrgans = computed<OrganState[]>(() => {
  * KHÔNG còn so riêng kinh Đởm. Đếm số kinh nghiêng Nhiệt/Hàn + Biểu/Lý từ affectedOrgans (đã gộp),
  * lấy Hư/Thực từ cương Hư-Thực (diagnosis.huThuc). Xem computeTongCuong() ở lib/meridianAnalysis.
  */
+// Câu chốt bước 1 — dòng lớn nhất màn, lấy TỪ tongCuong, không sinh kết luận mới.
+const cauChot1 = computed(() => cauChotTongCuong(tongCuong.value))
+
 const tongCuong = computed<TongCuong>(() => {
   const orgs = affectedOrgans.value
   const nhiet = orgs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
@@ -3854,6 +3859,7 @@ watch(
 
       <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
       <section class="mr-view" v-show="activeView === 1">
+        <DaiCauChot :chinh="cauChot1.chinh" :thuong="cauChot1.thuong" :phu="tongCuong.hoiChung" />
       <div class="mr-grid mr-grid--v1">
         <section class="result-section">
               <h2 class="section-title">
