@@ -3838,13 +3838,17 @@ watch(
         <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
           <b>1</b> Kết Quả Đo &amp; Bát Cương
         </button>
+        <!-- MẠCH GIẢNG GIẢI: đo → vì sao → chữa. Trước 22/10/2026 "Biện Chứng – Pháp Trị"
+             đứng thứ ba, tức màn nói CHỮA THẾ NÀO trước khi nói VÌ SAO — ngược với thứ tự
+             thầy thuốc giảng cho bệnh nhân đang ngồi trước mặt. Chỉ đổi CHỖ ĐỨNG và số hiển
+             thị; `activeView === 2|3` giữ nguyên nên không view nào phải sửa theo. -->
+        <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
+          <b>2</b> Biện Chứng – Pháp Trị
+        </button>
         <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
-          <b>2</b> Chẩn Đoán &amp; Điều Trị
+          <b>3</b> Chẩn Đoán &amp; Điều Trị
           <span class="mr-tab-badge" v-if="!isPatientPortal">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
           <span class="mr-tab-badge" v-else>{{ excelSyndromesList.length }} thể bệnh YHCT</span>
-        </button>
-        <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
-          <b>3</b> Biện Chứng – Pháp Trị
         </button>
       </nav>
 
