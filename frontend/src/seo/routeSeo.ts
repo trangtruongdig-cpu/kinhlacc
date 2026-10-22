@@ -16,7 +16,9 @@ export const routeSeo: Record<string, SeoData> = Object.fromEntries(
       jsonLd: p.jsonLd as Record<string, unknown>,
       // Lối breadcrumb (Trang Chủ tự thêm ở vị trí 1). Trang chủ để [] → không có breadcrumb.
       breadcrumb: (p as { breadcrumb?: { name: string; path: string }[] }).breadcrumb,
-      index: true,
+      // index:false trong JSON phải tới được ĐÂY: Googlebot CHẠY JS, applySeo ghi đè thẻ
+      // robots của bản prerender — để `true` cứng là lặng lẽ mời index trang đăng nhập.
+      index: (p as { index?: boolean }).index !== false,
     },
   ]),
 )

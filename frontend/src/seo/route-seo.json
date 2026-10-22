@@ -516,6 +516,44 @@
         "url": "https://kinhlac.online/quy-trinh-bien-tap",
         "inLanguage": "vi"
       }
+    },
+    {
+      "name": "patient-login",
+      "path": "/khach-hang/dang-nhap",
+      "breadcrumb": [{ "name": "Đăng Nhập Khách Hàng", "path": "/khach-hang/dang-nhap" }],
+      "priority": "0.2",
+      "changefreq": "yearly",
+      "ogType": "website",
+      "index": false,
+      "title": "Đăng Nhập Khách Hàng — Kinh Lạc Trương Gia",
+      "description": "Đăng nhập bằng số điện thoại để xem kết quả đo kinh lạc, hồ sơ chẩn trị và lịch hẹn của bạn.",
+      "keywords": ["đăng nhập khách hàng", "tra cứu kết quả đo kinh lạc", "hồ sơ chẩn trị"],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Đăng Nhập Khách Hàng — Kinh Lạc Trương Gia",
+        "url": "https://kinhlac.online/khach-hang/dang-nhap",
+        "inLanguage": "vi"
+      }
+    },
+    {
+      "name": "patient-register",
+      "path": "/khach-hang/dang-ky",
+      "breadcrumb": [{ "name": "Đăng Ký Khách Hàng", "path": "/khach-hang/dang-ky" }],
+      "priority": "0.2",
+      "changefreq": "yearly",
+      "ogType": "website",
+      "index": false,
+      "title": "Đăng Ký Khách Hàng — Kinh Lạc Trương Gia",
+      "description": "Tạo tài khoản bằng số điện thoại để xem kết quả đo kinh lạc, hồ sơ chẩn trị và lịch hẹn của bạn.",
+      "keywords": ["đăng ký khách hàng", "tạo tài khoản khách hàng", "hồ sơ chẩn trị"],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Đăng Ký Khách Hàng — Kinh Lạc Trương Gia",
+        "url": "https://kinhlac.online/khach-hang/dang-ky",
+        "inLanguage": "vi"
+      }
     }
   ]
 }

@@ -44,7 +44,8 @@ function findKey() {
 function collectUrls() {
   if (explicitUrls.length) return explicitUrls
   const urls = []
-  if (!blogOnly) for (const p of seo.pages) urls.push(DOMAIN + p.path)
+  // Bỏ trang index:false (đăng nhập/đăng ký/xoá tài khoản) — cùng luật với gen-sitemap.
+  if (!blogOnly) for (const p of seo.pages) if (p.index !== false) urls.push(DOMAIN + p.path)
   const posts = readArticles().filter((p) => p.index !== false)
   if (posts.length) {
     urls.push(`${DOMAIN}/blog/`)
